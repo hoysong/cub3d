@@ -93,10 +93,16 @@ int	pars_map_vld_chk(int argc, char **argv)
 	int	fd;
 
 	if (argc == 1 || argc >= 3)
+	{
 		return (1);
+	}
 	argv ++;
+	printf("Is this .cub file?\n");
 	if (!is_vld_file_format(*argv, ".cub"))
+	{
+		printf("");
 		return (1);
+	}
 	else if (!try_open(*argv))
 		return (1);
 	fd = open(*argv, O_RDONLY);
