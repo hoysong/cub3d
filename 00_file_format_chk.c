@@ -27,12 +27,21 @@ static int wall_vld_chk(char *direction, char *wall_info)
 	char	**splits;
 
 	//direction check.
-	printf("line: %s\n", wall_info);
+	printf("WALL VLD CHECK\n");
+	printf("%s\n", direction);
+	printf("%s\n", wall_info);
 	splits = ft_split(wall_info, ' ');
 	if (count_index(splits) != 2)
+	{
+		printf("not a 2 arguments\n");
 		return (0);
-	else if (ft_strncmp(splits[0], "NO\0", 3))
+	}
+	printf("\n");
+	if (ft_strncmp(splits[0], direction, 3))
+	{
+		printf("");
 		return (0);
+	}
 	del_newline(splits[1]);
 	if (!try_open(splits[1]))
 		return (0);
@@ -100,11 +109,14 @@ int	pars_map_vld_chk(int argc, char **argv)
 	printf("Is this .cub file?\n");
 	if (!is_vld_file_format(*argv, ".cub"))
 	{
-		printf("");
+		printf("not a .cub file...\n");
 		return (1);
 	}
 	else if (!try_open(*argv))
+	{
+		printf(".cub open fail..\n");
 		return (1);
+	}
 	fd = open(*argv, O_RDONLY);
     // now read file...
         // maybe get gnl lst first.
