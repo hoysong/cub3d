@@ -39,7 +39,9 @@ static int wall_vld_chk(char *direction, char *wall_info)
 	printf("\n");
 	if (ft_strncmp(splits[0], direction, 3))
 	{
-		printf("");
+		printf("direction not match..\n");
+		printf("direction must be %s\n", direction);
+		printf("but file is %s\n", splits[0]);
 		return (0);
 	}
 	del_newline(splits[1]);
