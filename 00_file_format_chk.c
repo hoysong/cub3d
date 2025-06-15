@@ -140,6 +140,7 @@ size_t	get_map_height(t_dnode *node)
 
 static int	is_surrounded(t_dnode *node)
 {
+	/*GET DOUBLE ARR SIZE.*/
 	printf("== is_surrounded ==\n");
 	size_t	map_length;
 	size_t	map_height;
@@ -147,6 +148,21 @@ static int	is_surrounded(t_dnode *node)
 	map_height = get_map_height(node);
 	printf("map length: %zu\n", map_length);
 	printf("map height: %zu\n", map_height);
+	/*GET ARR SIZE.*/
+	char **map = malloc(sizeof(char *) * (map_height + 1));
+	size_t	i;
+
+	i = 0;
+	while (i < map_height)
+	{
+		map[i] = ft_strdup((char *)node->data);
+		node = node->next_node;
+		i++;
+	}
+	printf("%zu\n", map_height);
+	map[i] = NULL;
+	print_splits(map);
+	free_splits(map);
 	return (1);
 }
 
@@ -221,14 +237,16 @@ t_dnode *del_null_data_node(t_dnode *node)
 	node = find_head_dubly(node);
 	while (node->next_node != NULL)
 	{
-		if (node->data == NULL)
-		{
-			node = node->next_node;
+		node = node->next_node;
+		if (node->prev_node->data == NULL)
 			destroy_doubly_node(node->prev_node);
-		}
-		else
-			node = node->next_node;
 	}
+	if (node->data == NULL)
+	{
+		node = node->prev_node;
+		destroy_doubly_node(node->next_node);
+	}
+	return (find_head_dubly(node));
 }
 
 int	pars_map_vld_chk(int argc, char **argv)
