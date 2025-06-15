@@ -16,8 +16,7 @@ extern int	pars_map_vld_chk(int argc, char **argv);
 // Will use for '.xpm', '.cub'.
 static int	show_err_msg( void )
 {
-	perror("");
-	printf("Something went wrong..\n");
+	printf("Error\nSomething went wrong..\n");
 	printf("├─1. Only one argument required.\n");
 	printf("├─2. Argument must be exist filename.\n");
 	printf("└─3. It must ends with '.cub'.\n");

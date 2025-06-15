@@ -47,30 +47,62 @@ static int wall_vld_chk(char *direction, char *wall_info)
 	del_newline(splits[1]);
 	printf("try open file: %s\n", splits[1]);
 	if (!try_open(splits[1]))
-	{
-		printf("try open fail..\n");
 		return (0);
-	}
 	printf("open success!\n");
 	free_splits(splits);
 	printf("good line!\n");
 	return (1);
 }
 
+static int	background_vld_chk(char *floor_for_ceiling, char *background_info)
+{
+	char	**bg_info;
+
+	printf("checkoug BG info: %s", background_info);
+	bg_info = ft_split(background_info, ' ');
+	printf("%d\n", count_index(bg_info));
+	if (count_index(bg_info) != 2)
+	{
+		printf("not valid\n");
+		return (0);
+	}
+	printf("valid!\n");
+	printf("bg argument check\n");
+	// 이제 콤마로 스플릿 해야 함.
+	// 인자 갯수를 세야 겠지??
+	// 그 다음 is_numeric을 통해 측정 해야겠지????
+	// 여기서는 RGB를 안담을 것임.
+	// 맵 유효성 검사 이후 담는 것이 좋을 듯 하다.
+	//if ()
+	//{
+	//}
+	free_splits(bg_info);
+	return (1);
+}
+
 /*This function returns 1 if content is not valid.*/
 static int	file_content_vld_chk(t_dnode *file_content)
 {
-	if (wall_vld_chk("NO", file_content->data))
+	/*WALL VLD CHECK.*/
+	if (!wall_vld_chk("NO", file_content->data))
 		return (0);
 	file_content = file_content->next_node;
-	if (wall_vld_chk("SO", file_content->data))
+	if (!wall_vld_chk("SO", file_content->data))
 		return (0);
 	file_content = file_content->next_node;
-	if (wall_vld_chk("WE", file_content->data))
+	if (!wall_vld_chk("WE", file_content->data))
 		return (0);
 	file_content = file_content->next_node;
-	if (wall_vld_chk("EA", file_content->data))
+	if (!wall_vld_chk("EA", file_content->data))
 		return (0);
+	file_content = file_content->next_node;
+	file_content = file_content->next_node;
+	/*FLOOR/CEILING COLOR.*/
+	if (!background_vld_chk("F", file_content->data))
+	{
+		return (0);
+	}
+	file_content = file_content->next_node;
 	return (1);
 }
 
@@ -85,12 +117,6 @@ static int	is_vld_file_format(char *file_name, char *file_format)
 		i--;
 	if (ft_strncmp(&(file_name[i]), file_format, ft_strlen(file_format) + 1))
 		return (0);
-	//while (*file_name && *file_name != '.')
-	//	file_name ++;
-	//if (*file_name == '\0')
-	//	return (0);
-	//else if (ft_strncmp(file_name, file_format, ft_strlen(file_format)) && ft_strlen(file_name) != ft_strlen(file_format))
-	//	return (0);
 	return (1);
 }
 
@@ -135,12 +161,20 @@ int	pars_map_vld_chk(int argc, char **argv)
 	fd = open(*argv, O_RDONLY);
     // now read file...
         // maybe get gnl lst first.
+	printf("%d\n", fd);
 	file_content = get_gnl_node(fd);
 	file_content = file_content->next_node;
 	if (!file_content_vld_chk(file_content))
 	{
 		return (1);
 	}
+	file_content = find_head_dubly(file_content);
+	while(file_content->next_node != NULL)
+	{
+		file_content = file_content->next_node;
+		destroy_doubly_node(file_content->prev_node);
+	}
+	destroy_doubly_node(file_content);
             // after get gnl list... read north, south, west, east.
                 // these textures will be splist and checked.
                     // 
