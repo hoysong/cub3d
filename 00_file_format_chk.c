@@ -56,8 +56,12 @@ static int wall_vld_chk(char *direction, char *wall_info)
 
 static int	background_vld_chk(char *floor_for_ceiling, char *background_info)
 {
+	printf("===== BG check =====\n");
+	int		i;
 	char	**bg_info;
+	char	**rgb_split;
 
+	i = 0;
 	printf("checkoug BG info: %s", background_info);
 	bg_info = ft_split(background_info, ' ');
 	printf("%d\n", count_index(bg_info));
@@ -66,17 +70,83 @@ static int	background_vld_chk(char *floor_for_ceiling, char *background_info)
 		printf("not valid\n");
 		return (0);
 	}
+	if (ft_strncmp(bg_info[0], floor_for_ceiling, 2))
+		return (0);
 	printf("valid!\n");
 	printf("bg argument check\n");
+	printf("will split %s\n", bg_info[1]);
 	// 이제 콤마로 스플릿 해야 함.
 	// 인자 갯수를 세야 겠지??
-	// 그 다음 is_numeric을 통해 측정 해야겠지????
-	// 여기서는 RGB를 안담을 것임.
-	// 맵 유효성 검사 이후 담는 것이 좋을 듯 하다.
-	//if ()
-	//{
-	//}
+	del_newline(bg_info[1]);
+	rgb_split = ft_split(bg_info[1], ',');
+	printf("rgb split done.\n");
+	if (count_index(rgb_split) != 3)
+	{
+		printf("bad rgb file\n");
+		return (0);
+	}
+	printf("good rgb file\n");
+	//	그 다음 is_numeric을 통해 측정 해야겠지????
+	//	여기서는 rgb_split를 안담을 것임.
+	//	맵 유효성 검사 이후 담는 것이 좋을 듯 하다.
+	while (rgb_split[i] != NULL)
+	{
+		if (!ft_is_str_digit(rgb_split[i])
+		|| ft_strlen(rgb_split[i]) > 3
+		|| ft_atoi(rgb_split[i]) > 255
+		|| ft_atoi(rgb_split[i]) < 0
+		// || is_overflowed..
+		)
+			break ;
+		i++;
+	}
+	if (rgb_split[i] != NULL)
+		return (0);
 	free_splits(bg_info);
+	free_splits(rgb_split);
+	return (1);
+}
+
+size_t	get_map_length(t_dnode *node)
+{
+	size_t map_length;
+
+	map_length = 0;
+	while (node)
+	{
+		if (node->data != NULL)
+		{
+			del_newline(node->data);
+			if (ft_strlen((char *)node->data) > map_length)
+				map_length = ft_strlen((char *)node->data);
+		}
+		node = node->next_node;
+	}
+	return (map_length);
+}
+
+size_t	get_map_height(t_dnode *node)
+{
+	size_t i;
+
+	i = 0;
+	while (node)
+	{
+		node = node->next_node;
+		i++;
+	}
+	return (i);
+}
+
+static int	is_surrounded(t_dnode *node)
+{
+	printf("== is_surrounded ==\n");
+	size_t	map_length;
+	size_t	map_height;
+	map_length = get_map_length(node);
+	map_height = get_map_height(node);
+	printf("map length: %zu\n", map_length);
+	printf("map height: %zu\n", map_height);
 	return (1);
 }
 
@@ -100,9 +170,19 @@ static int	file_content_vld_chk(t_dnode *file_content)
 	/*FLOOR/CEILING COLOR.*/
 	if (!background_vld_chk("F", file_content->data))
 	{
+		printf("bad Floor\n");
 		return (0);
 	}
 	file_content = file_content->next_node;
+	if (!background_vld_chk("C", file_content->data))
+	{
+		printf("bad Ceiling\n");
+		return (0);
+	}
+	file_content = file_content->next_node;
+	file_content = file_content->next_node;
+	/*CLOSED MAP CHECK.*/
+	is_surrounded(file_content);
 	return (1);
 }
 
@@ -136,6 +216,21 @@ static int	try_open(char *file_name)
 	return (1);
 }
 
+t_dnode *del_null_data_node(t_dnode *node)
+{
+	node = find_head_dubly(node);
+	while (node->next_node != NULL)
+	{
+		if (node->data == NULL)
+		{
+			node = node->next_node;
+			destroy_doubly_node(node->prev_node);
+		}
+		else
+			node = node->next_node;
+	}
+}
+
 int	pars_map_vld_chk(int argc, char **argv)
 {
 	t_dnode	*file_content;
@@ -163,7 +258,7 @@ int	pars_map_vld_chk(int argc, char **argv)
         // maybe get gnl lst first.
 	printf("%d\n", fd);
 	file_content = get_gnl_node(fd);
-	file_content = file_content->next_node;
+	file_content = del_null_data_node(file_content);
 	if (!file_content_vld_chk(file_content))
 	{
 		return (1);
@@ -175,8 +270,6 @@ int	pars_map_vld_chk(int argc, char **argv)
 		destroy_doubly_node(file_content->prev_node);
 	}
 	destroy_doubly_node(file_content);
-            // after get gnl list... read north, south, west, east.
-                // these textures will be splist and checked.
                     // 
 	return (0);
 }
