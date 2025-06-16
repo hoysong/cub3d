@@ -1,4 +1,4 @@
-#include "pars_pub.h"
+#include "./parser/pars_pub.h"
 
 int	pars_file_vld_chk( void );
 

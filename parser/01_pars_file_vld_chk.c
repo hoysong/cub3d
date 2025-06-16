@@ -1,5 +1,5 @@
 #include "./pars_priv.h"
-#include "./my_libft/libft.h"
+#include "../my_libft/libft.h"
 #include <fcntl.h>
 
 static int	try_open(char *file_name)
@@ -190,18 +190,9 @@ int	pars_file_vld_chk( void )
 		return (3);
 	}
 	//3. wall texture check.
-	//		get_next_line.
 	gnl_cub_file();
-	//		NO, SO, WE, EA check.
-	//		'.xpm'format check.
-	//		'.xpm' open check.
 	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
-	//		start wifh F.
-	//		start with C.
-	//		RGB check
-	//			must be 0 to 255.
-	//			only numeric.
 	background_vld_chk();
 	return (0);
 }
