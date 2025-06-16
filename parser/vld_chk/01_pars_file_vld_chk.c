@@ -1,5 +1,5 @@
-#include "./pars_priv.h"
-#include "../my_libft/libft.h"
+#include "../pars_priv.h"
+#include "../../my_libft/libft.h"
 #include <fcntl.h>
 
 int	try_open(char *file_name)

@@ -1,4 +1,4 @@
-#include "./pars_priv.h"
+#include "../pars_priv.h"
 
 static int	is_player(char c)
 {

@@ -1,5 +1,6 @@
 cc -g \
 	./main.c \
 	./parser/*.c \
-	./parser/pars/00_pars.c \
+	./parser/pars/*.c \
+	./parser/vld_chk/*.c \
 	./my_libft/libft.a

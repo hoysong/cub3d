@@ -1,5 +1,5 @@
-#include "../my_libft/libft.h"
-#include "./pars_priv.h"
+#include "../../my_libft/libft.h"
+#include "../pars_priv.h"
 #include <fcntl.h>
 
 static void	del_null_data(void)

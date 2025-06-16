@@ -1,5 +1,5 @@
-#include "./pars_priv.h"
-#include "../my_libft/libft.h"
+#include "../pars_priv.h"
+#include "../../my_libft/libft.h"
 #include <fcntl.h>
 #include <stdio.h>
 

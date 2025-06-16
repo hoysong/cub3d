@@ -1,6 +1,6 @@
-#include "../my_libft/libft.h"
+#include "../../my_libft/libft.h"
+#include "../pars_priv.h"
 #include <stdio.h>
-#include "./pars_priv.h"
 
 extern size_t	get_max_length(void);
 extern size_t	get_max_height(void);
