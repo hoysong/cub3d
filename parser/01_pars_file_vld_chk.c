@@ -44,15 +44,11 @@ int	count_splits(char **splits)
 	return (i);
 }
 
-/*== 위 함수들은 다른 함수들에서 자주 사용.==.*/
-/*둘 곳 없으니 일단 빼두자.*/
-
 extern void	gnl_cub_file( void );
 extern void	check_xpm_texture_line(void);
 extern void	background_vld_chk(void);
+extern void	map_vld_chk(void);
 
-/*파싱은 진행 안하고 함수명 그대로 유효성검사 먼저 진행한다.*/
-/*errno가 참이면 무조건 스킵하도록 만들면 편할 듯.*/
 int	pars_file_vld_chk( void )
 {
 	//0. argc check.
@@ -78,5 +74,6 @@ int	pars_file_vld_chk( void )
 	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
 	background_vld_chk();
+	map_vld_chk();
 	return (0);
 }

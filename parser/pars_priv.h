@@ -1,6 +1,7 @@
 #ifndef PARS_PRIV_H
 # define PARS_PRIV_H
 # include "../my_libft/libft.h"
+# include "./pars_errno.h"
 
 typedef struct	s_pars
 {
