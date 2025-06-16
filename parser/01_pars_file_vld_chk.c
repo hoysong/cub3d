@@ -45,84 +45,12 @@ int	count_splits(char **splits)
 }
 
 /*== 위 함수들은 다른 함수들에서 자주 사용.==.*/
-/*둘 곳 없으니 일단 빼두자.*/
-
-static size_t	get_max_length(void)
-{
-	t_dnode	*node;
-	size_t	len;
-
-	node = get_pars()->cub_file_list;
-	len = 0;
-	while (node)
-	{
-		if (ft_strlen((char *)node->data) > len)
-			len = ft_strlen((char *)node->data);
-		node = node->next_node;
-	}
-	return (len);
-}
-
-static size_t	get_max_height(void)
-{
-	t_dnode	*node;
-	size_t	height;
-
-	node = get_pars()->cub_file_list;
-	height = 0;
-	while (node)
-	{
-		node = node->next_node;
-		height++;
-	}
-	return (height);
-}
-
-static void	copy_str(char *dest, char *src)
-{
-	while (*src)
-	{
-		*dest = *src;
-		src++;
-		dest++;
-	}
-}
-
-char	**gen_map(size_t max_length, size_t max_height)
-{
-	size_t	i;
-	char	**map;
-	t_dnode	*node;
-
-	i = 0;
-	node = get_pars()->cub_file_list;
-	map = malloc(sizeof(char *) * (max_height + 1));
-	map[max_height] = NULL;
-	while (i < max_height)
-	{
-		map[i] = ft_calloc(max_length, sizeof(char) + 1);
-		copy_str(map[i], (char *)node->data);
-		node = node->next_node;
-		i++;
-	}
-	return (map);
-}
-
-void	map_vld_chk(void)
-{
-	char	**map;
-
-	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
-	map = gen_map(get_max_length(), get_max_height());
-	print_splits(map);
-	/*
-	 */
-	free_splits(map);
-}
+/*일단 여기 두자.*/
 
 extern void	gnl_cub_file( void );
 extern void	check_xpm_texture_line(void);
 extern void	background_vld_chk(void);
+extern void	map_vld_chk(void);
 
 /*파싱은 진행 안하고 함수명 그대로 유효성검사 먼저 진행한다.*/
 /*errno가 참이면 무조건 스킵하도록 만들면 편할 듯.*/
