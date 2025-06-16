@@ -47,6 +47,63 @@ int	count_splits(char **splits)
 /*== 위 함수들은 다른 함수들에서 자주 사용.==.*/
 /*둘 곳 없으니 일단 빼두자.*/
 
+static size_t	get_max_length(void)
+{
+	t_dnode	*node;
+	size_t	len;
+
+	node = get_pars()->cub_file_list;
+	len = 0;
+	while (node)
+	{
+		if (ft_strlen((char *)node->data) > len)
+			len = ft_strlen((char *)node->data);
+		node = node->next_node;
+	}
+	return (len);
+}
+
+static size_t	get_max_height(void)
+{
+	t_dnode	*node;
+	size_t	height;
+
+	node = get_pars()->cub_file_list;
+	height = 0;
+	while (node)
+	{
+		node = node->next_node;
+		height++;
+	}
+	return (height);
+}
+
+char	**gen_map(void)
+{
+	size_t	i;
+	char	**map_ptr;
+
+	i = 0;
+	//가로 최대길이 구하기.
+	//세로 최대길이 구하기.
+	//ft_calloc으로 가로세로 넓이의 더블포인터 동적할당.
+	//	단, 위, 아래, 왼쪽, 오른쪽 4면을 '\0'로 덮어줘야 안전할 듯 하다.
+	//	그렇다면 실제로는 +2 +2씩 가로세로에 더해줘야 할 듯 하다.
+	map_ptr = malloc(sizeof(char *) * (get_max_height() + 3));
+	map_ptr[get_max_height() + 2] = NULL;
+	while (map_ptr[i])
+	{
+		i++;
+	}
+	return (map_ptr);
+}
+
+void	map_vld_chk(void)
+{
+	char	**map;
+	map = gen_map();
+}
+
 extern void	gnl_cub_file( void );
 extern void	check_xpm_texture_line(void);
 extern void	background_vld_chk(void);
@@ -78,5 +135,6 @@ int	pars_file_vld_chk( void )
 	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
 	background_vld_chk();
+	map_vld_chk();
 	return (0);
 }
