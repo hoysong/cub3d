@@ -78,30 +78,46 @@ static size_t	get_max_height(void)
 	return (height);
 }
 
-char	**gen_map(void)
+static void	copy_str(char *dest, char *src)
+{
+	while (*src)
+	{
+		*dest = *src;
+		src++;
+		dest++;
+	}
+}
+
+char	**gen_map(size_t max_length, size_t max_height)
 {
 	size_t	i;
-	char	**map_ptr;
+	char	**map;
+	t_dnode	*node;
 
 	i = 0;
-	//가로 최대길이 구하기.
-	//세로 최대길이 구하기.
-	//ft_calloc으로 가로세로 넓이의 더블포인터 동적할당.
-	//	단, 위, 아래, 왼쪽, 오른쪽 4면을 '\0'로 덮어줘야 안전할 듯 하다.
-	//	그렇다면 실제로는 +2 +2씩 가로세로에 더해줘야 할 듯 하다.
-	map_ptr = malloc(sizeof(char *) * (get_max_height() + 3));
-	map_ptr[get_max_height() + 2] = NULL;
-	while (map_ptr[i])
+	node = get_pars()->cub_file_list;
+	map = malloc(sizeof(char *) * (max_height + 1));
+	map[max_height] = NULL;
+	while (i < max_height)
 	{
+		map[i] = ft_calloc(max_length, sizeof(char) + 1);
+		copy_str(map[i], (char *)node->data);
+		node = node->next_node;
 		i++;
 	}
-	return (map_ptr);
+	return (map);
 }
 
 void	map_vld_chk(void)
 {
 	char	**map;
-	map = gen_map();
+
+	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+	map = gen_map(get_max_length(), get_max_height());
+	print_splits(map);
+	/*
+	 */
+	free_splits(map);
 }
 
 extern void	gnl_cub_file( void );
