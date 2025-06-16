@@ -30,12 +30,4 @@ void	gnl_cub_file( void )
 		*ft_strchr((char *)gnl_node->data, '\n') = '\0';
 		gnl_node = gnl_node->next_node;
 	}
-	//	/*DEBUG.*/
-	//	t_dnode	*node = get_pars()->cub_file_list;
-	//	while (node)
-	//	{
-	//		printf("%s\n", (char *)node->data);
-	//		node = node->next_node;
-	//	}
-	//	/*=====.*/
 }
