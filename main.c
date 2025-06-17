@@ -9,7 +9,7 @@ int	main(int argc, char **argv)
 		pars_destroy();
 		return (1);
 	}
-//	else
-//		pars();
+	else
+		pars_cub_file();
 	pars_destroy();
 }
