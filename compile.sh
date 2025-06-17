@@ -1,6 +1,6 @@
-cc -g \
+gcc -Lminilibx-linux -lmlx_Linux -lX11 -lXext -Lmy_libft -lft\
 	./main.c \
 	./parser/*.c \
 	./parser/pars/*.c \
 	./parser/vld_chk/*.c \
-	./my_libft/libft.a
+	./mlx_stuff/*.c

@@ -52,7 +52,7 @@ SRCS = \
 GRN = "\e[1;32m
 END = \e[0m"
 
-CC = cc
+CC = gcc
 
 CFLAGS = -g -Wall -Wextra -Werror
 

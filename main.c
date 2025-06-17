@@ -1,4 +1,5 @@
 #include "./parser/pars_pub.h"
+#include "./mlx_stuff/mlx_hdler.h"
 
 int	main(int argc, char **argv)
 {
@@ -11,5 +12,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		pars_cub_file();
+	setup_mlx();
+	mlx_destroy();
 	pars_destroy();
 }
