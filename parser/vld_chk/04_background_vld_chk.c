@@ -49,6 +49,8 @@ static void	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 
 void	background_vld_chk(void)
 {
+	if (get_pars()->pars_errno)
+		return ;
 	bg_color_vld_chk("F", get_pars()->cub_file_list->data);
 	bg_color_vld_chk("C", get_pars()->cub_file_list->data);
 	if (get_pars()->pars_errno)

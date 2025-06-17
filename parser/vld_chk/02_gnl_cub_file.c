@@ -22,6 +22,8 @@ void	gnl_cub_file( void )
 {
 	t_dnode *gnl_node;
 
+	if (get_pars()->pars_errno)
+		return ;
 	get_pars()->cub_file_list = get_gnl_node(open(get_pars()->argv[1], O_RDONLY));
 	del_null_data();
 	gnl_node = get_pars()->cub_file_list;

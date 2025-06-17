@@ -36,6 +36,8 @@ void	map_vld_chk(void)
 {
 	char	**map;
 
+	if (get_pars()->pars_errno)
+		return ;
 	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 	map = gen_outline_map(get_max_length(), get_max_height());
 	print_splits(map);

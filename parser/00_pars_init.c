@@ -47,6 +47,7 @@ void	pars_destroy( void )
 	t_pars	*pars;
 
 	pars = get_pars();
-	destroy_gnl_list(pars->cub_file_list);
+	if (pars->pars_errno > CUB_OPEN_ERR)
+		destroy_gnl_list(pars->cub_file_list);
 	free(pars); // 무조건 실행..
 }
