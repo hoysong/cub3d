@@ -14,6 +14,5 @@ int	main(int argc, char **argv)
 	else
 		pars_cub_file();
 	setup_mlx();
-	mlx_destroy();
-	pars_destroy();
+	mlx_loop(mlx()->mlx_ptr);
 }

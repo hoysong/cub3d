@@ -2,10 +2,13 @@
 # define MLX_HDLER_H
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	800
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 typedef struct s_mlx
 {
 	void	*mlx_ptr;
+	void	*mlx_window;
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/
