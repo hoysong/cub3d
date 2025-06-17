@@ -9,6 +9,7 @@ typedef struct	s_pars
 	char	**argv;
 	int		pars_errno;
 	t_dnode	*cub_file_list;
+	char	**map;
 }	t_pars;
 
 t_pars	*get_pars( void );

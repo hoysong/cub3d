@@ -15,6 +15,6 @@ void	pars_perror(void);
 /* 파싱합니다.
  * 유효성 검사 이후 사용합니다.
  */
-void	pars(void);
+void	pars_cub_file(void);
 
 #endif
