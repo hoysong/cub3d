@@ -20,11 +20,13 @@ static void	del_null_data(void)
 
 void	gnl_cub_file( void )
 {
-	t_dnode *gnl_node;
+	t_dnode	*gnl_node;
+	int	fd;
 
 	if (get_pars()->pars_errno)
 		return ;
-	get_pars()->cub_file_list = get_gnl_node(open(get_pars()->argv[1], O_RDONLY));
+	fd = open(get_pars()->argv[1], O_RDONLY);
+	get_pars()->cub_file_list = get_gnl_node(fd);
 	del_null_data();
 	gnl_node = get_pars()->cub_file_list;
 	while (gnl_node)
@@ -32,4 +34,5 @@ void	gnl_cub_file( void )
 		*ft_strchr((char *)gnl_node->data, '\n') = '\0';
 		gnl_node = gnl_node->next_node;
 	}
+	close(fd);
 }
