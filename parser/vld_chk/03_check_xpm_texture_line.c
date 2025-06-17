@@ -27,6 +27,8 @@ static void texture_vld_chk(char *direction, char *texture_line)
 
 void	check_xpm_texture_line(void)
 {
+	if (get_pars()->pars_errno)
+		return ;
 	texture_vld_chk("NO", get_pars()->cub_file_list->data);
 	texture_vld_chk("SO", get_pars()->cub_file_list->data);
 	texture_vld_chk("WE", get_pars()->cub_file_list->data);

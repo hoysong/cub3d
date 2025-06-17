@@ -53,27 +53,18 @@ int	pars_file_vld_chk( void )
 {
 	//0. argc check.
 	if (get_pars()->argc != 2)
-	{
 		get_pars()->pars_errno = 1;
-		return (1);
-	}
 	//1. .cub valid check.
 	if (!file_format_chk(".cub", get_pars()->argv[1]))
-	{
 		get_pars()->pars_errno = 2;
-		return (2);
-	}
 	//2. .cub open check.
 	if (!try_open(get_pars()->argv[1]))
-	{
 		get_pars()->pars_errno = 3;
-		return (3);
-	}
 	//3. wall texture check.
 	gnl_cub_file();
 	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
 	background_vld_chk();
 	map_vld_chk();
-	return (0);
+	return (get_pars()->pars_errno);
 }
