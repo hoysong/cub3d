@@ -55,6 +55,8 @@ int	pars_file_vld_chk( void )
 	if (get_pars()->argc != 2)
 		get_pars()->pars_errno = 1;
 	//1. .cub valid check.
+	if (get_pars()->pars_errno)
+		return (1);
 	if (!file_format_chk(".cub", get_pars()->argv[1]))
 		get_pars()->pars_errno = 2;
 	//2. .cub open check.
