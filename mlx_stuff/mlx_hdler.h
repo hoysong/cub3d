@@ -1,7 +1,7 @@
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
 # define WIN_WIDTH	800
-# define WIN_HEIGHT	800
+# define WIN_HEIGHT	600
 # include <X11/X.h>
 # include <X11/keysym.h>
 

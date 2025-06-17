@@ -4,13 +4,17 @@
 #include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
 
+//static void	loop_end(void)
+//{
+//	mlx_loop_end(mlx()->mlx_ptr);
+//}
+
 static int	hook_func(int key_input)
 {
 	if (key_input == XK_Escape)
 	{
-		mlx_destroy();
-		pars_destroy();
-		exit(0);
+		mlx_loop_end(mlx()->mlx_ptr);
+		//exit(1);
 	}
 	return (0);
 }
