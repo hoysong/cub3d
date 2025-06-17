@@ -9,5 +9,7 @@ int	main(int argc, char **argv)
 		pars_destroy();
 		return (1);
 	}
+//	else
+//		pars();
 	pars_destroy();
 }
