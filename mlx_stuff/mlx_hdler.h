@@ -32,7 +32,7 @@ t_mlx	*mlx(void);
 /*mlx 구조체를 파괴합니다.*/
 void	mlx_destroy();
 
-/*setup_mlx 이후 생성한 배경을 윈도우에 바로 올립니다.*/
+/*준비된 배경이미지를 윈도우에 바로 올립니다.*/
 void	put_background(void);
 
 #endif
