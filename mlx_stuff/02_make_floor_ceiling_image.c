@@ -9,11 +9,11 @@ int	rgb_to_int(t_rgb rgb)
 
 	int_rgb = 0;
 	bit_ptr = (unsigned char *)&int_rgb;
-	*bit_ptr = rgb.red;
+	*bit_ptr = rgb.blue;
 	bit_ptr++;
 	*bit_ptr = rgb.green;
 	bit_ptr++;
-	*bit_ptr = rgb.blue;
+	*bit_ptr = rgb.red;
 	return (int_rgb);
 }
 
@@ -39,8 +39,8 @@ void	make_floor_ceiling_image(void)
 	char	*location_to_put;
 
 	location_to_put = mlx()->floor.data_addr;
-	*(location_to_put + mlx()->floor.bits_per_pixel / 8) = mlx()->floor_color;
-	*(location_to_put + mlx()->floor.bits_per_pixel / 8) = mlx()->floor_color;
+	*(location_to_put + ((mlx()->floor.bits_per_pixel) * 1)) = mlx()->floor_color;
+	*(location_to_put + ((mlx()->floor.bits_per_pixel) * 2)) = mlx()->floor_color;
 //	location_to_put = mlx()->floor_img;
 //	location_to_put[15] = mlx()->floor_color;
 	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->floor.img_ptr, 0, 15);
