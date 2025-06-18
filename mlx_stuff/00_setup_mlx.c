@@ -1,13 +1,7 @@
 #include "../parser/pars_priv.h"
-#include "../parser/pars_pub.h"
 #include "./mlx_hdler.h"
 #include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
-
-//static void	loop_end(void)
-//{
-//	mlx_loop_end(mlx()->mlx_ptr);
-//}
 
 static int	hook_func(int key_input)
 {
@@ -19,41 +13,33 @@ static int	hook_func(int key_input)
 	return (0);
 }
 
-static t_mlx	*set_mlx(t_mlx *mlx)
-{
-	static t_mlx	*static_mlx;
-
-	if (static_mlx == NULL)
-		static_mlx = mlx;
-	return (static_mlx);
-}
-
-t_mlx	*mlx(void)
-{
-	t_mlx	*(*get_mlx)(t_mlx *);
-
-	get_mlx = set_mlx;
-	return (get_mlx(NULL));
-}
-
 void	mlx_destroy(void)
 {
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->ceiling.img_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->floor.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
 	free(mlx()->mlx_ptr);
 	free(mlx());
 }
 
+extern t_mlx	*set_mlx(t_mlx *mlx);
+extern void	make_floor_ceiling_image(void);
+
 int	setup_mlx(void)
 {
 	t_mlx	*mlx;
 
 	mlx = malloc(sizeof(t_mlx));
+	set_mlx(mlx);
+
+	mlx->floor_color = 0;
+	mlx->ceiling_color = 0;
 
 	mlx->mlx_ptr = mlx_init();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
-	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
+	make_floor_ceiling_image();
 
-	set_mlx(mlx);
+	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	return (1);
 }

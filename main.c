@@ -1,7 +1,7 @@
 #include "./parser/pars_pub.h"
 #include "./mlx_stuff/mlx_hdler.h"
 #include "./minilibx-linux//mlx.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
