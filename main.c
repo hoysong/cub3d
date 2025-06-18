@@ -1,7 +1,6 @@
 #include "./parser/pars_pub.h"
 #include "./mlx_stuff/mlx_hdler.h"
 #include "./minilibx-linux//mlx.h"
-//#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
@@ -15,6 +14,7 @@ int	main(int argc, char **argv)
 	else
 		pars_cub_file();
 	setup_mlx();
+	put_background();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();
 	pars_destroy();

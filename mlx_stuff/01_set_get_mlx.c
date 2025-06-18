@@ -10,7 +10,7 @@ t_mlx	*set_mlx(t_mlx *mlx)
 	return (static_mlx);
 }
 
-t_mlx	*mlx(void)
+inline t_mlx	*mlx(void)
 {
 	t_mlx	*(*get_mlx)(t_mlx *);
 

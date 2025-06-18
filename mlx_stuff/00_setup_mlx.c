@@ -8,14 +8,12 @@ static int	hook_func(int key_input)
 	if (key_input == XK_Escape)
 	{
 		mlx_loop_end(mlx()->mlx_ptr);
-		//exit(1);
 	}
 	return (0);
 }
 
 void	mlx_destroy(void)
 {
-//	mlx_destroy_image(mlx()->mlx_ptr, mlx()->ceiling.img_ptr);
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
@@ -24,7 +22,7 @@ void	mlx_destroy(void)
 }
 
 extern t_mlx	*set_mlx(t_mlx *mlx);
-extern void	make_floor_ceiling_image(void);
+extern void		make_floor_ceiling_image(void);
 
 int	setup_mlx(void)
 {
