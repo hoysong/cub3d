@@ -18,8 +18,7 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*mlx_window;
-	t_img	floor;
-	t_img	ceiling;
+	t_img	background;
 	int		floor_color;
 	int		ceiling_color;
 }t_mlx;

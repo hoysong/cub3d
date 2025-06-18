@@ -15,8 +15,8 @@ static int	hook_func(int key_input)
 
 void	mlx_destroy(void)
 {
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->ceiling.img_ptr);
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->floor.img_ptr);
+//	mlx_destroy_image(mlx()->mlx_ptr, mlx()->ceiling.img_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
 	free(mlx()->mlx_ptr);
