@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 	setup_mlx();
 	put_background();
 	put_minimap();
+//	put_player();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();
 	pars_destroy();

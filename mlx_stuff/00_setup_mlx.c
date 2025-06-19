@@ -1,6 +1,7 @@
 #include "../parser/pars_priv.h"
 #include "./mlx_hdler.h"
 #include "../minilibx-linux/mlx.h"
+#include "./player.h"
 #include <stdlib.h>
 
 static int destroy_notify_hook(void *hi)
@@ -24,6 +25,8 @@ void	mlx_destroy(void)
 	mlx_destroy_display(mlx()->mlx_ptr);
 	free(mlx()->mlx_ptr);
 	free(mlx());
+	/*free_player*/
+	free(player());
 }
 
 extern t_mlx	*set_mlx(t_mlx *mlx);

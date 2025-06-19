@@ -12,8 +12,5 @@ t_mlx	*set_mlx(t_mlx *mlx)
 
 inline t_mlx	*mlx(void)
 {
-	t_mlx	*(*get_mlx)(t_mlx *);
-
-	get_mlx = set_mlx;
-	return (get_mlx(NULL));
+	return (set_mlx(NULL));
 }

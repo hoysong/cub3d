@@ -2,6 +2,7 @@
 #include "../parser/pars_priv.h"
 #include "../parser/pars_pub.h"
 #include "../minilibx-linux/mlx.h"
+#include "./player.h"
 
 extern int	rgb_to_int(t_rgb rgb);
 
@@ -26,11 +27,6 @@ static void	fill_minimap_bg()
 
 void	make_minimap_bg(void)
 {
-//	t_rgb	white;
-//
-//	white.red = 190;
-//	white.green = 190;
-//	white.blue = 190;
 	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
 	get_img_data(&(mlx()->minimap));
 	fill_minimap_bg();
@@ -101,18 +97,15 @@ static void	fill_minimap_grid(size_t sq_len)
 	}
 }
 
+extern void	draw_player(float sq_len);
+
 void	make_minimap_grid(void)
 {
-	size_t	height = get_max_height();
-	size_t	length = get_max_length();
-	size_t	square_len;
-
-	if (height > length)
-		square_len = MINISIZE/height;
-	else
-		square_len = MINISIZE/length;
+	size_t	square_len = get_minimap_ratio();
 	fill_minimap_grid(square_len);
 	draw_grid(square_len, get_max_height(), get_max_length());
+	player_init();
+	draw_player(square_len);
 }
 
 void	make_minimap(void)

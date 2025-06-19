@@ -8,6 +8,7 @@
 # define BG_Color	0xdddddd
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <stddef.h>
 
 /*mlx_get_data_addr() 함수를 위해 존재합니다.*/
 /*아래의 get_img_data() 참고.*/
@@ -48,7 +49,13 @@ void	put_pixel_to_img(t_img *img, int horiz, int vert, int color);
 /*준비된 배경이미지를 윈도우에 바로 올립니다.*/
 void	put_background(void);
 
+/*미니맵의 그리드 비율을 구합니다.*/
+size_t	get_minimap_ratio(void);
+
 /*미니맵을 윈도우에 올립니다.*/
 void	put_minimap(void);
+
+/*플레이어를 윈도우에 올립니다.*/
+void	put_player(void);
 
 #endif

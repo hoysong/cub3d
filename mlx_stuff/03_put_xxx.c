@@ -1,15 +1,6 @@
 #include "./mlx_hdler.h"
 #include "../minilibx-linux/mlx.h"
-
-void	get_img_data(t_img *img)
-{
-	img->data_addr = mlx_get_data_addr(
-			img->img_ptr,
-			&(img->bits_per_pixel),
-			&(img->size_line),
-			&(img->endian));
-}
-
+//#include "./player.h"
 
 inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 {
@@ -28,3 +19,8 @@ inline void	put_minimap(void)
 {
 	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->minimap.img_ptr, 0, 0);
 }
+
+//inline void	put_player(void)
+//{
+//	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, player()->img.img_ptr, 0, 0);
+//}
