@@ -3,4 +3,4 @@ cc ./main.c\
 	./parser/pars/*.c \
 	./parser/vld_chk/*.c \
 	./mlx_stuff/*.c \
-	-g -lm -L./my_libft -lft -Lminilibx-linux -lmlx_Linux -lX11 -lXext
+	-g -pg -lm -L./my_libft -lft -Lminilibx-linux -lmlx_Linux -lX11 -lXext

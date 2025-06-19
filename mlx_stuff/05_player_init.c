@@ -1,10 +1,8 @@
 #include "../parser/pars_pub.h"
 #include "./player.h"
 #include "./mlx_hdler.h"
-//#include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
-//#include <math.h>
 
 t_player	*set_player(t_player *player)
 {

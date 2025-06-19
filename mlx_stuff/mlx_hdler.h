@@ -1,6 +1,6 @@
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
-# define WIN_WIDTH	1800
+# define WIN_WIDTH	900
 # define WIN_HEIGHT	900
 # define MINISIZE	900
 # define GridColor	0xdddddd

@@ -1,6 +1,6 @@
 #include "../pars_priv.h"
 
-static int	is_player(char c)
+static inline int	is_player(char c)
 {
 	if (c == 'N'
 		|| c == 'S'
@@ -10,14 +10,14 @@ static int	is_player(char c)
 	return (0);
 }
 
-static int	is_wall_floor(char c)
+static inline int	is_wall_floor(char c)
 {
 	if (c == '1' || c == '0')
 		return (1);
 	return (0);
 }
 
-static int	is_map_char(char c)
+static inline int	is_map_char(char c)
 {
 	if (is_player(c) &&
 		is_wall_floor(c) &&
