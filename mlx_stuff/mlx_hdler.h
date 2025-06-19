@@ -2,10 +2,12 @@
 # define MLX_HDLER_H
 # define WIN_WIDTH	900
 # define WIN_HEIGHT	900
-# define MINISIZE	900
+/*Minimap defs*/
+# define MINISIZE	300
 # define GridColor	0xdddddd
 # define WallColor	0x999999
 # define BG_Color	0xdddddd
+
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <stddef.h>
@@ -32,30 +34,39 @@ typedef struct s_mlx
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/
+/*setup t_mlx struct*/
 int	setup_mlx(void);
 
 /*mlx 구조체를 리턴합니다.*/
+/*It returns t_mlx struct*/
 t_mlx	*mlx(void);
 
 /*mlx 구조체를 파괴합니다.*/
+/*This Function destroys t_mlx struct.*/
 void	mlx_destroy(void);
 
 /*mlx_get_data_addr를 내부적으로 호출합니다.*/
+/*this funetion invoke 'mlx_get_data_addr()' internally.*/
 void	get_img_data(t_img *img);
 
 /*이미지의 가로[horiz], 세로[vert]위치에 color값을 가진 pixel을 찍습니다.*/
+/*put pixel on images hoiz and vert loation.*/
 void	put_pixel_to_img(t_img *img, int horiz, int vert, int color);
 
 /*준비된 배경이미지를 윈도우에 바로 올립니다.*/
+/*deploy prepared image to window.*/
 void	put_background(void);
 
 /*미니맵의 그리드 비율을 구합니다.*/
+/*reutrns minimap's ratio.*/
 size_t	get_minimap_ratio(void);
 
 /*미니맵을 윈도우에 올립니다.*/
+/*put_minimap to window.*/
 void	put_minimap(void);
 
 /*플레이어를 윈도우에 올립니다.*/
+/*put_player to window.*/
 void	put_player(void);
 
 #endif
