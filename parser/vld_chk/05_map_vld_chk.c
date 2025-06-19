@@ -40,7 +40,7 @@ void	map_vld_chk(void)
 		return ;
 	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 	map = gen_outline_map(get_max_length(), get_max_height());
-	print_splits(map);
+	//print_splits(map);
 	good_map_chk(map);
 	if (get_pars()->pars_errno == 0)
 		printf("good map!\n");

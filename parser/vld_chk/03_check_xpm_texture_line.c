@@ -36,6 +36,6 @@ void	check_xpm_texture_line(void)
 	if (get_pars()->pars_errno)
 		printf("bad_texture..\n");
 	else
-		printf("good texture.\n");
+		printf("good texture!\n");
 	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 }

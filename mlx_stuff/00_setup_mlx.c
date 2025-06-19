@@ -18,6 +18,7 @@ static int	hook_func(int key_input)
 
 void	mlx_destroy(void)
 {
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->minimap.img_ptr);
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
@@ -26,7 +27,8 @@ void	mlx_destroy(void)
 }
 
 extern t_mlx	*set_mlx(t_mlx *mlx);
-extern void		make_floor_ceiling_image(void);
+extern void		make_background_image(void);
+extern void	make_minimap(void);
 
 int	setup_mlx(void)
 {
@@ -34,14 +36,12 @@ int	setup_mlx(void)
 
 	mlx = malloc(sizeof(t_mlx));
 	set_mlx(mlx);
-
 	mlx->floor_color = 0;
 	mlx->ceiling_color = 0;
-
 	mlx->mlx_ptr = mlx_init();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
-	make_floor_ceiling_image();
-
+	make_background_image();
+	make_minimap();
 	/*ESC hook.*/
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	/*Destroy('x' button in window) hook.*/

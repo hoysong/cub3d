@@ -29,4 +29,5 @@ void	pars_cub_file(void)
 	printf("east    : %s\n", get_pars()->east_texture);
 	printf("floor   : %d %d %d\n", get_pars()->floor.red, get_pars()->floor.green, get_pars()->floor.blue);
 	printf("ceiling : %d %d %d\n", get_pars()->ceiling.red, get_pars()->ceiling.green, get_pars()->ceiling.blue);
+	print_splits(get_pars()->map);
 }

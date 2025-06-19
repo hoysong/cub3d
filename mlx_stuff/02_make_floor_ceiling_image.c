@@ -4,7 +4,7 @@
 
 int	rgb_to_int(t_rgb rgb)
 {
-	unsigned int				int_rgb;
+	unsigned int	int_rgb;
 	unsigned char	*bit_ptr;
 
 	int_rgb = 0;
@@ -26,14 +26,6 @@ static void	get_img_data(void)
 			&(mlx()->background.endian));
 }
 
-static inline void	put_pixel_to_img(int horiz, int vert, int color)
-{
-	char	*location_to_put;
-
-	location_to_put = mlx()->background.data_addr;
-	*(unsigned int *)(location_to_put + ((mlx()->background.bits_per_pixel / 8) * horiz)  + mlx()->background.size_line * vert) = color;
-}
-
 void	fill_background_color(void)
 {
 	int	i;
@@ -45,7 +37,7 @@ void	fill_background_color(void)
 	{
 		while (j < WIN_WIDTH)
 		{
-			put_pixel_to_img(j, i, mlx()->ceiling_color);
+			put_pixel_to_img(&(mlx()->background), j, i, mlx()->ceiling_color);
 			j++;
 		}
 		j = 0;
@@ -55,7 +47,7 @@ void	fill_background_color(void)
 	{
 		while (j < WIN_WIDTH)
 		{
-			put_pixel_to_img(j, i, mlx()->floor_color);
+			put_pixel_to_img(&(mlx()->background), j, i, mlx()->floor_color);
 			j++;
 		}
 		j = 0;
@@ -63,7 +55,7 @@ void	fill_background_color(void)
 	}
 }
 
-void	make_floor_ceiling_image(void)
+void	make_background_image(void)
 {
 	/*바닥/천장의 rgb값 구하기.*/
 	mlx()->floor_color = rgb_to_int(get_pars()->floor);

@@ -3,8 +3,8 @@ SO ./texture/00_Ollie_the_cat.xpm
 WE ./texture/00_Ollie_the_cat.xpm
 EA ./texture/00_Ollie_the_cat.xpm
 
-F 220,100,100
-C 100,100,255
+F 150,150,100
+C 100,150,150
 
         1111111111111111111111111
         1000000000110000000000001

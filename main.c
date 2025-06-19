@@ -15,6 +15,7 @@ int	main(int argc, char **argv)
 		pars_cub_file();
 	setup_mlx();
 	put_background();
+	put_minimap();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();
 	pars_destroy();
