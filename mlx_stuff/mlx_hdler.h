@@ -1,8 +1,10 @@
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
-# define WIN_WIDTH	900
-# define WIN_HEIGHT	600
-# define MINISIZE	170
+# define WIN_WIDTH	1800
+# define WIN_HEIGHT	900
+# define MINISIZE	900
+# define GridColor	0x779999
+# define WallColor	0x999999
 # include <X11/X.h>
 # include <X11/keysym.h>
 
@@ -21,10 +23,10 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr; // mlx_ptr.
 	void	*mlx_window;
+	int		ceiling_color; // 천장 색상.
+	int		floor_color; // 바닥 색상.
 	t_img	background; // 배경 이미지 정보를 저장합니다.
 	t_img	minimap; // 미니맵 이미지 정보를 저장합니다.
-	int		floor_color; // 바닥 색상.
-	int		ceiling_color; // 천장 색상.
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/

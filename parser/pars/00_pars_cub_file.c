@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <fcntl.h>
 
+char	**get_map(void)
+{
+	return (get_pars()->map);
+}
+
 extern size_t	get_max_length(void);
 extern size_t	get_max_height(void);
 extern char		**gen_map(size_t max_length, size_t max_height);

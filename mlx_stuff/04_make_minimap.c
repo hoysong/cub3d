@@ -1,10 +1,11 @@
 #include "./mlx_hdler.h"
 #include "../parser/pars_priv.h"
+#include "../parser/pars_pub.h"
 #include "../minilibx-linux/mlx.h"
 
 extern int	rgb_to_int(t_rgb rgb);
 
-static void	fill_minimap(int white)
+static void	fill_minimap_bg(int white)
 {
 	int	i;
 	int	j;
@@ -23,14 +24,99 @@ static void	fill_minimap(int white)
 	}
 }
 
-void	make_minimap(void)
+void	make_minimap_bg(void)
 {
 	t_rgb	white;
 
-	white.red = 255;
-	white.green = 255;
-	white.blue = 255;
+	white.red = 190;
+	white.green = 190;
+	white.blue = 190;
 	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
 	get_img_data(&(mlx()->minimap));
-	fill_minimap(rgb_to_int(white));
+	fill_minimap_bg(rgb_to_int(white));
+}
+
+static void	draw_grid(size_t sq_len, size_t max_height, size_t max_length)
+{
+	size_t i = 0;
+	size_t j = 0;
+
+	while ((i < (sq_len * max_height)))
+	{
+		while ((j < (sq_len * max_length)))
+		{
+			put_pixel_to_img(&(mlx()->minimap), j, i, GridColor);
+			j++;
+		}
+		j = 0;
+		i += sq_len;
+	}
+	i = 0;
+	j = 0;
+	while ((j < (sq_len * max_length)) && j < MINISIZE)
+	{
+		while ((i < (sq_len * max_height)) && i < MINISIZE)
+		{
+			put_pixel_to_img(&(mlx()->minimap), j, i, GridColor);
+			i++;
+		}
+		i = 0;
+		j+=sq_len;
+	}
+}
+
+static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len)
+{
+	int	i = 0;
+	int	j = 0;
+
+	while (i < sq_len)
+	{
+		while (j < sq_len)
+		{
+			put_pixel_to_img(&(mlx()->minimap), start_width + j, start_height + i, WallColor);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
+
+static void	fill_minimap_grid(size_t sq_len)
+{
+	char	**map = get_map();
+	size_t	width = 0;
+	size_t	height = 0;
+
+	while (map[height])
+	{
+		while (map[height][width])
+		{
+			if (map[height][width] == '1')
+				fill_grid(height * sq_len, width * sq_len, sq_len);
+			width++;
+		}
+		width = 0;
+		height++;
+	}
+}
+
+void	make_minimap_grid(void)
+{
+	size_t	height = get_max_height();
+	size_t	length = get_max_length();
+	size_t	square_len;
+
+	if (height > length)
+		square_len = MINISIZE/height;
+	else
+		square_len = MINISIZE/length;
+	fill_minimap_grid(square_len);
+	draw_grid(square_len, get_max_height(), get_max_length());
+}
+
+void	make_minimap(void)
+{
+	make_minimap_bg();
+	make_minimap_grid();
 }

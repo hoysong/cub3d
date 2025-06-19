@@ -39,9 +39,9 @@ int	setup_mlx(void)
 	mlx->floor_color = 0;
 	mlx->ceiling_color = 0;
 	mlx->mlx_ptr = mlx_init();
-	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
 	make_background_image();
 	make_minimap();
+	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
 	/*ESC hook.*/
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	/*Destroy('x' button in window) hook.*/
