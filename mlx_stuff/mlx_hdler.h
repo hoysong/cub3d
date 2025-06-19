@@ -3,8 +3,9 @@
 # define WIN_WIDTH	1800
 # define WIN_HEIGHT	900
 # define MINISIZE	900
-# define GridColor	0x779999
+# define GridColor	0xdddddd
 # define WallColor	0x999999
+# define BG_Color	0xdddddd
 # include <X11/X.h>
 # include <X11/keysym.h>
 

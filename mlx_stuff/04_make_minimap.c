@@ -5,7 +5,7 @@
 
 extern int	rgb_to_int(t_rgb rgb);
 
-static void	fill_minimap_bg(int white)
+static void	fill_minimap_bg()
 {
 	int	i;
 	int	j;
@@ -16,7 +16,7 @@ static void	fill_minimap_bg(int white)
 	{
 		while (j < MINISIZE)
 		{
-			put_pixel_to_img(&(mlx()->minimap), j, i, white);
+			put_pixel_to_img(&(mlx()->minimap), j, i, BG_Color);
 			j++;
 		}
 		j = 0;
@@ -26,14 +26,14 @@ static void	fill_minimap_bg(int white)
 
 void	make_minimap_bg(void)
 {
-	t_rgb	white;
-
-	white.red = 190;
-	white.green = 190;
-	white.blue = 190;
+//	t_rgb	white;
+//
+//	white.red = 190;
+//	white.green = 190;
+//	white.blue = 190;
 	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
 	get_img_data(&(mlx()->minimap));
-	fill_minimap_bg(rgb_to_int(white));
+	fill_minimap_bg();
 }
 
 static void	draw_grid(size_t sq_len, size_t max_height, size_t max_length)
