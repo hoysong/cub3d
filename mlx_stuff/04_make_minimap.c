@@ -2,15 +2,6 @@
 #include "../parser/pars_priv.h"
 #include "../minilibx-linux/mlx.h"
 
-static void	get_minimap_data(void)
-{
-	mlx()->minimap.data_addr = mlx_get_data_addr(
-			mlx()->minimap.img_ptr,
-			&(mlx()->minimap.bits_per_pixel),
-			&(mlx()->minimap.size_line),
-			&(mlx()->minimap.endian));
-}
-
 extern int	rgb_to_int(t_rgb rgb);
 
 static void	fill_minimap(int white)
@@ -40,6 +31,6 @@ void	make_minimap(void)
 	white.green = 255;
 	white.blue = 255;
 	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
-	get_minimap_data();
+	get_img_data(&(mlx()->minimap));
 	fill_minimap(rgb_to_int(white));
 }

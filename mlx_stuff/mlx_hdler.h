@@ -6,6 +6,8 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+/*mlx_get_data_addr() 함수를 위해 존재합니다.*/
+/*아래의 get_img_data() 참고.*/
 typedef struct s_img
 {
 	char	*data_addr; // 이미지의 실제 시작지점.
@@ -33,6 +35,9 @@ t_mlx	*mlx(void);
 
 /*mlx 구조체를 파괴합니다.*/
 void	mlx_destroy(void);
+
+/*mlx_get_data_addr를 내부적으로 호출합니다.*/
+void	get_img_data(t_img *img);
 
 /*이미지의 가로[horiz], 세로[vert]위치에 color값을 가진 pixel을 찍습니다.*/
 void	put_pixel_to_img(t_img *img, int horiz, int vert, int color);

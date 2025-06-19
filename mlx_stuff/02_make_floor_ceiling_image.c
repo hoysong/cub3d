@@ -17,15 +17,6 @@ int	rgb_to_int(t_rgb rgb)
 	return (int_rgb);
 }
 
-static void	get_img_data(void)
-{
-	mlx()->background.data_addr = mlx_get_data_addr(
-			mlx()->background.img_ptr,
-			&(mlx()->background.bits_per_pixel),
-			&(mlx()->background.size_line),
-			&(mlx()->background.endian));
-}
-
 void	fill_background_color(void)
 {
 	int	i;
@@ -62,7 +53,7 @@ void	make_background_image(void)
 	mlx()->ceiling_color = rgb_to_int(get_pars()->ceiling);
 	/*바닥,천장의 새로운 이미지 생성.*/
 	mlx()->background.img_ptr = mlx_new_image(mlx()->mlx_ptr, WIN_WIDTH, WIN_HEIGHT); 
-	get_img_data();
+	get_img_data(&(mlx()->background));
 	/*이미지 채우기.*/
 	fill_background_color();
 }
