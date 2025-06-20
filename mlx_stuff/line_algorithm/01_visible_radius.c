@@ -12,15 +12,13 @@ void	get_dot(t_point me, t_point vp, float degree)
 
 	new.x = (vp.x - me.x)*(float)cos(degree) - (vp.y - me.y)*(float)sin(degree) + me.x;
 	new.y = (vp.x - me.x)*(float)sin(degree) + (vp.y - me.y)*(float)cos(degree) + me.y;
-	//new.x = (vp.x)*(float)cos(degree) - (vp.y)*(float)sin(degree);
-	//new.y = (vp.x)*(float)sin(degree) + (vp.y)*(float)cos(degree);
 	printf("dot test: x: %f, y: %f\n", new.x, new.y);
 	/*test put_pixel*/
 	put_pixel_to_img(&(mlx()->minimap), new.x * (float)get_minimap_ratio(), new.y * (float)get_minimap_ratio(), 0x0);
 }
 
-void	get_visivle_radius(void)
-{
-	//90도?
-	get_dot(player()->cord, player()->view_point, RAY_RES);
-}
+//void	get_visivle_radius(void)
+//{
+//	//90도?
+//	get_dot(player()->cord, player()->view_point, RAY_RES);
+//}
