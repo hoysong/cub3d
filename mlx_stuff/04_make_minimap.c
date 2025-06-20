@@ -2,7 +2,8 @@
 #include "../parser/pars_priv.h"
 #include "../parser/pars_pub.h"
 #include "../minilibx-linux/mlx.h"
-//#include "./player.h"
+#include "./player.h"
+#include "./line_algorithm/my_algorithm.h"
 
 extern int	rgb_to_int(t_rgb rgb);
 
@@ -107,11 +108,24 @@ void	draw_minimap()
 	draw_grid_line(square_len, get_max_height(), get_max_length());
 	draw_player(square_len);
 }
+
+/*test functions.*/
 extern void	draw_test_line(void);
+extern void	get_dot(t_point me, t_point vp, float degree);
 
 void	make_minimap(void)
 {
 	make_minimap_img();
 	draw_minimap();
 	draw_test_line();
+
+	/*test...*/
+	int i = 0;
+
+	while (i < 90)
+	{
+		get_dot(player()->cord, player()->view_point, i);
+		i++;
+	}
+
 }

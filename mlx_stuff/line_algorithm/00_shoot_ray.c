@@ -1,15 +1,8 @@
-#include "./ray.h"
+#include "./my_algorithm.h"
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
 #include <stdio.h>
-
-static float	my_abs(float num)
-{
-	if (num < 0)
-		return (num *= -1);
-	return (num);
-}
 
 /*
  * 0. 파라미터는?
@@ -26,6 +19,7 @@ static float	my_abs(float num)
  * 			???
  * 			shooy_ray를 2번 호출할 필요가 있을까.
  * 			충돌지점을 찾기 위해 ray를 발사하면서, 충돌지점을 찾아내면 된다.
+ * 			가시거리를 정해버리자.
  * 2. 리턴타입
  * 		출돌지점을 리턴하면 되나?
  * 		리턴한다면 어떻게 해야하나.
@@ -40,27 +34,26 @@ static float	my_abs(float num)
  * 			x 홀, y 홀
  * */
 
+static float	my_abs(float num)
+{
+	if (num < 0)
+		return (num *= -1);
+	return (num);
+}
+
 void shoot_ray(t_point start, t_point end)
 {
 	float	x;
 	float	y;
-//	t_point	p1;
-//	t_point	p2;
-//	float	x1 = player()->x * get_minimap_ratio();
-//	float	y1 = player()->y * get_minimap_ratio();
-//	float	x2 = get_minimap_ratio();
-//	float	y2 = get_minimap_ratio();
 	float	dx, dy, step;
 	int		i;
 
 	dx = (end.x - start.x);
 	dy = (end.y - start.y);
-
 	if (my_abs(dx) >= my_abs(dy))
 	  step = my_abs(dx);
 	else
 	  step = my_abs(dy);
-	
 	dx = dx / step;
 	dy = dy / step;
 	x = start.x;
@@ -83,8 +76,8 @@ void	draw_test_line(void)
 	t_point	start;
 	t_point	end;
 
-	start.x = player()->x * get_minimap_ratio();
-	start.y = player()->y * get_minimap_ratio();
+	start.x = player()->cord.x * get_minimap_ratio();
+	start.y = player()->cord.y * get_minimap_ratio();
 
 	end.x = 1;
 	end.y = 1;

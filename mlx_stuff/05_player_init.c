@@ -17,6 +17,7 @@ inline t_player	*player(void)
 {
 	return (set_player(NULL));
 }
+extern int	is_player(char c);
 
 static void	get_start_location(float *fx, float *fy)
 {
@@ -26,24 +27,37 @@ static void	get_start_location(float *fx, float *fy)
 
 	while(map[y])
 	{
-		while(map[y][x] != 'N' && map[y][x])
+		while(!is_player(map[y][x]) && map[y][x])
 			x++;
-		if (map[y][x] == 'N')
+		if (is_player(map[y][x]))
 			break ;
 		x = 0;
 		y++;
 	}
 	*fx = ((float)x) + 0.5f;
 	*fy = ((float)y) + 0.5f;
+	if (map[y][x] == 'N')
+		player()->view_point.x = *fx - (float)RAY_RES;
+	else if (map[y][x] == 'S')
+		player()->view_point.x = *fx + (float)RAY_RES;
+	else
+		player()->view_point.x = *fx;
+	if (map[y][x] == 'W')
+		player()->view_point.y = *fy - (float)RAY_RES;
+	else if (map[y][x] == 'E')
+		player()->view_point.y = *fy + (float)RAY_RES;
+	else
+		player()->view_point.y = *fy;
+	printf("├─view_point : x=%f, y=%f\n", player()->view_point.x, player()->view_point.y);
 }
 
 void	draw_player(float sq_len)
 {
 	float	ratio = player()->ratio;
-	int		x = (player()->x * sq_len) - ratio;
-	int		y = (player()->y * sq_len) - ratio;
-	int		x_end = (player()->x * sq_len) + ratio;
-	int		y_end = (player()->y * sq_len) + ratio;
+	int		x = (player()->cord.x * sq_len) - ratio;
+	int		y = (player()->cord.y * sq_len) - ratio;
+	int		x_end = (player()->cord.x * sq_len) + ratio;
+	int		y_end = (player()->cord.y * sq_len) + ratio;
 
 	while (y <= y_end)
 	{
@@ -52,7 +66,7 @@ void	draw_player(float sq_len)
 			put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 			x++;
 		}
-		x = (player()->x * sq_len) - ratio;
+		x = (player()->cord.x * sq_len) - ratio;
 		y++;
 	}
 }
@@ -65,9 +79,12 @@ void	player_init(void)
 	set_player(player);
 	player->degree = 0;
 	player->ratio = ((float)get_minimap_ratio() / 3) / 3;
-	get_start_location(&(player->x), &(player->y));
+	player->view_point.x = 0;
+	player->view_point.y = 0;
+	get_start_location(&(player->cord.x), &(player->cord.y));
 	printf("player info\n");
-	printf("├─Location: x=%f, y=%f\n", player->x, player->y);
-	printf("├─Ratio   : %f\n", player->ratio);
+	printf("├─Location   : x=%f, y=%f\n", player->cord.x, player->cord.y);
+	printf("├─Ratio      : %f\n", player->ratio);
+	printf("├─view_point : x=%f, y=%f\n", player->view_point.x, player->view_point.y);
 	printf("└─(empty)\n");
 }

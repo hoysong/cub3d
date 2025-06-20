@@ -3,7 +3,7 @@
 # define WIN_WIDTH	900
 # define WIN_HEIGHT	900
 /*Minimap defs*/
-# define MINISIZE	200
+# define MINISIZE	900
 # define GridColor	0xdddddd
 # define WallColor	0x999999
 # define BG_Color	0xdddddd
