@@ -8,6 +8,7 @@ typedef struct s_player
 	float	x;
 	float	y;
 	float	degree;
+	float	ratio;
 //	t_img	img;
 }t_player;
 

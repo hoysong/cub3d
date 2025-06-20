@@ -42,6 +42,7 @@ int	setup_mlx(void)
 	mlx->floor_color = 0;
 	mlx->ceiling_color = 0;
 	mlx->mlx_ptr = mlx_init();
+	player_init();
 	make_background_image();
 	make_minimap();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);

@@ -39,10 +39,11 @@ static void	get_start_location(float *fx, float *fy)
 
 void	draw_player(float sq_len)
 {
-	int	x = (player()->x * sq_len) - ((sq_len / 3)/3);
-	int	y = (player()->y * sq_len) - ((sq_len / 3)/3);
-	int	x_end = (player()->x * sq_len) + ((sq_len / 3)/3);
-	int	y_end = (player()->y * sq_len) + ((sq_len / 3)/3);
+	float	ratio = player()->ratio;
+	int		x = (player()->x * sq_len) - ratio;
+	int		y = (player()->y * sq_len) - ratio;
+	int		x_end = (player()->x * sq_len) + ratio;
+	int		y_end = (player()->y * sq_len) + ratio;
 
 	printf("Player square size\n");
 	printf("    x: %d,     y: %d\n", x, y);
@@ -54,7 +55,7 @@ void	draw_player(float sq_len)
 			put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 			x++;
 		}
-		x = (player()->x * sq_len) - ((sq_len / 3)/3);
+		x = (player()->x * sq_len) - ratio;
 		y++;
 	}
 }
@@ -66,6 +67,7 @@ void	player_init(void)
 	player = malloc(sizeof(t_player));
 	set_player(player);
 	player->degree = 0;
+	player->ratio = ((float)get_minimap_ratio() / 3) / 3;
 	get_start_location(&(player->x), &(player->y));
 	printf("player: x=%f, y=%f\n", player->x, player->y);
 }
