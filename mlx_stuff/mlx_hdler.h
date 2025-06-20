@@ -3,7 +3,7 @@
 # define WIN_WIDTH	900
 # define WIN_HEIGHT	900
 /*Minimap defs*/
-# define MINISIZE	900
+# define MINISIZE	200
 # define GridColor	0xdddddd
 # define WallColor	0x999999
 # define BG_Color	0xdddddd
@@ -68,7 +68,5 @@ void	put_minimap(void);
 /*플레이어를 윈도우에 올립니다.*/
 /*put_player to window.*/
 void	put_player(void);
-
-void shoot_ray(void);
 
 #endif

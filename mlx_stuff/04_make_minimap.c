@@ -106,11 +106,12 @@ void	draw_minimap()
 	fill_minimap_grid(square_len);
 	draw_grid_line(square_len, get_max_height(), get_max_length());
 	draw_player(square_len);
-	shoot_ray();
 }
+extern void	draw_test_line(void);
 
 void	make_minimap(void)
 {
 	make_minimap_img();
 	draw_minimap();
+	draw_test_line();
 }
