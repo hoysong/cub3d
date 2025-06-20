@@ -45,9 +45,6 @@ void	draw_player(float sq_len)
 	int		x_end = (player()->x * sq_len) + ratio;
 	int		y_end = (player()->y * sq_len) + ratio;
 
-	printf("Player square size\n");
-	printf("    x: %d,     y: %d\n", x, y);
-	printf("x_end: %d, y_end: %d\n", x_end, y_end);
 	while (y <= y_end)
 	{
 		while (x <= x_end)
@@ -69,5 +66,8 @@ void	player_init(void)
 	player->degree = 0;
 	player->ratio = ((float)get_minimap_ratio() / 3) / 3;
 	get_start_location(&(player->x), &(player->y));
-	printf("player: x=%f, y=%f\n", player->x, player->y);
+	printf("player info\n");
+	printf("├─Location: x=%f, y=%f\n", player->x, player->y);
+	printf("├─Ratio   : %f\n", player->ratio);
+	printf("└─(empty)\n");
 }
