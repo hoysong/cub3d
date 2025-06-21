@@ -9,7 +9,9 @@ typedef struct s_point
 	float y;
 }t_point;
 
-t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float));
+/*리턴타입 t_point는 ray충돌지점을 나타내기 위해 존재합니다.*/
+t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point));
+/*pt를 center 에서 degree만큼 회전합니다.*/
 t_point	rotate_point(t_point center, t_point pt, float degree);
 void	shoot_fov_ray(void);
 

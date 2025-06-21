@@ -1,7 +1,7 @@
-#include "../parser/pars_priv.h"
-#include "./mlx_hdler.h"
-#include "../minilibx-linux/mlx.h"
 #include "./player.h"
+#include "./mlx_hdler.h"
+#include "../parser/pars_priv.h"
+#include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
 
 static int destroy_notify_hook(void *hi)

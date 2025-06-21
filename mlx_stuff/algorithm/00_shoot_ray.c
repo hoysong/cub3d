@@ -4,6 +4,7 @@
 //#include <math.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <float.h>
 
 /*
  * 0. 파라미터는?
@@ -35,6 +36,14 @@
  * 			x 홀, y 홀
  * */
 
+t_point	to_minimap_ratio(t_point point)
+{
+	point.x = MINI_RES(point.x) * get_minimap_ratio();
+	point.y = MINI_RES(point.y) * get_minimap_ratio();
+	return (point);
+}
+
+
 static float	my_abs(float num)
 {
 	if (num < 0)
@@ -42,7 +51,7 @@ static float	my_abs(float num)
 	return (num);
 }
 
-t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
+t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 {
 	t_point	ray;
 	float	dx, dy, step;
@@ -62,7 +71,7 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 
 	while (i <= step)
 	{
-		if (func_ptr(ray.x, ray.y))
+		if (func_ptr(ray))
 			return (ray);
 		ray.x = ray.x + dx;
 		ray.y = ray.y + dy;
@@ -73,48 +82,31 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 	return (ray);
 }
 
-int	ray_routine(float x, float y)
+int	ray_routine(t_point point)
 {
-	//put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
-	//usleep(100);
-	put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
-//	printf("%f | %f\n",  x, y);
-//	printf("%f | %f\n",  x * get_minimap_ratio(), y*get_minimap_ratio());
+	put_pixel_to_img(
+			&(mlx()->minimap),
+			to_minimap_ratio(point).x,
+			to_minimap_ratio(point).y,
+			FOV_COLOR);
 	return (0);
-}
-
-t_point	to_minimap_ratio(t_point point)
-{
-	point.x = MINI_RES(point.x) * get_minimap_ratio();
-	point.y = MINI_RES(point.y) * get_minimap_ratio();
-	return (point);
 }
 
 void	shoot_fov_ray(void)
 {
 	t_point	start;
 	t_point	end;
-
-	start = to_minimap_ratio(player()->cord);
-	end = to_minimap_ratio(player()->view_point);
-
-	int	i = 0;
 	t_point	dest;
+	int		i;
+
+	start = player()->cord;
+	end = player()->view_point;
+
+	i = (Player_FOV / 2) * -1;
 	while (i < 45)
 	{
 		dest = rotate_point(start, end, i);
-		printf("new_line\n");
 		shoot_ray(start, dest, ray_routine);
 		i += RAY_RES;
-	}
-	printf("=================\n");
-	i = 0;
-	while (i > -45)
-	{
-		dest = rotate_point(start, end, i);
-		printf("from %f | %f\n", start.x, start.y);
-		printf("to %f | %f\n", dest.x, dest.y);
-		shoot_ray(start, dest, ray_routine);
-		i-= RAY_RES;
 	}
 }

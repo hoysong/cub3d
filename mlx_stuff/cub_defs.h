@@ -13,6 +13,8 @@
 # define GridColor	0xdddddd
 /*Minimap WallColor.*/
 # define WallColor	0x999999
+/*FOV_COLOR*/
+# define FOV_COLOR	0xff0000
 
 /*size of block.*/
 # define SIZE_OF_BLOCK	10
@@ -29,9 +31,5 @@
 # define STEP_PER_PIXEL	5
 /*Player cordinate to minimap_res*/
 # define MINI_RES(X) X/(float)SIZE_OF_BLOCK
-
-/*example: map[vert][horiz].*/
-/*vert  * SIZE_OF_BLOCK;*/
-/*horiz * SIZE_OF_BLOCK;*/
 
 #endif
