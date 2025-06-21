@@ -55,6 +55,7 @@ char	**gen_map(size_t max_length, size_t max_height)
 	while (i < max_height)
 	{
 		map[i] = ft_calloc(max_length, sizeof(char) + 1);
+		ft_memset(map[i], ' ', max_length);
 		copy_str(map[i], (char *)node->data);
 		node = node->next_node;
 		i++;
