@@ -25,7 +25,7 @@
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		1
 /*Player FOV.*/
-# define Player_FOV		90
+# define Player_FOV		360
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	1
 /*Player's move distance.*/

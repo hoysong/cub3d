@@ -94,10 +94,7 @@ inline int	ray_routine(t_point point)
 			(int)floor(point.y/SIZE_OF_BLOCK));
 
 	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
-	{
-		printf("충돌!\n");
 		return (1);
-	}
 	return (0);
 }
 
