@@ -111,20 +111,9 @@ void	draw_minimap()
 
 /*test functions.*/
 extern void	draw_test_line(void);
-extern void	get_dot(t_point me, t_point vp, float degree);
 
 void	make_minimap(void)
 {
 	make_minimap_img();
 	draw_minimap();
-//	draw_test_line();
-
-	/*test...*/
-	int i = 1;
-
-	while (i < 30)
-	{
-		get_dot(player()->cord, player()->view_point, i);
-		i++;
-	}
 }

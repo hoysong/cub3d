@@ -2,6 +2,15 @@
 #include "./mlx_stuff/mlx_hdler.h"
 #include "./minilibx-linux/mlx.h"
 
+void	draw_test_line(void);
+
+static void	put_frame(void)
+{
+	put_background();
+	put_minimap();
+	draw_test_line();
+}
+
 int	main(int argc, char **argv)
 {
 	pars_init(argc, argv);
@@ -14,8 +23,7 @@ int	main(int argc, char **argv)
 	else
 		pars_cub_file();
 	setup_mlx();
-	put_background();
-	put_minimap();
+	put_frame();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();
 	pars_destroy();

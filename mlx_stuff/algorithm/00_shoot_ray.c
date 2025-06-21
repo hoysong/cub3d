@@ -41,10 +41,10 @@ static float	my_abs(float num)
 	return (num);
 }
 
-void shoot_ray(t_point start, t_point end)
+
+t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 {
-	float	x;
-	float	y;
+	t_point	ray;
 	float	dx, dy, step;
 	int		i;
 
@@ -56,19 +56,28 @@ void shoot_ray(t_point start, t_point end)
 	  step = my_abs(dy);
 	dx = dx / step;
 	dy = dy / step;
-	x = start.x;
-	y = start.y;
+	ray.x = start.x;
+	ray.y = start.y;
 	i = 0;
 
 	while (i <= step)
 	{
-		put_pixel_to_img(&(mlx()->minimap), x, y,0x0000ff);
-		printf("%d %d | ", (int)round(x), (int)round(y));
-		x = x + dx;
-		y = y + dy;
+		if (func_ptr(ray.x, ray.y))
+			return (ray);
+		ray.x = ray.x + dx;
+		ray.y = ray.y + dy;
 		i = i + 1;
 	}
-	printf("\n");
+	ray.x = 0;
+	ray.y = 0;
+	return (ray);
+}
+
+int	ray_routine(float x, float y)
+{
+//	printf("%f | %f\n", x, y);
+	put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
+	return (0);
 }
 
 void	draw_test_line(void)
@@ -81,5 +90,5 @@ void	draw_test_line(void)
 
 	end.x = 1;
 	end.y = 1;
-	shoot_ray(start, end);
+	shoot_ray(start, end, ray_routine);
 }
