@@ -25,7 +25,7 @@ void	get_dot(t_point me, t_point vp, float degree)
 	//put_pixel_to_img(&(mlx()->minimap), new.x * (float)get_minimap_ratio(), new.y * (float)get_minimap_ratio(), 0xff0000);
 	//
 	printf("%f %f\n", vp.x, vp.y);
-	degree = (degree - 90) * (Pie/180);
+	degree = (degree) * (Pie/180);
 	new.x = ((vp.y - me.y)*(float)cos(degree) - (vp.x - me.x)*(float)sin(degree)) + me.x;
 	new.y = ((vp.y - me.y)*(float)sin(degree) + (vp.x - me.x)*(float)cos(degree)) + me.y;
 	printf("degree:%f | vp: x: %f, y: %f\n", degree, new.x, new.y);
