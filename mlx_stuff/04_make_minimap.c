@@ -122,10 +122,18 @@ void	make_minimap(void)
 	/*test...*/
 	int i = 1;
 
-	while (i < 5)
+	while (i < 45)
 	{
 		get_dot(player()->cord, player()->view_point, i);
 		i++;
+	}
+
+	i = 1;
+
+	while (i > -45)
+	{
+		get_dot(player()->cord, player()->view_point, i);
+		i--;
 	}
 
 }
