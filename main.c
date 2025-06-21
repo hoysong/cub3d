@@ -7,8 +7,8 @@ void	draw_test_line(void);
 static void	put_frame(void)
 {
 	put_background();
-	put_minimap();
 	draw_test_line();
+	put_minimap();
 }
 
 int	main(int argc, char **argv)

@@ -1,7 +1,8 @@
 #include "./my_algorithm.h"
 #include "../player.h"
 #include "../mlx_hdler.h"
-#include <math.h>
+//#include <math.h>
+#include <unistd.h>
 #include <stdio.h>
 
 /*
@@ -75,7 +76,11 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 
 int	ray_routine(float x, float y)
 {
-	put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
+	//put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
+	//usleep(100);
+	put_pixel_to_img(&(mlx()->minimap), x * get_minimap_ratio(), y*get_minimap_ratio(), 0xff0000);
+//	printf("%f | %f\n",  x, y);
+//	printf("%f | %f\n",  x * get_minimap_ratio(), y*get_minimap_ratio());
 	return (0);
 }
 
@@ -86,23 +91,30 @@ void	draw_test_line(void)
 	t_point	start;
 	t_point	end;
 
-	start.x = player()->cord.x * get_minimap_ratio();
-	start.y = player()->cord.y * get_minimap_ratio();
-	end.x = player()->view_point.x * get_minimap_ratio();
-	end.y = player()->view_point.y * get_minimap_ratio();
+	//start.x = player()->cord.x * get_minimap_ratio();
+	//start.y = player()->cord.y * get_minimap_ratio();
+	//end.x = player()->view_point.x * get_minimap_ratio();
+	//end.y = player()->view_point.y * get_minimap_ratio();
+	start = player()->cord;
+	end = player()->view_point;
+	printf("minimap ratio: %ld\n", get_minimap_ratio());
 
 	int	i = 0;
 	t_point	dest;
 	while (i < 45)
 	{
 		dest = rotate_point(start, end, i);
+		printf("new_line\n");
 		shoot_ray(start, dest, ray_routine);
 		i++;
 	}
+	printf("=================\n");
 	i = 0;
 	while (i > -45)
 	{
 		dest = rotate_point(start, end, i);
+		printf("from %f | %f\n", start.x, start.y);
+		printf("to %f | %f\n", dest.x, dest.y);
 		shoot_ray(start, dest, ray_routine);
 		i--;
 	}
