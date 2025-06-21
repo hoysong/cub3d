@@ -106,7 +106,7 @@ void	shoot_fov_ray(void)
 	end = player()->view_point;
 
 	degree = (Player_FOV / 2) * -1;
-	while (degree < 45)
+	while (degree < Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
 		shoot_ray(start, dest, ray_routine);
