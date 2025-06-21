@@ -14,11 +14,19 @@
 /*Minimap WallColor.*/
 # define WallColor	0x999999
 
+/*플레이어의 가시반경.*/
+# define VIEW_DIST		3
+/*레이캐스팅 광선 투사 각도(해상도).*/
+# define RAY_RES		3
 /*Player FOV.*/
-# define Player_FOV	90
-/*플레이어의 가시반경*/
-# define VIS_RADIUS	3
-/*레이캐스팅 투사 각도.*/
-# define RAY_RES	3
+# define Player_FOV		90
+/*Player's move distance.*/
+# define STEP_PER_PIXEL	10
+
+/*size of wall.*/
+/*example: map[vert][horiz].*/
+/*vert  * SIZE_OF_WALL;*/
+/*horiz * SIZE_OF_WALL;*/
+# define SIZE_OF_WALL	10
 
 #endif

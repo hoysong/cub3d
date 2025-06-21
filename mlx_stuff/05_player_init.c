@@ -37,15 +37,15 @@ static void	get_start_location(float *fx, float *fy)
 	*fx = ((float)x) + 0.5f;
 	*fy = ((float)y) + 0.5f;
 	if (map[y][x] == 'N')
-		player()->view_point.y = *fy - (float)VIS_RADIUS;
+		player()->view_point.y = *fy - (float)VIEW_DIST;
 	else if (map[y][x] == 'S')
-		player()->view_point.y = *fy + (float)VIS_RADIUS;
+		player()->view_point.y = *fy + (float)VIEW_DIST;
 	else
 		player()->view_point.y = *fy;
 	if (map[y][x] == 'W')
-		player()->view_point.x = *fx - (float)VIS_RADIUS;
+		player()->view_point.x = *fx - (float)VIEW_DIST;
 	else if (map[y][x] == 'E')
-		player()->view_point.x = *fx + (float)VIS_RADIUS;
+		player()->view_point.x = *fx + (float)VIEW_DIST;
 	else
 		player()->view_point.x = *fx;
 }

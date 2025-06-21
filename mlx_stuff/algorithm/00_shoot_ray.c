@@ -106,7 +106,7 @@ void	draw_test_line(void)
 		dest = rotate_point(start, end, i);
 		printf("new_line\n");
 		shoot_ray(start, dest, ray_routine);
-		i++;
+		i += RAY_RES;
 	}
 	printf("=================\n");
 	i = 0;
@@ -116,6 +116,6 @@ void	draw_test_line(void)
 		printf("from %f | %f\n", start.x, start.y);
 		printf("to %f | %f\n", dest.x, dest.y);
 		shoot_ray(start, dest, ray_routine);
-		i--;
+		i-= RAY_RES;
 	}
 }
