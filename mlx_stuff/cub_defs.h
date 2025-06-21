@@ -14,8 +14,11 @@
 /*Minimap WallColor.*/
 # define WallColor	0x999999
 
+/*size of block.*/
+# define SIZE_OF_BLOCK	10
+
 /*플레이어의 가시반경.*/
-# define VIEW_DIST		3
+# define VIEW_DIST		SIZE_OF_BLOCK * 3
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		3
 /*Player FOV.*/
@@ -24,11 +27,11 @@
 # define CAM_ROTATE_ANGLE	1
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
+/*Player cordinate to minimap_res*/
+# define MINI_RES(X) X/(float)SIZE_OF_BLOCK
 
-/*size of wall.*/
 /*example: map[vert][horiz].*/
-/*vert  * SIZE_OF_WALL;*/
-/*horiz * SIZE_OF_WALL;*/
-# define SIZE_OF_WALL	10
+/*vert  * SIZE_OF_BLOCK;*/
+/*horiz * SIZE_OF_BLOCK;*/
 
 #endif

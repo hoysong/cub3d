@@ -34,8 +34,8 @@ static void	get_start_location(float *fx, float *fy)
 		x = 0;
 		y++;
 	}
-	*fx = ((float)x) + 0.5f;
-	*fy = ((float)y) + 0.5f;
+	*fx = ((float)x) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
+	*fy = ((float)y) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	if (map[y][x] == 'N')
 		player()->view_point.y = *fy - (float)VIEW_DIST;
 	else if (map[y][x] == 'S')
@@ -53,10 +53,10 @@ static void	get_start_location(float *fx, float *fy)
 void	draw_player(float sq_len)
 {
 	float	ratio = player()->ratio;
-	int		x = (player()->cord.x * sq_len) - ratio;
-	int		y = (player()->cord.y * sq_len) - ratio;
-	int		x_end = (player()->cord.x * sq_len) + ratio;
-	int		y_end = (player()->cord.y * sq_len) + ratio;
+	int		x = (MINI_RES(player()->cord.x) * sq_len) - ratio;
+	int		y = (MINI_RES(player()->cord.y) * sq_len) - ratio;
+	int		x_end = (MINI_RES(player()->cord.x) * sq_len) + ratio;
+	int		y_end = (MINI_RES(player()->cord.y) * sq_len) + ratio;
 
 	while (y <= y_end)
 	{
@@ -65,7 +65,7 @@ void	draw_player(float sq_len)
 			put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 			x++;
 		}
-		x = (player()->cord.x * sq_len) - ratio;
+		x = ((player()->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
 		y++;
 	}
 }

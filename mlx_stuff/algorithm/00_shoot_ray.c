@@ -91,12 +91,10 @@ void	draw_test_line(void)
 	t_point	start;
 	t_point	end;
 
-	start.x = player()->cord.x * get_minimap_ratio();
-	start.y = player()->cord.y * get_minimap_ratio();
-	end.x = player()->view_point.x * get_minimap_ratio();
-	end.y = player()->view_point.y * get_minimap_ratio();
-	//start = player()->cord;
-	//end = player()->view_point;
+	start.x = MINI_RES(player()->cord.x) * get_minimap_ratio();
+	start.y = MINI_RES(player()->cord.y) * get_minimap_ratio();
+	end.x = MINI_RES(player()->view_point.x) * get_minimap_ratio();
+	end.y = MINI_RES(player()->view_point.y) * get_minimap_ratio();
 	printf("minimap ratio: %ld\n", get_minimap_ratio());
 
 	int	i = 0;

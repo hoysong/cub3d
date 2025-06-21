@@ -2,8 +2,6 @@
 #include "../parser/pars_priv.h"
 #include "../parser/pars_pub.h"
 #include "../minilibx-linux/mlx.h"
-//#include "./player.h"
-//#include "./algorithm/my_algorithm.h"
 
 extern int	rgb_to_int(t_rgb rgb);
 
