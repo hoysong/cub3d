@@ -3,7 +3,7 @@
 #include "../parser/pars_pub.h"
 #include "../minilibx-linux/mlx.h"
 #include "./player.h"
-#include "./line_algorithm/my_algorithm.h"
+#include "./algorithm/my_algorithm.h"
 
 extern int	rgb_to_int(t_rgb rgb);
 
@@ -117,12 +117,12 @@ void	make_minimap(void)
 {
 	make_minimap_img();
 	draw_minimap();
-	draw_test_line();
+//	draw_test_line();
 
 	/*test...*/
-	int i = 0;
+	int i = 1;
 
-	while (i < 1200)
+	while (i < 5)
 	{
 		get_dot(player()->cord, player()->view_point, i);
 		i++;

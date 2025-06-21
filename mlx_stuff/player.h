@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 # define PLAYER_H
 # define Player_FOV	90
-# include "./line_algorithm/my_algorithm.h"
+# include "./algorithm/my_algorithm.h"
 //# include "./mlx_hdler.h"
 
 typedef struct s_player
