@@ -20,8 +20,10 @@
 # define RAY_RES		3
 /*Player FOV.*/
 # define Player_FOV		90
+/*Player Angle per tick.*/
+# define CAM_ROTATE_ANGLE	1
 /*Player's move distance.*/
-# define STEP_PER_PIXEL	10
+# define STEP_PER_PIXEL	5
 
 /*size of wall.*/
 /*example: map[vert][horiz].*/
