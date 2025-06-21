@@ -1,7 +1,6 @@
 #include "./my_algorithm.h"
 #include "../player.h"
 #include "../mlx_hdler.h"
-//#include <math.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <float.h>
@@ -36,7 +35,7 @@
  * 			x 홀, y 홀
  * */
 
-t_point	to_minimap_ratio(t_point point)
+inline t_point	to_minimap_ratio(t_point point)
 {
 	point.x = MINI_RES(point.x) * get_minimap_ratio();
 	point.y = MINI_RES(point.y) * get_minimap_ratio();
@@ -97,16 +96,16 @@ void	shoot_fov_ray(void)
 	t_point	start;
 	t_point	end;
 	t_point	dest;
-	int		i;
+	int		degree;
 
 	start = player()->cord;
 	end = player()->view_point;
 
-	i = (Player_FOV / 2) * -1;
-	while (i < 45)
+	degree = (Player_FOV / 2) * -1;
+	while (degree < 45)
 	{
-		dest = rotate_point(start, end, i);
+		dest = rotate_point(start, end, degree);
 		shoot_ray(start, dest, ray_routine);
-		i += RAY_RES;
+		degree += RAY_RES;
 	}
 }

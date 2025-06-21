@@ -13,6 +13,9 @@ typedef struct s_point
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point));
 /*pt를 center 에서 degree만큼 회전합니다.*/
 t_point	rotate_point(t_point center, t_point pt, float degree);
+/*플레이어의 FOV 각도만큼 부채꼴로 ray를 방사합니다.*/
 void	shoot_fov_ray(void);
+/*가상의 맵을 위해 게산되던 포인트를 minimap의 좌표 비율로 변환합니다.*/
+t_point	to_minimap_ratio(t_point point);
 
 #endif
