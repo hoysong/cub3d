@@ -1,7 +1,9 @@
 #include "./my_algorithm.h"
 #include "../player.h"
 #include "../mlx_hdler.h"
+#include "../../parser/pars_pub.h"
 #include <unistd.h>
+#include <math.h>
 #include <stdio.h>
 #include <float.h>
 
@@ -42,7 +44,6 @@ inline t_point	to_minimap_ratio(t_point point)
 	return (point);
 }
 
-
 static float	my_abs(float num)
 {
 	if (num < 0)
@@ -76,18 +77,21 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 		ray.y = ray.y + dy;
 		i = i + 1;
 	}
-	ray.x = 0;
-	ray.y = 0;
+	ray.x = -1;
+	ray.y = -1;
 	return (ray);
 }
 
-int	ray_routine(t_point point)
+inline int	ray_routine(t_point point)
 {
 	put_pixel_to_img(
 			&(mlx()->minimap),
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
+	printf("%d | %d\n", (int)floor(point.y/SIZE_OF_BLOCK),(int)floor(point.x/SIZE_OF_BLOCK));
+	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
+		return (1);
 	return (0);
 }
 

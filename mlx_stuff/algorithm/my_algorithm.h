@@ -9,8 +9,12 @@ typedef struct s_point
 	float y;
 }t_point;
 
+/*ray를 투사합니다.*/
 /*리턴타입 t_point는 ray충돌지점을 나타내기 위해 존재합니다.*/
+/*충돌지점이 감지되면 -1,-1이 아닌 t_point값을 리턴합니다.*/
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point));
+/*ray가 투사되며 step당 실행할 루틴입니다.*/
+int	ray_routine(t_point point);
 /*pt를 center 에서 degree만큼 회전합니다.*/
 t_point	rotate_point(t_point center, t_point pt, float degree);
 /*플레이어의 FOV 각도만큼 부채꼴로 ray를 방사합니다.*/

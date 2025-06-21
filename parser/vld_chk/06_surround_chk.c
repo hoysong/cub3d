@@ -1,7 +1,6 @@
 #include "../pars_priv.h"
 
-//inline
-int	is_player(char c)
+inline int	is_player(char c)
 {
 	if (c == 'N'
 		|| c == 'S'
