@@ -1,13 +1,6 @@
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
-# define WIN_WIDTH	900
-# define WIN_HEIGHT	900
-/*Minimap defs*/
-# define MINISIZE	900
-# define GridColor	0xdddddd
-# define WallColor	0x999999
-# define BG_Color	0xdddddd
-
+# include "./cub_defs.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <stddef.h>

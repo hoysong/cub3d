@@ -1,9 +1,6 @@
 #ifndef MY_ALGORITHM
 # define MY_ALGORITHM
-/*플레이어의 가시반경*/
-# define VIS_RADIUS	2
-/*레이캐스팅 시 해상각도.*/
-# define RAY_RES	3
+# include "../cub_defs.h"
 
 typedef struct s_point
 {

@@ -1,6 +1,5 @@
 #include "./mlx_hdler.h"
 #include "../minilibx-linux/mlx.h"
-//#include "./player.h"
 
 inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 {
@@ -19,8 +18,3 @@ inline void	put_minimap(void)
 {
 	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->minimap.img_ptr, 0, 0);
 }
-
-//inline void	put_player(void)
-//{
-//	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, player()->img.img_ptr, 0, 0);
-//}

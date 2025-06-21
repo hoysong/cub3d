@@ -78,7 +78,7 @@ int	ray_routine(float x, float y)
 {
 	//put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 	//usleep(100);
-	put_pixel_to_img(&(mlx()->minimap), x * get_minimap_ratio(), y*get_minimap_ratio(), 0xff0000);
+	put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 //	printf("%f | %f\n",  x, y);
 //	printf("%f | %f\n",  x * get_minimap_ratio(), y*get_minimap_ratio());
 	return (0);
@@ -91,12 +91,12 @@ void	draw_test_line(void)
 	t_point	start;
 	t_point	end;
 
-	//start.x = player()->cord.x * get_minimap_ratio();
-	//start.y = player()->cord.y * get_minimap_ratio();
-	//end.x = player()->view_point.x * get_minimap_ratio();
-	//end.y = player()->view_point.y * get_minimap_ratio();
-	start = player()->cord;
-	end = player()->view_point;
+	start.x = player()->cord.x * get_minimap_ratio();
+	start.y = player()->cord.y * get_minimap_ratio();
+	end.x = player()->view_point.x * get_minimap_ratio();
+	end.y = player()->view_point.y * get_minimap_ratio();
+	//start = player()->cord;
+	//end = player()->view_point;
 	printf("minimap ratio: %ld\n", get_minimap_ratio());
 
 	int	i = 0;
