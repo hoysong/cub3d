@@ -89,9 +89,15 @@ inline int	ray_routine(t_point point)
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
-	printf("%d | %d\n", (int)floor(point.y/SIZE_OF_BLOCK),(int)floor(point.x/SIZE_OF_BLOCK));
+	printf("x:%d | y:%d\n",
+			(int)floor(point.x/SIZE_OF_BLOCK),
+			(int)floor(point.y/SIZE_OF_BLOCK));
+
 	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
+	{
+		printf("충돌!\n");
 		return (1);
+	}
 	return (0);
 }
 
