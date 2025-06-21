@@ -20,7 +20,7 @@
 /*플레이어의 가시반경.*/
 # define VIEW_DIST		SIZE_OF_BLOCK * 3
 /*레이캐스팅 광선 투사 각도(해상도).*/
-# define RAY_RES		3
+# define RAY_RES		1
 /*Player FOV.*/
 # define Player_FOV		90
 /*Player Angle per tick.*/

@@ -42,7 +42,6 @@ static float	my_abs(float num)
 	return (num);
 }
 
-
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 {
 	t_point	ray;
@@ -84,18 +83,20 @@ int	ray_routine(float x, float y)
 	return (0);
 }
 
-t_point	rotate_point(t_point center, t_point pt, float degree);
+t_point	to_minimap_ratio(t_point point)
+{
+	point.x = MINI_RES(point.x) * get_minimap_ratio();
+	point.y = MINI_RES(point.y) * get_minimap_ratio();
+	return (point);
+}
 
-void	draw_test_line(void)
+void	shoot_fov_ray(void)
 {
 	t_point	start;
 	t_point	end;
 
-	start.x = MINI_RES(player()->cord.x) * get_minimap_ratio();
-	start.y = MINI_RES(player()->cord.y) * get_minimap_ratio();
-	end.x = MINI_RES(player()->view_point.x) * get_minimap_ratio();
-	end.y = MINI_RES(player()->view_point.y) * get_minimap_ratio();
-	printf("minimap ratio: %ld\n", get_minimap_ratio());
+	start = to_minimap_ratio(player()->cord);
+	end = to_minimap_ratio(player()->view_point);
 
 	int	i = 0;
 	t_point	dest;

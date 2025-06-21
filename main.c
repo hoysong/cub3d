@@ -1,13 +1,12 @@
 #include "./parser/pars_pub.h"
 #include "./mlx_stuff/mlx_hdler.h"
 #include "./minilibx-linux/mlx.h"
-
-void	draw_test_line(void);
+#include "./mlx_stuff/algorithm/my_algorithm.h"
 
 static void	put_frame(void)
 {
 	put_background();
-	draw_test_line();
+	shoot_fov_ray();
 	put_minimap();
 }
 

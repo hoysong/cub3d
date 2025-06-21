@@ -1,9 +1,5 @@
 #include "./my_algorithm.h"
-//#include "../player.h"
-//#include "../mlx_hdler.h"
 #include <math.h>
-//#include <stdio.h>
-# define Pie 3.141592653589793
 
 /*center is such as player.*/
 /*pt(point) is such as view_point from player.*/
