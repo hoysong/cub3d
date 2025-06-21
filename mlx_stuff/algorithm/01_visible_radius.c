@@ -12,7 +12,7 @@ t_point	rotate_point(t_point center, t_point pt, float degree)
 	t_point	new;
 
 	degree = (degree) * (Pie/180);
-	new.x = ((pt.y - center.y)*(float)cos(degree) - (pt.x - center.x)*(float)sin(degree)) + center.x;
-	new.y = ((pt.y - center.y)*(float)sin(degree) + (pt.x - center.x)*(float)cos(degree)) + center.y;
+	new.x = ((pt.x - center.x)*(float)cos(degree) - (pt.y - center.y)*(float)sin(degree)) + center.x;
+	new.y = ((pt.x - center.x)*(float)sin(degree) + (pt.y - center.y)*(float)cos(degree)) + center.y;
 	return (new);
 }

@@ -37,18 +37,17 @@ static void	get_start_location(float *fx, float *fy)
 	*fx = ((float)x) + 0.5f;
 	*fy = ((float)y) + 0.5f;
 	if (map[y][x] == 'N')
-		player()->view_point.x = *fx - (float)RAY_RES;
-	else if (map[y][x] == 'S')
-		player()->view_point.x = *fx + (float)RAY_RES;
-	else
-		player()->view_point.x = *fx;
-	if (map[y][x] == 'W')
 		player()->view_point.y = *fy - (float)RAY_RES;
-	else if (map[y][x] == 'E')
+	else if (map[y][x] == 'S')
 		player()->view_point.y = *fy + (float)RAY_RES;
 	else
 		player()->view_point.y = *fy;
-	printf("├─view_point : x=%f, y=%f\n", player()->view_point.x, player()->view_point.y);
+	if (map[y][x] == 'W')
+		player()->view_point.x = *fx - (float)RAY_RES;
+	else if (map[y][x] == 'E')
+		player()->view_point.x = *fx + (float)RAY_RES;
+	else
+		player()->view_point.x = *fx;
 }
 
 void	draw_player(float sq_len)

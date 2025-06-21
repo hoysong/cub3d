@@ -75,10 +75,11 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(float, float))
 
 int	ray_routine(float x, float y)
 {
-//	printf("%f | %f\n", x, y);
 	put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
 	return (0);
 }
+
+t_point	rotate_point(t_point center, t_point pt, float degree);
 
 void	draw_test_line(void)
 {
@@ -87,8 +88,22 @@ void	draw_test_line(void)
 
 	start.x = player()->cord.x * get_minimap_ratio();
 	start.y = player()->cord.y * get_minimap_ratio();
+	end.x = player()->view_point.x * get_minimap_ratio();
+	end.y = player()->view_point.y * get_minimap_ratio();
 
-	end.x = 1;
-	end.y = 1;
-	shoot_ray(start, end, ray_routine);
+	int	i = 0;
+	t_point	dest;
+	while (i < 45)
+	{
+		dest = rotate_point(start, end, i);
+		shoot_ray(start, dest, ray_routine);
+		i++;
+	}
+	i = 0;
+	while (i > -45)
+	{
+		dest = rotate_point(start, end, i);
+		shoot_ray(start, dest, ray_routine);
+		i--;
+	}
 }
