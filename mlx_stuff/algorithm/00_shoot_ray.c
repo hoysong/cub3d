@@ -5,11 +5,6 @@
 #include <math.h>
 #include "../mlx_hdler.h"
 #include <stdio.h>
-/*
- * 1.99 / 1 = 1
- * + 0.01
- * 2.00 / 1 = 2
- */
 
 inline t_point	to_minimap_ratio(t_point point)
 {
@@ -55,60 +50,6 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 	return (ray);
 }
 
-# define NORTH 0xffff00
-# define SOUTH 0x00ffff
-# define WEST 0x00ff00
-# define EAST 0x0000ff
-# define UNKNOWN 0xffffff
-
-static void ray_from_where(t_point point, t_point d)
-{
-	/*invert sign.*/
-	d.x *= -1;
-	d.y *= -1;
-	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
-		printf("west?==========================================\n");
-	else if ((int)floor(TO_INDEX(point.x + d.x)) > (int)floor(TO_INDEX(point.x)))
-		printf("east?==========================================\n");
-	if ((int)floor(TO_INDEX(point.y + d.y)) < (int)floor(TO_INDEX(point.y)))
-		printf("north?==========================================\n");
-	else if ((int)floor(TO_INDEX(point.y + d.y)) > (int)floor(TO_INDEX(point.y)))
-		printf("south?==========================================\n");
-}
-
-inline int	ray_routine(t_point point, t_point d)
-{
-	int		wall_tex = UNKNOWN;
-	t_point	floor_pt;
-
-	floor_pt.x = (int)floor(point.x);
-	floor_pt.y = (int)floor(point.y);
-
-	put_pixel_to_img(
-			&(mlx()->minimap),
-			to_minimap_ratio(point).x,
-			to_minimap_ratio(point).y,
-			FOV_COLOR);
-	if (get_map()
-			[(int)TO_INDEX(floor_pt.y)]
-			[(int)TO_INDEX(floor_pt.x)] == '1')
-	{
-		ray_from_where(point, d);
-		return (1);
-	}
-	return (0);
-}
-
-/*필요 없을수도?*/
-/*어차피 ray_routine에서 다 핸들링 됨.*/
-void	ray_cast(t_point point)
-{
-	if (point.x < 0)
-		return;
-//	printf("충돌!\n");
-	return;
-}
-
 void	shoot_fov_ray(void)
 {
 	t_point	start;
@@ -123,7 +64,7 @@ void	shoot_fov_ray(void)
 	while (degree <= Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
-		ray_cast(shoot_ray(start, dest, ray_routine));
+		shoot_ray(start, dest, ray_routine);
 		degree += RAY_RES;
 	}
 }
