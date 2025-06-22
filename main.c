@@ -3,28 +3,33 @@
 #include "./minilibx-linux/mlx.h"
 #include "./mlx_stuff/algorithm/my_algorithm.h"
 
+int	get_xpm_pixel_color(t_img xpm, t_point pixel)
+{
+	return(((int *)xpm.data_addr)
+			[ (((int)pixel.y * xpm.size_line)/4) +
+			(((int)pixel.x * xpm.bits_per_pixel)/32) ]);
+}
+
 static void	try_put_xpm(void)
 {
 	t_img	img = mlx()->xpm_north;
-	int	vert = 0;
-	int	horiz = 0;
+	t_point	point;
 
-	while (vert < img.xpm_height)
+	point.x = 0;
+	point.y = 0;
+	while (point.y < img.xpm_height)
 	{
-		while (horiz < img.xpm_width)
+		while (point.x < img.xpm_width)
 		{
 			put_pixel_to_img(
 					&(mlx()->background),
-					horiz,
-					vert,
-					((unsigned int *)img.data_addr)
-					[
-					((vert * img.size_line)/4) + ((horiz * img.bits_per_pixel)/32)
-					]);
-			horiz++;
+					point.x, point.y,
+					get_xpm_pixel_color(img, point)
+					);
+			point.x++;
 		}
-		horiz = 0;
-		vert++;
+		point.x = 0;
+		point.y++;
 	}
 }
 
@@ -32,12 +37,6 @@ static void	put_frame(void)
 {
 	try_put_xpm();
 	put_background();
-	//mlx_put_image_to_window(
-	//		mlx()->mlx_ptr,
-	//		mlx()->mlx_window,
-	//		mlx()->xpm_north.img_ptr,
-	//		0,
-	//		0);
 //	shoot_fov_ray();
 //	put_minimap();
 }
