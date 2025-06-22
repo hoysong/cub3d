@@ -3,6 +3,7 @@
 #include "../mlx_hdler.h"
 #include "../../parser/pars_pub.h"
 #include <math.h>
+#include "../mlx_hdler.h"
 #include <stdio.h>
 
 inline t_point	to_minimap_ratio(t_point point)
@@ -57,7 +58,10 @@ inline int	ray_routine(t_point point)
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
 	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
+	{
+		/*충돌함.*/
 		return (1);
+	}
 	return (0);
 }
 

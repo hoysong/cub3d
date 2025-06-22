@@ -3,8 +3,13 @@
 #include "./minilibx-linux/mlx.h"
 #include "./mlx_stuff/algorithm/my_algorithm.h"
 
+static void	my_put_image()
+{
+}
+
 static void	put_frame(void)
 {
+	my_put_image();
 	put_background();
 	shoot_fov_ray();
 	put_minimap();
