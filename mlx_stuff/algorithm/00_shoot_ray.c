@@ -20,6 +20,14 @@ static float	my_abs(float num)
 	return (num);
 }
 
+/*
+ * x또는 y가 증/감 됨으로써로 구분하면 됨.
+ * x가 감소되어 인덱스에 도달했다 = 오른쪽에서 바라봄.
+ * x가 증가하며 인덱스에 도달했다 = 왼쪽에서 바라봄.
+ * y가 감소되며 인덱스에 도달했다 = 아래에서 바라봄.
+ * y가 증가되며 인덱스에 도달했다 = 위에서 바라봄.
+ */
+
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 {
 	t_point	ray;
@@ -37,6 +45,7 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 	d.y = d.y / step;
 	ray = start;
 	i = 0;
+	printf("dx=%f dy=%f\n", d.x, d.y);
 	while (i <= step)
 	{
 		if (func_ptr(ray))
@@ -50,16 +59,46 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 	return (ray);
 }
 
+# define NORTH 0xffff00
+# define SOUTH 0x00ffff
+# define WEST 0x00ff00
+# define EAST 0x0000ff
+# define UNKNOWN 0xffffff
+
 inline int	ray_routine(t_point point)
 {
+	int		wall_tex = UNKNOWN;
+
 	put_pixel_to_img(
 			&(mlx()->minimap),
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
-	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
+	printf(
+			"RAY: x=%f , y=%f | index: %d, %d\n",
+			point.x,
+			point.y,
+			(int)floor(point.x/SIZE_OF_BLOCK),
+			(int)floor(point.y/SIZE_OF_BLOCK)
+			);
+	if (get_map()
+			[(int)floor(point.y/SIZE_OF_BLOCK)]
+			[(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
 	{
 		/*충돌함.*/
+		printf("충돌: x=%f y=%f\n",
+				point.x,
+				point.y);
+		printf("floor: x=%d y=%d\n",
+				(int)floor(point.x),
+				(int)floor(point.y));
+		printf("index: x=%d y=%d\n",
+				(int)floor(point.x/SIZE_OF_BLOCK),
+				(int)floor(point.y/SIZE_OF_BLOCK));
+		/*index를 벽으로 다시 치환.*/
+		int	wallx = (int)trunc(point.x/SIZE_OF_BLOCK)*SIZE_OF_BLOCK;;
+		int	wally = (int)trunc(point.y/SIZE_OF_BLOCK)*SIZE_OF_BLOCK;;
+		printf("%d %d\n", wallx, wally);
 		return (1);
 	}
 	return (0);

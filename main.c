@@ -37,8 +37,8 @@ static void	put_frame(void)
 {
 	try_put_xpm();
 	put_background();
-//	shoot_fov_ray();
-//	put_minimap();
+	shoot_fov_ray();
+	put_minimap();
 }
 
 int	main(int argc, char **argv)
