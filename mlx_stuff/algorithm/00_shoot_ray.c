@@ -73,7 +73,6 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 static void ray_from_where(t_point point, t_point d)
 {
 	/*invert sign.*/
-
 	d.x *= -1;
 	d.y *= -1;
 	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
@@ -148,7 +147,7 @@ void	shoot_fov_ray(void)
 	end = player()->view_point;
 
 	degree = (Player_FOV / 2) * -1;
-	while (degree < Player_FOV / 2)
+	while (degree <= Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
 		ray_cast(shoot_ray(start, dest, ray_routine));
