@@ -23,16 +23,17 @@
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
 # define VIEW_DIST		SIZE_OF_BLOCK * 4
 /*레이캐스팅 광선 투사 각도(해상도).*/
-# define RAY_RES		1
+# define RAY_RES		3
 # define DEPTH			3
 
 /*Player FOV.*/
-# define Player_FOV		30
+# define Player_FOV		90
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	1
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
 /*Convert Player cordinate to minimap_res*/
 # define MINI_RES(X) X/(float)SIZE_OF_BLOCK
+# define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
 
 #endif

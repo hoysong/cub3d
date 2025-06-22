@@ -5,6 +5,11 @@
 #include <math.h>
 #include "../mlx_hdler.h"
 #include <stdio.h>
+/*
+ * 1.99 / 1 = 1
+ * + 0.01
+ * 2.00 / 1 = 2
+ */
 
 inline t_point	to_minimap_ratio(t_point point)
 {
@@ -28,7 +33,7 @@ static float	my_abs(float num)
  * y가 증가되며 인덱스에 도달했다 = 위에서 바라봄.
  */
 
-t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
+t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 {
 	t_point	ray;
 	t_point	d;
@@ -48,7 +53,7 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 	printf("dx=%f dy=%f\n", d.x, d.y);
 	while (i <= step)
 	{
-		if (func_ptr(ray))
+		if (func_ptr(ray, d))
 			return (ray);
 		ray.x = ray.x + d.x;
 		ray.y = ray.y + d.y;
@@ -65,9 +70,29 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 # define EAST 0x0000ff
 # define UNKNOWN 0xffffff
 
-inline int	ray_routine(t_point point)
+static void ray_from_where(t_point point, t_point d)
+{
+	/*invert sign.*/
+
+	d.x *= -1;
+	d.y *= -1;
+	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
+		printf("west?==========================================\n");
+	else if ((int)floor(TO_INDEX(point.x + d.x)) > (int)floor(TO_INDEX(point.x)))
+		printf("east?==========================================\n");
+	if ((int)floor(TO_INDEX(point.y + d.y)) < (int)floor(TO_INDEX(point.y)))
+		printf("north?==========================================\n");
+	else if ((int)floor(TO_INDEX(point.y + d.y)) > (int)floor(TO_INDEX(point.y)))
+		printf("south?==========================================\n");
+}
+
+inline int	ray_routine(t_point point, t_point d)
 {
 	int		wall_tex = UNKNOWN;
+	t_point	floor_pt;
+
+	floor_pt.x = (int)floor(point.x);
+	floor_pt.y = (int)floor(point.y);
 
 	put_pixel_to_img(
 			&(mlx()->minimap),
@@ -78,27 +103,25 @@ inline int	ray_routine(t_point point)
 			"RAY: x=%f , y=%f | index: %d, %d\n",
 			point.x,
 			point.y,
-			(int)floor(point.x/SIZE_OF_BLOCK),
-			(int)floor(point.y/SIZE_OF_BLOCK)
+			(int)floor(TO_INDEX(point.x)),
+			(int)floor(TO_INDEX(point.y))
 			);
 	if (get_map()
-			[(int)floor(point.y/SIZE_OF_BLOCK)]
-			[(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
+			[(int)TO_INDEX(floor_pt.y)]
+			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
 		/*충돌함.*/
-		printf("충돌: x=%f y=%f\n",
-				point.x,
-				point.y);
-		printf("floor: x=%d y=%d\n",
-				(int)floor(point.x),
-				(int)floor(point.y));
-		printf("index: x=%d y=%d\n",
-				(int)floor(point.x/SIZE_OF_BLOCK),
-				(int)floor(point.y/SIZE_OF_BLOCK));
-		/*index를 벽으로 다시 치환.*/
-		int	wallx = (int)trunc(point.x/SIZE_OF_BLOCK)*SIZE_OF_BLOCK;;
-		int	wally = (int)trunc(point.y/SIZE_OF_BLOCK)*SIZE_OF_BLOCK;;
-		printf("%d %d\n", wallx, wally);
+					printf("충돌: x=%f y=%f\n",
+							point.x,
+							point.y);
+					printf("floor: x=%d y=%d\n",
+							(int)floor(point.x),
+							(int)floor(point.y));
+					printf("index: x=%d y=%d\n",
+							(int)floor(point.x/SIZE_OF_BLOCK),
+							(int)floor(point.y/SIZE_OF_BLOCK));
+		printf("\n");
+		ray_from_where(point, d);
 		return (1);
 	}
 	return (0);
