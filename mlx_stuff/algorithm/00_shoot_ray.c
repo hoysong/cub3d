@@ -61,6 +61,14 @@ inline int	ray_routine(t_point point)
 	return (0);
 }
 
+void	ray_cast(t_point point)
+{
+	if (point.x < 0)
+		return;
+	printf("충돌!\n");
+	return;
+}
+
 void	shoot_fov_ray(void)
 {
 	t_point	start;
@@ -75,7 +83,7 @@ void	shoot_fov_ray(void)
 	while (degree < Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
-		shoot_ray(start, dest, ray_routine);
+		ray_cast(shoot_ray(start, dest, ray_routine));
 		degree += RAY_RES;
 	}
 }
