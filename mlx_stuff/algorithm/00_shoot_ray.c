@@ -25,14 +25,6 @@ static float	my_abs(float num)
 	return (num);
 }
 
-/*
- * x또는 y가 증/감 됨으로써로 구분하면 됨.
- * x가 감소되어 인덱스에 도달했다 = 오른쪽에서 바라봄.
- * x가 증가하며 인덱스에 도달했다 = 왼쪽에서 바라봄.
- * y가 감소되며 인덱스에 도달했다 = 아래에서 바라봄.
- * y가 증가되며 인덱스에 도달했다 = 위에서 바라봄.
- */
-
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 {
 	t_point	ray;
@@ -50,7 +42,6 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 	d.y = d.y / step;
 	ray = start;
 	i = 0;
-	printf("dx=%f dy=%f\n", d.x, d.y);
 	while (i <= step)
 	{
 		if (func_ptr(ray, d))
@@ -98,28 +89,10 @@ inline int	ray_routine(t_point point, t_point d)
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
-	printf(
-			"RAY: x=%f , y=%f | index: %d, %d\n",
-			point.x,
-			point.y,
-			(int)floor(TO_INDEX(point.x)),
-			(int)floor(TO_INDEX(point.y))
-			);
 	if (get_map()
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
-		/*충돌함.*/
-					printf("충돌: x=%f y=%f\n",
-							point.x,
-							point.y);
-					printf("floor: x=%d y=%d\n",
-							(int)floor(point.x),
-							(int)floor(point.y));
-					printf("index: x=%d y=%d\n",
-							(int)floor(point.x/SIZE_OF_BLOCK),
-							(int)floor(point.y/SIZE_OF_BLOCK));
-		printf("\n");
 		ray_from_where(point, d);
 		return (1);
 	}
