@@ -22,27 +22,26 @@ static float	my_abs(float num)
 t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point))
 {
 	t_point	ray;
-	float	dx, dy, step;
+	t_point	d;
+	float	step;
 	int		i;
 
-	dx = (end.x - start.x);
-	dy = (end.y - start.y);
-	if (my_abs(dx) >= my_abs(dy))
-	  step = my_abs(dx);
+	d.x = (end.x - start.x);
+	d.y = (end.y - start.y);
+	if (my_abs(d.x) >= my_abs(d.y))
+	  step = my_abs(d.x);
 	else
-	  step = my_abs(dy);
-	dx = dx / step;
-	dy = dy / step;
-	ray.x = start.x;
-	ray.y = start.y;
+	  step = my_abs(d.y);
+	d.x = d.x / step;
+	d.y = d.y / step;
+	ray = start;
 	i = 0;
-
 	while (i <= step)
 	{
 		if (func_ptr(ray))
 			return (ray);
-		ray.x = ray.x + dx;
-		ray.y = ray.y + dy;
+		ray.x = ray.x + d.x;
+		ray.y = ray.y + d.y;
 		i = i + 1;
 	}
 	ray.x = -1;
@@ -57,10 +56,6 @@ inline int	ray_routine(t_point point)
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
-	printf("x:%d | y:%d\n",
-			(int)floor(point.x/SIZE_OF_BLOCK),
-			(int)floor(point.y/SIZE_OF_BLOCK));
-
 	if (get_map()[(int)floor(point.y/SIZE_OF_BLOCK)][(int)floor(point.x/SIZE_OF_BLOCK)] == '1')
 		return (1);
 	return (0);
