@@ -76,7 +76,6 @@ void	player_init(void)
 
 	player = malloc(sizeof(t_player));
 	set_player(player);
-	player->degree = 0;
 	player->ratio = ((float)get_minimap_ratio() / 3) / 3;
 	player->view_point.x = 0;
 	player->view_point.y = 0;
