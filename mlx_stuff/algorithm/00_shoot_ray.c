@@ -1,10 +1,7 @@
 #include "./my_algorithm.h"
 #include "../player.h"
 #include "../mlx_hdler.h"
-#include "../../parser/pars_pub.h"
-#include <math.h>
 #include "../mlx_hdler.h"
-#include <stdio.h>
 
 inline t_point	to_minimap_ratio(t_point point)
 {
