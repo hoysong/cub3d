@@ -20,6 +20,10 @@ static int	hook_func(int key_input)
 void	mlx_destroy(void)
 {
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->minimap.img_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_north.xpm_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_south.xpm_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_west.xpm_ptr);
+	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_east.xpm_ptr);
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
@@ -29,9 +33,23 @@ void	mlx_destroy(void)
 	free(player());
 }
 
+static t_texture	get_xpm_data(t_texture tex, char *file_name)
+{
+	tex.xpm_ptr = mlx_xpm_file_to_image(mlx()->mlx_ptr, file_name, &(tex.width), &(tex.height));
+	return (tex);
+}
+
+void	get_textures(void)
+{
+	mlx()->xpm_north = get_xpm_data(mlx()->xpm_east, get_pars()->north_texture);
+	mlx()->xpm_south = get_xpm_data(mlx()->xpm_east, get_pars()->south_texture);
+	mlx()->xpm_west = get_xpm_data(mlx()->xpm_east, get_pars()->west_texture);
+	mlx()->xpm_east = get_xpm_data(mlx()->xpm_east, get_pars()->east_texture);
+}
+
 extern t_mlx	*set_mlx(t_mlx *mlx);
 extern void		make_background_image(void);
-extern void	make_minimap(void);
+extern void		make_minimap(void);
 
 int	setup_mlx(void)
 {
@@ -44,6 +62,7 @@ int	setup_mlx(void)
 	mlx->mlx_ptr = mlx_init();
 	player_init();
 	make_background_image();
+	get_textures();
 	make_minimap();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
 	/*ESC hook.*/

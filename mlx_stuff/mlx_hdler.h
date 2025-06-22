@@ -7,6 +7,13 @@
 
 /*mlx_get_data_addr() 함수를 위해 존재합니다.*/
 /*아래의 get_img_data() 참고.*/
+
+typedef struct s_textrue
+{
+	void	*xpm_ptr;
+	int		width;
+	int		height;
+}t_texture;
 typedef struct s_img
 {
 	char	*data_addr; // 이미지의 실제 시작지점.
@@ -20,6 +27,10 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr; // mlx_ptr.
 	void	*mlx_window;
+	t_texture	xpm_north;
+	t_texture	xpm_south;
+	t_texture	xpm_west;
+	t_texture	xpm_east;
 	int		ceiling_color; // 천장 색상.
 	int		floor_color; // 바닥 색상.
 	t_img	background; // 배경 이미지 정보를 저장합니다.

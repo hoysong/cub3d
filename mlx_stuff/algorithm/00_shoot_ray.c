@@ -61,11 +61,13 @@ inline int	ray_routine(t_point point)
 	return (0);
 }
 
+/*필요 없을수도?*/
+/*어차피 ray_routine에서 다 핸들링 됨.*/
 void	ray_cast(t_point point)
 {
 	if (point.x < 0)
 		return;
-	printf("충돌!\n");
+//	printf("충돌!\n");
 	return;
 }
 
