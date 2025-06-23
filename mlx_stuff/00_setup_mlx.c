@@ -81,6 +81,7 @@ static int	my_loop_hook(void *mlx)
 
 void	setup_hooks(t_mlx *mlx)
 {
+	mlx_mouse_hide(mlx->mlx_ptr, mlx->mlx_window);
 	/*ESC hook.*/
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	/*Destroy('x' button in window) hook.*/
