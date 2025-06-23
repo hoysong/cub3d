@@ -1,10 +1,5 @@
 #include "./player.h"
 
-void	player_rotate(t_player *player, float degree)
-{
-	player->view_point = rotate_point(player->cord, player->view_point, degree);
-}
-
 static int	get_step_routine(t_point point, t_point d, void *step_point)
 {
 	static int	player_step_def;
@@ -20,11 +15,21 @@ static int	get_step_routine(t_point point, t_point d, void *step_point)
 	return (0);
 }
 
-void	get_player_step_point(void)
+void	player_get_step_point(void)
 {
 	shoot_ray(
 			player()->cord,
 			player()->view_point,
 			&(player()->step_point),
 			get_step_routine);
+}
+
+void	player_rotate(t_player *player, float degree)
+{
+	player->view_point = rotate_point(player->cord, player->view_point, degree);
+	player_get_step_point();
+}
+
+void	player_move(void)
+{
 }

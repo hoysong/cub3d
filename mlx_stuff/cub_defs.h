@@ -35,6 +35,7 @@
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	5
 /*Player's move distance.*/
+/*1ray만큼의.. 이동거리입니다.*/
 # define STEP_PER_PIXEL	5
 /*Convert Player cordinate to minimap_res*/
 # define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
