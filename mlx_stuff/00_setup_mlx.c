@@ -5,6 +5,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static int destroy_notify_hook(void *hi)
+{
+	mlx_loop_end(mlx()->mlx_ptr);
+	return (0);
+}
+
+static int	hook_func(int key_input)
+{
+	if (key_input == XK_Escape)
+		mlx_loop_end(mlx()->mlx_ptr);
+	return (0);
+}
+
 void	mlx_destroy(void)
 {
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->minimap.img_ptr);
@@ -40,30 +53,6 @@ void	get_textures(void)
 }
 
 extern void	put_frame(void);
-
-static int destroy_notify_hook(void *hi)
-{
-	mlx_loop_end(mlx()->mlx_ptr);
-	return (0);
-}
-
-static int	hook_func(int key_input)
-{
-	if (key_input == XK_Escape)
-		mlx_loop_end(mlx()->mlx_ptr);
-	else if (key_input == XK_a)
-	{
-		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
-		put_frame();
-	}
-	else if (key_input == XK_d)
-	{
-		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
-		put_frame();
-	}
-	return (0);
-}
-
 static int	my_loop_hook(void *mlx)
 {
 	int	x;
