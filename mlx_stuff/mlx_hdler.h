@@ -70,4 +70,7 @@ void	put_minimap(void);
 /*put_player to window.*/
 void	put_player(void);
 
+/*한 프레임을 올립니다.*/
+void	put_frame(void);
+
 #endif
