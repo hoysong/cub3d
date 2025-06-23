@@ -7,7 +7,6 @@ typedef struct s_player
 {
 	t_point	cord;
 	t_point	view_point;
-	t_point	step_dist;
 	float	ratio;
 }t_player;
 

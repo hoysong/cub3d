@@ -49,19 +49,18 @@ static int destroy_notify_hook(void *hi)
 
 static int	hook_func(int key_input)
 {
-	mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	if (key_input == XK_Escape)
 		mlx_loop_end(mlx()->mlx_ptr);
 	else if (key_input == XK_a)
-		player()->cord = rotate_point(player()->cord, player()->step_dist, -90);
+	{
+		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
+		put_frame();
+	}
 	else if (key_input == XK_d)
-		player()->cord = rotate_point(player()->cord, player()->step_dist, 90);
-	else if (key_input == XK_w)
-		player()->cord = player()->step_dist;
-	else if (key_input == XK_s)
-		player()->cord = rotate_point(player()->cord, player()->step_dist, 180);
-	printf("%f\n", player()->step_dist.x);
-	put_frame();
+	{
+		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
+		put_frame();
+	}
 	return (0);
 }
 
@@ -74,19 +73,11 @@ static int	my_loop_hook(void *mlx)
 	if (x != WIN_WIDTH / 2)
 	{
 		if (x < WIN_WIDTH / 2)
-		{
 			player()->view_point =
 				rotate_point(player()->cord, player()->view_point, -CAM_ROTATE_ANGLE);
-			player()->step_dist =
-				rotate_point(player()->cord, player()->step_dist, -CAM_ROTATE_ANGLE);
-		}
 		else if (x > WIN_WIDTH / 2)
-		{
 			player()->view_point =
 				rotate_point(player()->cord, player()->view_point, CAM_ROTATE_ANGLE);
-			player()->step_dist =
-				rotate_point(player()->cord, player()->step_dist, CAM_ROTATE_ANGLE);
-		}
 		mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
 		mlx_mouse_move(
 				((t_mlx *)mlx)->mlx_ptr,
@@ -101,12 +92,12 @@ static int	my_loop_hook(void *mlx)
 
 void	setup_hooks(t_mlx *mlx)
 {
+//	mlx_mouse_hide(mlx->mlx_ptr, mlx->mlx_window);
 	/*ESC hook.*/
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	/*Destroy('x' button in window) hook.*/
 	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
 	mlx_loop_hook(mlx->mlx_ptr, my_loop_hook, mlx);
-	//mlx_mouse_hide(mlx->mlx_ptr, mlx->mlx_window);
 }
 
 extern t_mlx	*set_mlx(t_mlx *mlx);

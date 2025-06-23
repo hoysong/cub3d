@@ -37,35 +37,17 @@ static void	get_start_location(float *fx, float *fy)
 	*fx = ((float)x) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	*fy = ((float)y) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	if (map[y][x] == 'N')
-	{
 		player()->view_point.y = *fy - (float)VIEW_DIST;
-		player()->step_dist.y = *fy - (float)STEP_PER_PIXEL;
-	}
 	else if (map[y][x] == 'S')
-	{
 		player()->view_point.y = *fy + (float)VIEW_DIST;
-		player()->step_dist.y = *fy + (float)STEP_PER_PIXEL;
-	}
 	else
-	{
 		player()->view_point.y = *fy;
-		player()->step_dist.y = *fy;
-	}
 	if (map[y][x] == 'W')
-	{
 		player()->view_point.x = *fx - (float)VIEW_DIST;
-		player()->step_dist.x = *fx - (float)STEP_PER_PIXEL;
-	}
 	else if (map[y][x] == 'E')
-	{
 		player()->view_point.x = *fx + (float)VIEW_DIST;
-		player()->step_dist.x = *fx + (float)STEP_PER_PIXEL;
-	}
 	else
-	{
 		player()->view_point.x = *fx;
-		player()->step_dist.x = *fx;
-	}
 }
 
 void	draw_player(float sq_len)
