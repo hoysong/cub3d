@@ -15,21 +15,26 @@ static int	get_step_routine(t_point point, t_point d, void *step_point)
 	return (0);
 }
 
-void	player_get_step_point(void)
+void	player_get_step_point(t_player *player)
 {
 	shoot_ray(
-			player()->cord,
-			player()->view_point,
-			&(player()->step_point),
+			player->cord,
+			player->view_point,
+			&(player->step_point),
 			get_step_routine);
 }
 
 void	player_rotate(t_player *player, float degree)
 {
 	player->view_point = rotate_point(player->cord, player->view_point, degree);
-	player_get_step_point();
+	player_get_step_point(player);
 }
 
-void	player_move(void)
+void	player_move(t_player *player, t_point dest)
 {
+	player->view_point.x = player->cord.x + dest.x;
+	player->view_point.y = player->cord.y + dest.y;
+	player->cord.x = dest.x;
+	player->cord.y = dest.y;
+	player_get_step_point(player);
 }
