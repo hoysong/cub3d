@@ -17,7 +17,7 @@
 # define FOV_COLOR	0xff0000
 
 /*size of block.*/
-# define SIZE_OF_BLOCK	10
+# define SIZE_OF_BLOCK	100
 
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
@@ -27,9 +27,9 @@
 # define DEPTH			3
 
 /*Player FOV.*/
-# define Player_FOV		65
+# define Player_FOV		90
 /*Player Angle per tick.*/
-# define CAM_ROTATE_ANGLE	7
+# define CAM_ROTATE_ANGLE	1
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
 /*Convert Player cordinate to minimap_res*/
