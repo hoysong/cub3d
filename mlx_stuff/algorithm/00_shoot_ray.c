@@ -10,14 +10,17 @@ inline t_point	to_minimap_ratio(t_point point)
 	return (point);
 }
 
-static float	my_abs(float num)
+static inline float	my_abs(float num)
 {
 	if (num < 0)
 		return (num *= -1);
 	return (num);
 }
 
-int	shoot_ray(t_point start, t_point end, void *call_by_ref, int(*func_ptr)(t_point, t_point, void *))
+int	shoot_ray(t_point start, t_point end,
+		void *call_by_ref,
+		int(*func_ptr)(t_point, t_point, void *)
+		)
 {
 	t_point	ray;
 	t_point	d;
