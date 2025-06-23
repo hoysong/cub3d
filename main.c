@@ -33,10 +33,14 @@ static void	try_put_xpm(void)
 	}
 }
 
+extern void	fill_background_color(void);
+extern void	draw_minimap();
+
 static void	put_frame(void)
 {
-//	try_put_xpm();
+	fill_background_color();
 	put_background();
+	draw_minimap();
 	shoot_fov_ray();
 	put_minimap();
 }

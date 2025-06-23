@@ -55,6 +55,14 @@ extern t_mlx	*set_mlx(t_mlx *mlx);
 extern void		make_background_image(void);
 extern void		make_minimap(void);
 
+void	setup_hooks(t_mlx *mlx)
+{
+	/*ESC hook.*/
+	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
+	/*Destroy('x' button in window) hook.*/
+	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
+}
+
 int	setup_mlx(void)
 {
 	t_mlx	*mlx;
@@ -69,9 +77,6 @@ int	setup_mlx(void)
 	get_textures();
 	make_minimap();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
-	/*ESC hook.*/
-	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
-	/*Destroy('x' button in window) hook.*/
-	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
+	setup_hooks(mlx);
 	return (1);
 }

@@ -55,5 +55,5 @@ void	make_background_image(void)
 	mlx()->background.img_ptr = mlx_new_image(mlx()->mlx_ptr, WIN_WIDTH, WIN_HEIGHT); 
 	get_img_data(&(mlx()->background));
 	/*이미지 채우기.*/
-	fill_background_color();
+//	fill_background_color();
 }
