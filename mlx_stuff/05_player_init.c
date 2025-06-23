@@ -86,6 +86,7 @@ void	player_init(void)
 	player->view_point.x = 0;
 	player->view_point.y = 0;
 	get_start_location(&(player->cord.x), &(player->cord.y));
+	player_get_step_point(player);
 	printf("player info\n");
 	printf("├─Location   : x=%f, y=%f\n", player->cord.x, player->cord.y);
 	printf("├─view_point : x=%f, y=%f\n", player->view_point.x, player->view_point.y);

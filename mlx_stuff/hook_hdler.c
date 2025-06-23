@@ -11,6 +11,12 @@ static int	hook_func(int key_input)
 {
 	if (key_input == XK_Escape)
 		mlx_loop_end(mlx()->mlx_ptr);
+	else if (key_input == XK_w)
+	{
+		player_move(player(), player()->step_point);
+		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
+		put_frame();
+	}
 	return (0);
 }
 
@@ -42,9 +48,7 @@ static int	my_loop_hook(void *mlx)
 
 void	setup_hooks(t_mlx *mlx)
 {
-	/*ESC hook.*/
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
-	/*Destroy('x' button in window) hook.*/
 	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
 	mlx_loop_hook(mlx->mlx_ptr, my_loop_hook, mlx);
 }
