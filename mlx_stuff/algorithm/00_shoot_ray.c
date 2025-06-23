@@ -17,7 +17,7 @@ static float	my_abs(float num)
 	return (num);
 }
 
-t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
+int	shoot_ray(t_point start, t_point end, void *call_by_ref, int(*func_ptr)(t_point, t_point, void *))
 {
 	t_point	ray;
 	t_point	d;
@@ -36,23 +36,22 @@ t_point	shoot_ray(t_point start, t_point end, int(*func_ptr)(t_point, t_point))
 	i = 0;
 	while (i <= step)
 	{
-		if (func_ptr(ray, d))
-			return (ray);
+		if (func_ptr(ray, d, call_by_ref))
+			return (1);
 		ray.x = ray.x + d.x;
 		ray.y = ray.y + d.y;
 		i = i + 1;
 	}
-	ray.x = -1;
-	ray.y = -1;
-	return (ray);
+	return (0);
 }
 
 void	shoot_fov_ray(void)
 {
-	t_point	start;
-	t_point	end;
-	t_point	dest;
-	int		degree;
+	t_point		start;
+	t_point		end;
+	t_point		dest;
+	t_ray_info	ray_info;
+	int			degree;
 
 	start = player()->cord;
 	end = player()->view_point;
@@ -61,7 +60,9 @@ void	shoot_fov_ray(void)
 	while (degree <= Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
-		shoot_ray(start, dest, ray_routine);
+		if (shoot_ray(start, dest, &(ray_info), ray_routine))
+		{
+		}
 		degree += RAY_RES;
 	}
 }

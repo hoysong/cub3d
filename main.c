@@ -35,7 +35,7 @@ static void	try_put_xpm(void)
 
 static void	put_frame(void)
 {
-	try_put_xpm();
+//	try_put_xpm();
 	put_background();
 	shoot_fov_ray();
 	put_minimap();

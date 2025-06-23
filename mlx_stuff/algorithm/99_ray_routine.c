@@ -17,22 +17,24 @@
  * 그래서 나중에 컨트롤 하기 위해 if문을 나눠놓음.
 */
 
-static void ray_from_where(t_point point, t_point d)
+static t_img *get_player_view_texture(t_point point, t_point d)
 {
 	/*invert sign.*/
 	d.x *= -1;
 	d.y *= -1;
 	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
-		printf("west?==========================================\n");
+		return (&(mlx()->xpm_west));
 	else if ((int)floor(TO_INDEX(point.x + d.x)) > (int)floor(TO_INDEX(point.x)))
-		printf("east?==========================================\n");
-	if ((int)floor(TO_INDEX(point.y + d.y)) < (int)floor(TO_INDEX(point.y)))
-		printf("north?==========================================\n");
+		return (&(mlx()->xpm_east));
+	else if ((int)floor(TO_INDEX(point.y + d.y)) < (int)floor(TO_INDEX(point.y)))
+		return (&(mlx()->xpm_north));
 	else if ((int)floor(TO_INDEX(point.y + d.y)) > (int)floor(TO_INDEX(point.y)))
-		printf("south?==========================================\n");
+		return (&(mlx()->xpm_south));
+	else
+		return (&(mlx()->xpm_west));
 }
 
-inline int	ray_routine(t_point point, t_point d)
+inline int	ray_routine(t_point point, t_point d, void *ray_info)
 {
 	t_point	floor_pt;
 
@@ -48,7 +50,8 @@ inline int	ray_routine(t_point point, t_point d)
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
-		ray_from_where(point, d);
+		((t_ray_info *)ray_info)->texture = *get_player_view_texture(point, d);
+		((t_ray_info *)ray_info)->ray_hit = point;
 		return (1);
 	}
 	return (0);
