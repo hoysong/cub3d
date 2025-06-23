@@ -12,5 +12,6 @@ typedef struct s_player
 
 void		player_init(void);
 t_player	*player(void);
+void	player_rotate(t_player *player, float degree);
 
 #endif

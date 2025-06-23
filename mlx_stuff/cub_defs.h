@@ -5,6 +5,10 @@
 # define WIN_WIDTH	900
 # define WIN_HEIGHT	900
 
+/*mouse*/
+# define MOUSE_MIDDLE_X (WIN_WIDTH / 2)
+//# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
+
 /*Minimap size.*/
 # define MINISIZE	300
 /*Minimap BG_color.*/
@@ -21,7 +25,7 @@
 
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
-# define VIEW_DIST		SIZE_OF_BLOCK * 4
+# define VIEW_DIST		(SIZE_OF_BLOCK * 4)
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		1
 # define DEPTH			3
@@ -33,7 +37,7 @@
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
 /*Convert Player cordinate to minimap_res*/
-# define MINI_RES(X) X/(float)SIZE_OF_BLOCK
+# define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
 # define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
 
 #endif
