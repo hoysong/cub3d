@@ -3,6 +3,7 @@
 #include "../parser/pars_priv.h"
 #include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static int destroy_notify_hook(void *hi)
 {
@@ -51,9 +52,15 @@ void	get_textures(void)
 	get_xpm_data(&(mlx()->xpm_east), get_pars()->east_texture);
 }
 
-extern t_mlx	*set_mlx(t_mlx *mlx);
-extern void		make_background_image(void);
-extern void		make_minimap(void);
+static int	my_loop_hook(void *mlx)
+{
+	int	x;
+	int	y;
+
+	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
+	printf("%d, %d\n", x, y);
+	return (0);
+}
 
 void	setup_hooks(t_mlx *mlx)
 {
@@ -61,7 +68,12 @@ void	setup_hooks(t_mlx *mlx)
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
 	/*Destroy('x' button in window) hook.*/
 	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
+	mlx_loop_hook(mlx->mlx_ptr, my_loop_hook, mlx);
 }
+
+extern t_mlx	*set_mlx(t_mlx *mlx);
+extern void		make_background_image(void);
+extern void		make_minimap(void);
 
 int	setup_mlx(void)
 {
