@@ -36,7 +36,7 @@ static void	try_put_xpm(void)
 extern void	fill_background_color(void);
 extern void	draw_minimap();
 
-static void	put_frame(void)
+void	put_frame(void)
 {
 	fill_background_color();
 	put_background();
@@ -57,7 +57,7 @@ int	main(int argc, char **argv)
 	else
 		pars_cub_file();
 	setup_mlx();
-	put_frame();
+//	put_frame();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();
 	pars_destroy();

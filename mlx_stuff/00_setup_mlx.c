@@ -52,13 +52,24 @@ void	get_textures(void)
 	get_xpm_data(&(mlx()->xpm_east), get_pars()->east_texture);
 }
 
+extern void	put_frame(void);
 static int	my_loop_hook(void *mlx)
 {
 	int	x;
 	int	y;
 
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
-	printf("%d, %d\n", x, y);
+	if (x != WIN_WIDTH / 2)
+	{
+		mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
+		mlx_mouse_move(
+				((t_mlx *)mlx)->mlx_ptr,
+				((t_mlx *)mlx)->mlx_window,
+				WIN_WIDTH / 2,
+				WIN_HEIGHT / 2
+				);
+		put_frame();
+	}
 	return (0);
 }
 
