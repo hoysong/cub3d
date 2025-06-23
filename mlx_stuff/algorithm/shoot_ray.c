@@ -1,5 +1,4 @@
 #include "./my_algorithm.h"
-#include "../player.h"
 #include "../mlx_hdler.h"
 #include "../mlx_hdler.h"
 
@@ -10,14 +9,17 @@ inline t_point	to_minimap_ratio(t_point point)
 	return (point);
 }
 
-static float	my_abs(float num)
+static inline float	my_abs(float num)
 {
 	if (num < 0)
 		return (num *= -1);
 	return (num);
 }
 
-int	shoot_ray(t_point start, t_point end, void *call_by_ref, int(*func_ptr)(t_point, t_point, void *))
+int	shoot_ray(t_point start, t_point end,
+		void *call_by_ref,
+		int(*func_ptr)(t_point, t_point, void *)
+		)
 {
 	t_point	ray;
 	t_point	d;
@@ -43,31 +45,4 @@ int	shoot_ray(t_point start, t_point end, void *call_by_ref, int(*func_ptr)(t_po
 		i = i + 1;
 	}
 	return (0);
-}
-
-static void	ray_casting(float degree, t_ray_info *info)
-{
-}
-
-void	shoot_fov_ray(void)
-{
-	t_point		start;
-	t_point		end;
-	t_point		dest;
-	t_ray_info	ray_info;
-	int			degree;
-
-	start = player()->cord;
-	end = player()->view_point;
-
-	degree = (Player_FOV / 2) * -1;
-	while (degree <= Player_FOV / 2)
-	{
-		dest = rotate_point(start, end, degree);
-		if (shoot_ray(start, dest, &(ray_info), ray_routine))
-		{
-			ray_casting(degree, &(ray_info));
-		}
-		degree += RAY_RES;
-	}
 }

@@ -19,7 +19,7 @@ static t_img *get_player_view_texture(t_point point, t_point d)
 		return (&(mlx()->xpm_west));
 }
 
-inline int	ray_routine(t_point point, t_point d, void *ray_info)
+inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 {
 	t_point	floor_pt;
 
