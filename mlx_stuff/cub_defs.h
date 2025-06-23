@@ -29,7 +29,7 @@
 /*Player FOV.*/
 # define Player_FOV		90
 /*Player Angle per tick.*/
-# define CAM_ROTATE_ANGLE	1
+# define CAM_ROTATE_ANGLE	5
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
 /*Convert Player cordinate to minimap_res*/

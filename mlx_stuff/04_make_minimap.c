@@ -113,5 +113,4 @@ extern void	draw_test_line(void);
 void	make_minimap(void)
 {
 	make_minimap_img();
-	draw_minimap();
 }
