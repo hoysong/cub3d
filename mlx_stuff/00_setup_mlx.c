@@ -61,6 +61,12 @@ static int	my_loop_hook(void *mlx)
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
 	if (x != WIN_WIDTH / 2)
 	{
+		if (x < WIN_WIDTH / 2)
+			player()->view_point =
+				rotate_point(player()->cord, player()->view_point, -CAM_ROTATE_ANGLE);
+		else if (x > WIN_WIDTH / 2)
+			player()->view_point =
+				rotate_point(player()->cord, player()->view_point, CAM_ROTATE_ANGLE);
 		mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
 		mlx_mouse_move(
 				((t_mlx *)mlx)->mlx_ptr,
