@@ -17,7 +17,7 @@
 # define FOV_COLOR	0xff0000
 
 /*size of block.*/
-# define SIZE_OF_BLOCK	300
+# define SIZE_OF_BLOCK	100
 
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/

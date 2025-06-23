@@ -12,7 +12,7 @@ typedef struct s_point
 
 typedef struct s_ray_info
 {
-	t_img	texture;
+	t_img	*texture;
 	t_point	ray_hit;
 }t_ray_info;
 

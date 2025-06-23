@@ -40,7 +40,6 @@ inline int	ray_routine(t_point point, t_point d, void *ray_info)
 
 	floor_pt.x = (int)floor(point.x);
 	floor_pt.y = (int)floor(point.y);
-
 	put_pixel_to_img(
 			&(mlx()->minimap),
 			to_minimap_ratio(point).x,
@@ -50,7 +49,7 @@ inline int	ray_routine(t_point point, t_point d, void *ray_info)
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
-		((t_ray_info *)ray_info)->texture = *get_player_view_texture(point, d);
+		((t_ray_info *)ray_info)->texture = get_player_view_texture(point, d);
 		((t_ray_info *)ray_info)->ray_hit = point;
 		return (1);
 	}

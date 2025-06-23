@@ -45,6 +45,10 @@ int	shoot_ray(t_point start, t_point end, void *call_by_ref, int(*func_ptr)(t_po
 	return (0);
 }
 
+static void	ray_casting(float degree, t_ray_info *info)
+{
+}
+
 void	shoot_fov_ray(void)
 {
 	t_point		start;
@@ -62,6 +66,7 @@ void	shoot_fov_ray(void)
 		dest = rotate_point(start, end, degree);
 		if (shoot_ray(start, dest, &(ray_info), ray_routine))
 		{
+			ray_casting(degree, &(ray_info));
 		}
 		degree += RAY_RES;
 	}
