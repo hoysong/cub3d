@@ -1,5 +1,4 @@
 #include "./player.h"
-#include <stdio.h>
 
 static int	get_step_routine(t_point point, t_point d, void *step_point)
 {
@@ -30,22 +29,14 @@ void	player_rotate(t_player *player, float degree)
 	player->view_point = rotate_point(player->cord, player->view_point, degree);
 }
 
-void	player_move(t_player *player)
+void	player_move(t_player *player, float degree)
 {
+	t_point	dest;
+
 	player_get_step_point(player);
-	printf("player cord: x=%f | y=%f\n",
-			player->cord.x,
-			player->cord.y);
-	printf("player step: x=%f | y=%f\n",
-			player->step_point.x,
-			player->step_point.y);
-	printf("calculate  : x=%f | y=%f\n",
-			player->step_point.x - player->cord.x,
-			player->step_point.y - player->cord.y
-	);
-	player->view_point.x += -(player->cord.x - player->step_point.x);
-	player->view_point.y += -(player->cord.y - player->step_point.y);
-	player->cord.x = player->step_point.x;
-	player->cord.y = player->step_point.y;
-	printf("after player_cord: x=%f | y=%f\n", player->cord.x, player->cord.y);
+	dest = rotate_point(player->cord, player->step_point, degree);
+	player->view_point.x += -(player->cord.x - dest.x);
+	player->view_point.y += -(player->cord.y - dest.y);
+	player->cord.x = dest.x;
+	player->cord.y = dest.y;
 }

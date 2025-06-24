@@ -109,6 +109,7 @@ void	player_init(void)
 	printf("player info\n");
 	printf("├─Location   : x=%f, y=%f\n", player->cord.x, player->cord.y);
 	printf("├─view_point : x=%f, y=%f\n", player->view_point.x, player->view_point.y);
+	printf("├─step_point : x=%f, y=%f\n", player->step_point.x, player->step_point.y);
 	printf("├─Ratio      : %f\n", player->ratio);
 	printf("└─(empty)\n");
 }

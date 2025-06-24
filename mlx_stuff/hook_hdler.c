@@ -11,10 +11,17 @@ static int	hook_func(int key_input)
 {
 	if (key_input == XK_Escape)
 		mlx_loop_end(mlx()->mlx_ptr);
-	else if (key_input == XK_w)
+	else
 	{
-		player_move(player());
 		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
+		if (key_input == XK_w)
+			player_move(player(), 0);
+		else if (key_input == XK_a)
+			player_move(player(), -90);
+		else if (key_input == XK_d)
+			player_move(player(), 90);
+		else if (key_input == XK_s)
+			player_move(player(), 180);
 		put_frame();
 	}
 	return (0);
