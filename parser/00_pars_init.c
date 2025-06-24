@@ -24,6 +24,8 @@ void	pars_init(int argc, char **argv)
 	pars = malloc(sizeof(t_pars));
 	pars->argc = argc;
 	pars->argv = argv;
+	pars->map_max_length = 0;
+	pars->map_max_height = 0;
 	pars->pars_errno = 0;
 	pars->cub_file_list = NULL;
 	pars->north_texture = NULL;

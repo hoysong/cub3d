@@ -103,7 +103,7 @@ void	draw_minimap()
 
 	fill_minimap_bg();
 	fill_minimap_grid(square_len);
-	draw_grid_line(square_len, get_max_height(), get_max_length());
+	draw_grid_line(square_len, get_pars()->map_max_height, get_pars()->map_max_length);
 	draw_player(square_len);
 }
 
