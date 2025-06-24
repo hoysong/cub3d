@@ -1,6 +1,7 @@
 #include "../minilibx-linux/mlx.h"
 #include "./mlx_hdler.h"
 #include "../parser/pars_pub.h"
+#include "../parser/pars_priv.h"
 
 void	get_img_data(t_img *img)
 {
@@ -13,8 +14,8 @@ void	get_img_data(t_img *img)
 
 size_t	get_minimap_ratio(void)
 {
-	size_t	height = get_max_height();
-	size_t	length = get_max_length();
+	size_t	height = get_pars()->map_max_height;
+	size_t	length = get_pars()->map_max_length;
 	size_t	square_len;
 
 	if (height > length)

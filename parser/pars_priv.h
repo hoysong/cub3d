@@ -23,6 +23,8 @@ typedef struct	s_pars
 	t_rgb	floor;
 	t_rgb	ceiling;
 	char	**map;
+	size_t	map_max_length;
+	size_t	map_max_height;
 }	t_pars;
 
 t_pars	*get_pars( void );

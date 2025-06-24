@@ -17,7 +17,7 @@ int	rgb_to_int(t_rgb rgb)
 	return (int_rgb);
 }
 
-void	fill_background_color(void)
+void	fill_background_color(t_mlx *mlx)
 {
 	int	i;
 	int	j;
@@ -28,7 +28,7 @@ void	fill_background_color(void)
 	{
 		while (j < WIN_WIDTH)
 		{
-			put_pixel_to_img(&(mlx()->background), j, i, mlx()->ceiling_color);
+			put_pixel_to_img(&(mlx->background), j, i, mlx->ceiling_color);
 			j++;
 		}
 		j = 0;
@@ -38,7 +38,7 @@ void	fill_background_color(void)
 	{
 		while (j < WIN_WIDTH)
 		{
-			put_pixel_to_img(&(mlx()->background), j, i, mlx()->floor_color);
+			put_pixel_to_img(&(mlx->background), j, i, mlx->floor_color);
 			j++;
 		}
 		j = 0;

@@ -53,13 +53,13 @@ void	try_put_xpm(void)
 	}
 }
 
-extern void	fill_background_color(void);
+extern void	fill_background_color(t_mlx *mlx);
 extern void	draw_minimap();
 
 void	put_frame(void)
 {
 	/*화면 배경 채우기.*/
-	fill_background_color();
+	fill_background_color(mlx());
 	/*미니맵 뼈대 그리기.*/
 	draw_minimap();
 	/*그림들 위에 Ray결과 덮어쓰기.*/

@@ -37,6 +37,8 @@ void	pars_cub_file(void)
 	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 	// 맵 파싱하기.
 	printf("get map from cubfile.\n");
+	get_pars()->map_max_length = get_max_length();
+	get_pars()->map_max_height = get_max_height();
 	get_pars()->map = gen_map(get_max_length(), get_max_height());
 	print_map_info();
 }
