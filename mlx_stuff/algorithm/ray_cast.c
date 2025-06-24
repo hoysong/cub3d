@@ -17,10 +17,6 @@ static void	ray_casting(float degree, t_ray_info *info)
 		degree += (float)Player_FOV / 2;
 		/*레이 각도마다 일단 점을 찍어본다.*/
 		percent_of_degree = (degree / Player_FOV) * 100;
-		//printf("degree    :%f\n", degree);
-		//printf("percen    :%f\n\n", percent_of_degree);
-		//printf("win width : %f\n", (float)WIN_WIDTH * percent_of_degree / 100);
-		//printf("win height: %d\n", WIN_HEIGHT / 2);
 		put_pixel_to_img(&(mlx()->background), (float)WIN_WIDTH * percent_of_degree / 100, WIN_HEIGHT / 2, 0x0);
 	/*fisheye현상 고치는 값.*/
 		/*일단 플레어어의 뷰포인트의 코사인(degree)/빗변*/
