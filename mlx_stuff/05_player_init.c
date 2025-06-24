@@ -19,7 +19,24 @@ inline t_player	*player(void)
 }
 extern int	is_player(char c);
 
-static void	get_player_view_direction(int x, int y)
+static void	get_player_view_degree(int x, int y)
+{
+	char **map = get_map();
+	if (map[y][x] == 'N')
+		player()->view_degree = 0;
+	else if (map[y][x] == 'S')
+		player()->view_degree = 180;
+	else
+		player()->view_degree = 0;
+	if (map[y][x] == 'W')
+		player()->view_degree = 0;
+	else if (map[y][x] == 'E')
+		player()->view_degree = 0;
+	else
+		player()->view_degree = 0;
+}
+
+static void	get_player_view_point(int x, int y)
 {
 	char **map = get_map();
 	if (map[y][x] == 'N')
@@ -51,9 +68,11 @@ static void	get_start_location(float *fx, float *fy)
 		x = 0;
 		y++;
 	}
+	/*만약 인덱스가 2,2 라 나온다면, 25,25로 블록의 중앙에 놓아준다.*/
 	*fx = ((float)x) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	*fy = ((float)y) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
-	get_player_view_direction(x, y);
+	get_player_view_point(x, y);
+	get_player_view_degree(x, y);
 }
 
 void	draw_player(float sq_len)

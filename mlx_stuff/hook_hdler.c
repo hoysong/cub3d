@@ -13,7 +13,7 @@ static int	hook_func(int key_input)
 		mlx_loop_end(mlx()->mlx_ptr);
 	else if (key_input == XK_w)
 	{
-		player_move(player(), player()->step_point);
+		player_move(player());
 		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
 		put_frame();
 	}
