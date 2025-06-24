@@ -26,7 +26,15 @@ static void	ray_casting(float degree, t_ray_info *info)
 	float	view_dist = get_length(player()->cord, player()->view_point);;
 	float	ray_hit_dist = get_length(player()->cord, info->ray_hit);
 	float	percent_of_hit_dist = (ray_hit_dist / view_dist) * 100;
-	put_pixel_to_img(&(mlx()->background), (float)WIN_WIDTH * percent_of_degree / 100, (float)WIN_HEIGHT * percent_of_hit_dist / 100, 0x0);
+	float	vert_from_up = ((float)WIN_HEIGHT * percent_of_hit_dist / 100) / 2;
+	float	vert_from_down = (float)WIN_HEIGHT - vert_from_up;
+
+	int	i = vert_from_up;
+	while (i < vert_from_down)
+	{
+		put_pixel_to_img(&(mlx()->background), (float)WIN_WIDTH * percent_of_degree / 100, i, 0x0);
+		i++;
+	}
 }
 
 void	shoot_fov_ray(void)
