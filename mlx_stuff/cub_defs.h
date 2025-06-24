@@ -2,7 +2,7 @@
 # define CUB_DEFS_H
 
 /*Window size.*/
-# define WIN_WIDTH	900
+# define WIN_WIDTH	1800
 # define WIN_HEIGHT	900
 
 /*mouse*/
@@ -25,18 +25,17 @@
 
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
-# define VIEW_DIST		(SIZE_OF_BLOCK * 3)
+# define VIEW_DIST		(SIZE_OF_BLOCK * 5)
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		1
 /*키보드 인풋을 받는 간격.*/
 # define MOVE_TICK		1
 /*마우스 인풋을 받는 간격.*/
 # define MOUSE_TICK		4
-
 /*Player FOV.*/
-# define Player_FOV		90
+# define Player_FOV		110
 /*Player Angle per tick.*/
-# define CAM_ROTATE_ANGLE	5
+# define CAM_ROTATE_ANGLE	4
 /*Player's move distance.*/
 /*1ray만큼의.. 이동거리입니다.*/
 # define STEP_PER_PIXEL	5

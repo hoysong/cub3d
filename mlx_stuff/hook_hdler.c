@@ -20,7 +20,7 @@ static int	hook_func(int key_input)
 			move_tick++;
 			return (0);
 		}
-		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
+		//mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
 		if (key_input == XK_w)
 			player_move(player(), 0);
 		else if (key_input == XK_a)
@@ -55,7 +55,7 @@ static int	my_loop_hook(void *mlx)
 			player_rotate(player(), -CAM_ROTATE_ANGLE);
 		else if (x > MOUSE_MIDDLE_X)
 			player_rotate(player(), CAM_ROTATE_ANGLE);
-		mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
+		//mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
 		mlx_mouse_move(
 				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
 				WIN_WIDTH / 2, WIN_HEIGHT / 2);
