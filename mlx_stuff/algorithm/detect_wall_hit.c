@@ -19,6 +19,10 @@ static t_img *get_player_view_texture(t_point point, t_point d)
 		return (&(mlx()->xpm_west));
 }
 
+static void	fix_fisheye_dist(void)
+{
+}
+
 inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 {
 	t_point	floor_pt;
