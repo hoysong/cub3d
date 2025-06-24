@@ -43,11 +43,8 @@ static int	my_loop_hook(void *mlx)
 			player_rotate(player(), CAM_ROTATE_ANGLE);
 		mlx_clear_window(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window);
 		mlx_mouse_move(
-				((t_mlx *)mlx)->mlx_ptr,
-				((t_mlx *)mlx)->mlx_window,
-				WIN_WIDTH / 2,
-				WIN_HEIGHT / 2
-				);
+				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
+				WIN_WIDTH / 2, WIN_HEIGHT / 2);
 		put_frame();
 	}
 	return (0);
