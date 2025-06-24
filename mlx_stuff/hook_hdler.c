@@ -9,10 +9,17 @@ static int destroy_notify_hook(void *hi)
 
 static int	hook_func(int key_input)
 {
+	static int	move_tick;
+
 	if (key_input == XK_Escape)
 		mlx_loop_end(mlx()->mlx_ptr);
 	else
 	{
+		if (move_tick != MOVE_TICK)
+		{
+			move_tick++;
+			return (0);
+		}
 		mlx_clear_window(mlx()->mlx_ptr, mlx()->mlx_window);
 		if (key_input == XK_w)
 			player_move(player(), 0);
@@ -23,6 +30,7 @@ static int	hook_func(int key_input)
 		else if (key_input == XK_s)
 			player_move(player(), 180);
 		put_frame();
+		move_tick = 0;
 	}
 	return (0);
 }
@@ -31,12 +39,18 @@ extern void	put_frame(void);
 
 static int	my_loop_hook(void *mlx)
 {
+	static int	mouse_tick;
 	int	x;
 	int	y;
 
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
 	if (x != MOUSE_MIDDLE_X)
 	{
+		if (mouse_tick < MOVE_TICK)
+		{
+			mouse_tick++;
+			return (0);
+		}
 		if (x < MOUSE_MIDDLE_X)
 			player_rotate(player(), -CAM_ROTATE_ANGLE);
 		else if (x > MOUSE_MIDDLE_X)
@@ -46,6 +60,7 @@ static int	my_loop_hook(void *mlx)
 				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
 				WIN_WIDTH / 2, WIN_HEIGHT / 2);
 		put_frame();
+		mouse_tick = 0;
 	}
 	return (0);
 }

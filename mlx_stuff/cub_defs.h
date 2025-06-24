@@ -28,10 +28,13 @@
 # define VIEW_DIST		(SIZE_OF_BLOCK * 3)
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		1
-# define DEPTH			3
+/*키보드 인풋을 받는 간격.*/
+# define MOVE_TICK		1
+/*마우스 인풋을 받는 간격.*/
+# define MOUSE_TICK		4
 
 /*Player FOV.*/
-# define Player_FOV		45
+# define Player_FOV		90
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	5
 /*Player's move distance.*/
