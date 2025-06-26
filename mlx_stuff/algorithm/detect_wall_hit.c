@@ -2,6 +2,7 @@
 #include "../mlx_hdler.h"
 #include "../../parser/pars_pub.h"
 #include <math.h>
+//#include <stdio.h>
 
 static t_img *get_player_view_texture(t_point point, t_point d)
 {

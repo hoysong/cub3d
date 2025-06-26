@@ -22,13 +22,13 @@ static inline float	get_win_x(float degree)
 	return ((float)WIN_WIDTH * percent_of_degree / 100);
 }
 
-static float	get_len(t_point a, t_point b, t_point c)
+static inline float	unfisheye_len(t_point a, t_point b, t_point c)
 {
 	float	A = b.y - a.y;
 	float	B = -(b.x - a.x);
 	float	C = -a.x*(b.y - a.y) + a.y*(b.x - a.x);
-
 	float	len;
+
 	len = my_abs(A*c.x + B*c.y + C) / sqrt(pow(A, 2) + pow(B, 2));
 	return (len);
 }
@@ -40,7 +40,7 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	win_x = get_win_x(degree);
 	float	view_dist = get_length(player()->cord, player()->view_point);;
 	float	ray_hit_dist;
-	ray_hit_dist = get_len(
+	ray_hit_dist = unfisheye_len(
 		rotate_point(player()->cord, player()->view_point, -90),
 		player()->cord,
 		info->ray_hit
