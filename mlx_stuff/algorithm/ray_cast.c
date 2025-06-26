@@ -61,10 +61,13 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	float	brsick = view_dist * WIN_HEIGHT;
 	float	rbrsick_wall_height = brsick / ray_hit_dist;
 	float	real_height = rbrsick_wall_height / WIN_HEIGHT * 100;
+
+	float	vert_start = (WIN_HEIGHT - real_height)/2;
+	float	vert_end = (float)WIN_HEIGHT / 2 + real_height / 2;
 	printf("%f\n", real_height);
 
-	int	i = 0;
-	while (i < real_height)
+	int	i = vert_start;
+	while (i < vert_end)
 	{
 		put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
 		i++;
