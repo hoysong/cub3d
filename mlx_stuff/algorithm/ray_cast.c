@@ -118,7 +118,7 @@ void	shoot_fov_ray(void)
 		if (shoot_ray(start, dest, &(ray_info), detect_wall_hit))
 		{
 			ray_casting(mlx(), degree, &(ray_info));
-			ray_casting_prev(mlx(), degree, &(ray_info));
+//			ray_casting_prev(mlx(), degree, &(ray_info));
 		}
 		degree += RAY_RES;
 	}
