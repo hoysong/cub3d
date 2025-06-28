@@ -46,16 +46,6 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 		player()->cord,
 		info->ray_hit
 		);
-//	float	percent_of_hit_dist = (ray_hit_dist / view_dist) * 100;
-//	float	vert_from_up = ((float)WIN_HEIGHT * percent_of_hit_dist / 100) / 2; // 선은 위에서부터 긋는다. 시작지점.
-//	float	vert_from_down = (float)WIN_HEIGHT - vert_from_up; // 그어진 선이 아래에 도착하는 도착지점.
-//
-//	int	i = vert_from_up;
-//	while (i < vert_from_down)
-//	{
-//		put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
-//		i++;
-//	}
 	/*반비례식으로 다시 계산.*/
 	float	percent_of_hit_dist = (ray_hit_dist / view_dist) * 100;
 	float	brsick = view_dist * WIN_HEIGHT;
