@@ -2,7 +2,7 @@
 # define CUB_DEFS_H
 
 /*Window size.*/
-# define WIN_WIDTH	900
+# define WIN_WIDTH	1300
 # define WIN_HEIGHT	900
 
 /*mouse*/
@@ -38,7 +38,7 @@
 # define CAM_ROTATE_ANGLE	4
 /*Player's move distance.*/
 /*1ray만큼의.. 이동거리입니다.*/
-# define STEP_PER_PIXEL	6
+# define STEP_PER_PIXEL	7
 /*Convert Player cordinate to minimap_res*/
 # define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
 # define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)

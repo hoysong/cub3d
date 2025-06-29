@@ -51,17 +51,65 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	/*역수를 다시 Window 높이에 적용한다.*/
 	float	win_height_len = WIN_HEIGHT * ((rev_per + 17) / 100);
 	int	i = (WIN_HEIGHT - win_height_len) / 2;
-	printf("%d\n", i);
+//	printf("%d\n", i);
 	win_height_len += i;
 	/*get_x*/
-	float	win_x;
-	degree += (float)Player_FOV / 2;
-	win_x = get_win_x(degree);
+	//float	win_x;
+	//degree += (float)Player_FOV / 2;
+	//win_x = get_win_x(degree);
+	//while (i < win_height_len)
+	//{
+	//	put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
+	//	i++;
+	//}
+	float	vert_len = unfisheye_len(
+		rotate_point(player()->cord, player()->view_point, -90),
+		player()->cord,
+		rotate_point(player()->cord, player()->view_point, (float)Player_FOV / 2)
+		);
+	printf("vert_len        : %f\n", vert_len);
+	/*각도 핸들링.*/
+	float	from_zero;
+	from_zero = ((float)180 - Player_FOV) / 2;
+	if (degree < 0)
+	{
+		from_zero = 90 + degree;
+	}
+	else
+	{
+		from_zero += (float)Player_FOV / 2 - degree;
+	}
+	printf("degree          : %f\n", degree);
+	printf("from_zero degree: %f\n", from_zero);
+	float	long_len = vert_len / tan((((float)180 - Player_FOV) / 2) * (Pie/180));
+	printf("long_len        : %f\n", long_len);
+	float	fish_len = perp_wall_dist / tan(from_zero * (Pie/180));
+	printf("perp_wall       : %f\n", perp_wall_dist);
+	printf("fish_len        : %f\n", fish_len);
+	float	total_len = long_len * 2;
+	printf("total_len       : %f\n", total_len);
+	float	new_fish_len;
+	if (degree < 0)
+	{
+		new_fish_len = long_len - fish_len;
+	}
+	else
+	{
+		new_fish_len = long_len + fish_len;
+	}
+	float	len_percent;
+	len_percent = new_fish_len / total_len * 100;
+	printf("percent       : %f\n", len_percent);
+	int	to_x;
+	to_x = WIN_WIDTH * (len_percent / 100);
+	printf("x : %d\n", to_x);
+	printf("y : %d\n", i);
 	while (i < win_height_len)
 	{
-		put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
+		put_pixel_to_img(&(mlx->background), to_x, i, 0x0000);
 		i++;
 	}
+	printf("\n");
 }
 
 void	shoot_fov_ray(void)
