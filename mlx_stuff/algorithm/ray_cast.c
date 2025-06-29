@@ -67,32 +67,26 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	//		put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
 	//		i++;
 	//	}
+	/*2번째 코드.*/
 //	/*윈도우 비율로 맞추는 과정.*/
-		/*어안렌즈 보정 값은 뷰포인트의 어느정도에 해당하는가?*/
-		/*100 퍼센트 중 어느정도에 해당하는가?*/
-		float	percent_view_dist = (perp_wall_dist / view_dist) * 100;
-		/*100퍼센트에서 해당하는 만큼을 다시 빼서 역수로 만든다.*/
-		float	rev_per = 100 - percent_view_dist;
-		/*역수를 다시 Window 높이에 적용한다.*/
-		float	win_height_len = WIN_HEIGHT * (rev_per / 100);
-		printf("view_point_len : %f\n", get_length(player()->cord, player()->view_point));
-		printf("rev_per        : %f\n", rev_per);
-		printf("win_height_len : %f\n", win_height_len);
-		int	i = (WIN_HEIGHT - win_height_len) / 2;
-		printf("%d\n", i);
-		win_height_len += i;
-	/*픽셀을 찍어야 하는 수평 기준.*/
-		printf("degree: %f\n", degree);
-		float	new_degree = ((float)180 - Player_FOV) / 2;
-		printf("new_degree : %f\n", new_degree);
-		new_degree += (float)Player_FOV / 2 - my_abs(degree);
-		printf("new_degree : %f\n", new_degree);
-		printf("\n");
-		while (i < win_height_len)
-		{
-			put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
-			i++;
-		}
+	/*어안렌즈 보정 값은 뷰포인트의 어느정도에 해당하는가?*/
+	/*100 퍼센트 중 어느정도에 해당하는가?*/
+	float	percent_view_dist = (perp_wall_dist / view_dist) * 100;
+	/*100퍼센트에서 해당하는 만큼을 다시 빼서 역수로 만든다.*/
+	float	rev_per = 100 - percent_view_dist;
+	/*역수를 다시 Window 높이에 적용한다.*/
+	float	win_height_len = WIN_HEIGHT * ((rev_per + 17) / 100);
+	printf("view_point_len : %f\n", get_length(player()->cord, player()->view_point));
+	printf("rev_per        : %f\n", rev_per);
+	printf("win_height_len : %f\n", win_height_len);
+	int	i = (WIN_HEIGHT - win_height_len) / 2;
+	printf("%d\n", i);
+	win_height_len += i;
+	while (i < win_height_len)
+	{
+		put_pixel_to_img(&(mlx->background), win_x, i, 0x0000);
+		i++;
+	}
 }
 
 void	shoot_fov_ray(void)
