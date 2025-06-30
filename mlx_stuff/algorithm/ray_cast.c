@@ -19,6 +19,7 @@ static inline float	get_win_x(float degree)
 {
 	float	percent_of_degree;
 
+	degree += (float)Player_FOV / 2;
 	percent_of_degree = (degree / Player_FOV) * 100;
 	return ((float)WIN_WIDTH * percent_of_degree / 100);
 }
@@ -49,8 +50,10 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	/*100퍼센트에서 해당하는 만큼을 다시 빼서 역수로 만든다.*/
 	float	rev_per = 100 - percent_view_dist;
 	/*역수를 다시 Window 높이에 적용한다.*/
-	float	win_height_len = WIN_HEIGHT * ((rev_per + 17) / 100);
+	float	win_height_len = WIN_HEIGHT * ((rev_per) / 100);
 	int	i = (WIN_HEIGHT - win_height_len) / 2;
+	int	buf = i;
+	int	buf_2 = i;
 	win_height_len += i;
 	/*get_x*/
 	float	vert_len = unfisheye_len(
@@ -59,6 +62,11 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 		rotate_point(player()->cord, player()->view_point, (float)Player_FOV / 2)
 		);
 	printf("│vert_len        : %f\n", vert_len);
+	while (i < win_height_len)
+	{
+		put_pixel_to_img(&(mlx->background), get_win_x(degree), i, 0x0000);
+		i++;
+	}
 	/*각도 핸들링.*/
 	float	from_zero;
 	from_zero = ((float)180 - Player_FOV) / 2;
@@ -95,11 +103,13 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	to_x = WIN_WIDTH * (len_percent / 100);
 	printf("│x : %d\n", to_x);
 	printf("│y : %d\n", i);
-	while (i < win_height_len)
+	i = (WIN_HEIGHT - win_height_len) / 2;
+	while (buf < win_height_len)
 	{
-		put_pixel_to_img(&(mlx->background), to_x, i, 0x0000);
-		i++;
+		put_pixel_to_img(&(mlx->background), to_x, buf, 0xff0000);
+		buf++;
 	}
+	/*x축 3번째 시도.*/
 	printf("\n");
 }
 
