@@ -25,11 +25,11 @@
 
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
-# define VIEW_DIST		(SIZE_OF_BLOCK * 7)
+# define VIEW_DIST		(SIZE_OF_BLOCK * 10)
 /*레이캐스팅 광선 투사 각도(해상도).*/
 # define RAY_RES		1
 /*키보드 인풋을 받는 간격.*/
-# define MOVE_TICK		2
+# define MOVE_TICK		1
 /*마우스 인풋을 받는 간격.*/
 # define MOUSE_TICK		4
 /*Player FOV.*/
