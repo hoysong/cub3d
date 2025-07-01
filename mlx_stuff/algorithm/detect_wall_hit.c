@@ -3,7 +3,7 @@
 #include "../../parser/pars_pub.h"
 #include <math.h>
 
-static t_img *get_player_view_texture(t_point point, t_point d)
+static inline t_img *get_player_view_texture(t_point point, t_point d)
 {
 	d.x *= -1;
 	d.y *= -1;

@@ -1,6 +1,5 @@
 #include "../minilibx-linux/mlx.h"
 #include "./mlx_hdler.h"
-#include "../parser/pars_pub.h"
 #include "../parser/pars_priv.h"
 
 void	get_img_data(t_img *img)

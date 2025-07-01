@@ -13,6 +13,20 @@ static int	hook_func(int key_input)
 
 	if (key_input == XK_Escape)
 		mlx_loop_end(mlx()->mlx_ptr);
+	else if (key_input == XK_p)
+	{
+		if (mlx()->toggle_mouse)
+			mlx()->toggle_mouse = 0;
+		else
+			mlx()->toggle_mouse = 1;
+	}
+	else if (key_input == XK_m)
+	{
+		if (mlx()->toggle_minimap)
+			mlx()->toggle_minimap = 0;
+		else
+			mlx()->toggle_minimap = 1;
+	}
 	else
 	{
 		if (move_tick < MOVE_TICK)
@@ -38,14 +52,14 @@ static int	hook_func(int key_input)
 	return (0);
 }
 
-extern void	put_frame(void);
-
 static int	my_loop_hook(void *mlx)
 {
 	static int	mouse_tick;
 	int	x;
 	int	y;
 
+	if (!((t_mlx *)mlx)->toggle_mouse)
+		return (0);
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
 	if (x != MOUSE_MIDDLE_X)
 	{

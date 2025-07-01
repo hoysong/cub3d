@@ -32,6 +32,8 @@ typedef struct s_mlx
 	int		floor_color; // 바닥 색상.
 	t_img	background; // 배경 이미지 정보를 저장합니다.
 	t_img	minimap; // 미니맵 이미지 정보를 저장합니다.
+	int		toggle_mouse;
+	int		toggle_minimap;
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/

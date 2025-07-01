@@ -61,11 +61,13 @@ void	put_frame(void)
 	/*화면 배경 채우기.*/
 	fill_background_color(mlx());
 	/*미니맵 뼈대 그리기.*/
-	draw_minimap();
+	if (mlx()->toggle_minimap)
+		draw_minimap();
 	/*그림들 위에 Ray결과 덮어쓰기.*/
 	shoot_fov_ray();
 	/*화면 올리기.*/
 	put_background();
 	/*미니맵 올리기.*/
-	put_minimap();
+	if (mlx()->toggle_minimap)
+		put_minimap();
 }

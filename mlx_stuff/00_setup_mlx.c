@@ -51,6 +51,8 @@ int	setup_mlx(void)
 	set_mlx(mlx);
 	mlx->floor_color = 0;
 	mlx->ceiling_color = 0;
+	mlx->toggle_minimap = 0;
+	mlx->toggle_mouse = 0;
 	mlx->mlx_ptr = mlx_init();
 	player_init();
 	make_background_image();
