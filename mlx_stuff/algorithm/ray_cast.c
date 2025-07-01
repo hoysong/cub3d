@@ -97,7 +97,7 @@ static void	ray_casting_2(t_mlx *mlx, float degree, t_ray_info *info)
 	int	i = win_start;
 	while (i < win_end)
 	{
-		put_pixel_to_img(&(mlx->background), x_percent, i, 0x00ff00);
+		put_pixel_to_img(&(mlx->background), x_percent, i, 0xaa0000);
 		i++;
 	}
 	printf("\n");
@@ -137,11 +137,11 @@ static void	ray_casting_3(t_mlx *mlx, float degree, t_ray_info *info)
 	printf("degree_precent : %f\n", degree_percent);
 	printf("x_percent      : %f\n", x_percent);
 	if (x_percent == WIN_WIDTH)
-		return ;
+		x_percent = WIN_WIDTH - 1;
 	int	i = line_start;
 	while (i < line_end)
 	{
-		put_pixel_to_img(&(mlx->background), x_percent, i, 0xff0000);
+		put_pixel_to_img(&(mlx->background), x_percent, i, 0x00ff00);
 		i++;
 	}
 	printf("\n");
