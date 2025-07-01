@@ -149,8 +149,8 @@ static void	ray_casting_3(t_mlx *mlx, float degree, t_ray_info *info)
 
 static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 {
-//	ray_casting_2(mlx, degree, info);
-//	ray_casting_1(mlx, degree, info);
+	ray_casting_2(mlx, degree, info);
+	ray_casting_1(mlx, degree, info);
 	ray_casting_3(mlx, degree, info);
 }
 
