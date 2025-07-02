@@ -1,6 +1,7 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
+#include <stdio.h>
 
 static inline float	my_abs(float num)
 {
@@ -23,6 +24,9 @@ static inline float	zero_start_degree(float degree)
 
 static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 {
+	printf("hit x: %f\n", info->ray_hit.x);
+	printf("hit y: %f\n", info->ray_hit.y);
+	printf("\n");
 	float	cos_degree;
 	if (degree < 0)
 		cos_degree = my_abs(degree);
@@ -55,7 +59,7 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	int	i = line_start;
 	while (i < line_end)
 	{
-		put_pixel_to_img(&(mlx->background), x_percent, i, 0x00aaaa);
+		put_pixel_to_img(&(mlx->background), x_percent, i, 0xff0000);
 		i++;
 	}
 }
