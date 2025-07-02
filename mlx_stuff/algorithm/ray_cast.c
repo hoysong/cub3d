@@ -1,20 +1,6 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
-#include <stdio.h>
-
-static inline float	my_abs(float num)
-{
-	if (num < 0)
-		return (num *= -1);
-	return (num);
-}
-
-/*return's length of between p1 and p2.*/
-static inline float	get_length(t_point p1, t_point p2)
-{
-	return (sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2)));
-}
 
 static inline float	zero_start_degree(float degree)
 {
@@ -22,12 +8,10 @@ static inline float	zero_start_degree(float degree)
 	return (degree);
 }
 
-static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
+static inline float	get_vertical_length(float degree, t_ray_info *info)
 {
-	printf("hit x: %f\n", info->ray_hit.x);
-	printf("hit y: %f\n", info->ray_hit.y);
-	printf("\n");
 	float	cos_degree;
+
 	if (degree < 0)
 		cos_degree = my_abs(degree);
 	else
@@ -44,23 +28,35 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / perp_len;
 	if (inverse > WIN_HEIGHT)
 		inverse = WIN_HEIGHT;
-	/*get_y start*/
+	return (inverse);
+}
+
+static inline int	get_line_location(float degree)
+{
+	float	zero_degree = zero_start_degree(degree);
+	float	degree_to_percent = zero_degree / Player_FOV * 100;
+	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
+	if (line_location == WIN_WIDTH)
+		line_location = WIN_WIDTH - 1;
+	return (line_location);
+}
+
+static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
+{
+	float	line_len;
 	float	line_start;
 	float	line_end;
+	int		line_location;
 
-	line_start = (float)WIN_HEIGHT/2 - inverse/2;
-	line_end = (float)WIN_HEIGHT/2 + inverse/2;
-	/*get_x location*/
-	float	zero_degree = zero_start_degree(degree);
-	float	degree_percent = zero_degree / Player_FOV * 100;
-	float	x_percent = WIN_WIDTH * (degree_percent / 100);
-	if (x_percent == WIN_WIDTH)
-		x_percent = WIN_WIDTH - 1;
-	int	i = line_start;
-	while (i < line_end)
+	line_len = get_vertical_length(degree, info);
+	line_start = (float)WIN_HEIGHT/2 - line_len/2;
+	line_end = (float)WIN_HEIGHT/2 + line_len/2;
+	line_location = get_line_location(degree);
+	/*put_line*/
+	while (line_start < line_end)
 	{
-		put_pixel_to_img(&(mlx->background), x_percent, i, 0xff0000);
-		i++;
+		put_pixel_to_img(&(mlx->background), line_location, line_start, 0xff0000);
+		++line_start;
 	}
 }
 

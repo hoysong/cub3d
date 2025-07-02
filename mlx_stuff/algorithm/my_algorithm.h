@@ -36,4 +36,8 @@ void	shoot_fov_ray(void);
 /*가상의 맵을 위해 게산되던 포인트를 minimap의 좌표 비율로 변환합니다.*/
 t_point	to_minimap_ratio(t_point point);
 
+float	my_abs(float num);
+
+float	get_length(t_point p1, t_point p2);
+
 #endif
