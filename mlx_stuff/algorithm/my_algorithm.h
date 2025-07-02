@@ -40,4 +40,6 @@ float	my_abs(float num);
 
 float	get_length(t_point p1, t_point p2);
 
+t_point	to_minimap_ratio(t_point point);
+
 #endif
