@@ -2,15 +2,15 @@
 # define CUB_DEFS_H
 
 /*Window size.*/
-# define WIN_WIDTH	500
-# define WIN_HEIGHT	500
+# define WIN_WIDTH	1000
+# define WIN_HEIGHT	600
 
 /*mouse*/
 # define MOUSE_MIDDLE_X (WIN_WIDTH / 2)
 //# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
 
 /*Minimap size.*/
-# define MINISIZE	250
+# define MINISIZE	550
 /*Minimap BG_color.*/
 # define BG_Color	0xdddddd
 /*Minimap GridColor.*/
@@ -26,8 +26,8 @@
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
 # define VIEW_DIST		(SIZE_OF_BLOCK * 15)
-/*레이캐스팅 광선 투사 각도(해상도).*/
-# define RAY_RES		1
+/*레이캐스팅 광선 투사 각도간격(해상도).*/
+# define RAY_RES		0.5
 /*키보드 인풋을 받는 간격.*/
 # define MOVE_TICK		1
 /*마우스 인풋을 받는 간격.*/
@@ -35,7 +35,7 @@
 /*Player FOV.*/
 # define Player_FOV		90
 /*Player Angle per tick.*/
-# define CAM_ROTATE_ANGLE	4
+# define CAM_ROTATE_ANGLE	3
 /*Player's move distance.*/
 /*1ray만큼의.. 이동거리입니다.*/
 # define STEP_PER_PIXEL	7

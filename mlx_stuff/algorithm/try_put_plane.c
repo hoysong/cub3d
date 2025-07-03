@@ -9,6 +9,12 @@ static int	fill_line(t_point pixel_location, t_point dummy1, void *dummy2)
 
 	line_x = pixel_location.x;
 	line_end = (float)WIN_HEIGHT - pixel_location.y;
+	int	i = pixel_location.y;
+//	while (i < line_end)
+//	{
+//		put_pixel_to_img(&(mlx()->background), line_x, i, 0x440000);
+//		++i;
+//	}
 	put_pixel_to_img(&(mlx()->background), line_x, pixel_location.y, 0x00ff00);
 	put_pixel_to_img(&(mlx()->background), line_x, line_end, 0x00ff00);
 	return (0);
@@ -24,21 +30,13 @@ void	try_put_plane(float start_y, float line_x, int degree)
 	if (prev_point.x != 0 ||
 		prev_point.y != 0)
 	{
-		printf("degree : %d\n", degree);
-		printf("from x: %f\n", start.x);
-		printf("from y: %f\n", start.y);
-		printf("to x: %f\n", prev_point.x);
-		printf("to y: %f\n", prev_point.y);
 		shoot_ray(start, prev_point, NULL, fill_line);
 	}
 	prev_point.x = start.x;
 	prev_point.y = start.y;
-		printf("SET to x: %f\n", prev_point.x);
-		printf("SET to y: %f\n", prev_point.y);
 	if (degree == Player_FOV / 2)
 	{
 		prev_point.x = 0;
 		prev_point.y = 0;
 	}
-		printf("\n");
 }

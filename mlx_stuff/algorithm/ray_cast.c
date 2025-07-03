@@ -1,7 +1,6 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
-#include <stdio.h>
 
 static inline float	zero_start_degree(float degree)
 {
@@ -60,30 +59,27 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	/*put_line*/
 	while (line_start < line_end)
 	{
-		put_pixel_to_img(&(mlx->background), line_location, line_start, 0xff0000);
+		put_pixel_to_img(&(mlx->background), line_location, line_start, 0xffffff);
 		++line_start;
 	}
 }
 
 void	shoot_fov_ray(void)
 {
+	float			degree;
 	t_point		start;
 	t_point		end;
 	t_point		dest;
 	t_ray_info	ray_info;
-	int			degree;
 
 	start = player()->cord;
 	end = player()->view_point;
-
-	degree = (Player_FOV / 2) * -1;
-	while (degree <= Player_FOV / 2)
+	degree = ((float)Player_FOV / 2) * -1;
+	while (degree <= (float)Player_FOV / 2)
 	{
 		dest = rotate_point(start, end, degree);
 		if (shoot_ray(start, dest, &(ray_info), detect_wall_hit))
-		{
 			ray_casting(mlx(), degree, &(ray_info));
-		}
 		degree += RAY_RES;
 	}
 }
