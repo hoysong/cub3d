@@ -2,8 +2,8 @@
 # define CUB_DEFS_H
 
 /*Window size.*/
-# define WIN_WIDTH	900
-# define WIN_HEIGHT	700
+# define WIN_WIDTH	500
+# define WIN_HEIGHT	500
 
 /*mouse*/
 # define MOUSE_MIDDLE_X (WIN_WIDTH / 2)

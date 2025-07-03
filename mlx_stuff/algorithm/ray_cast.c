@@ -1,6 +1,7 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
+#include <stdio.h>
 
 static inline float	zero_start_degree(float degree)
 {
@@ -41,6 +42,8 @@ static inline int	get_line_location(float degree)
 	return (line_location);
 }
 
+void	try_put_plane(float start_y, float line_x, int degree);
+
 static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 {
 	float	line_len;
@@ -52,6 +55,8 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	line_start = (float)WIN_HEIGHT/2 - line_len/2;
 	line_end = (float)WIN_HEIGHT/2 + line_len/2;
 	line_location = get_line_location(degree);
+	/*try_put*/
+	try_put_plane(line_start, line_location, (int)degree);
 	/*put_line*/
 	while (line_start < line_end)
 	{
