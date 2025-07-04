@@ -14,6 +14,9 @@ typedef struct s_ray_info
 {
 	t_img	*texture;
 	t_point	ray_hit;
+	t_point		ray_start;
+	t_point		end_point;
+	t_point		ray_dest;
 }t_ray_info;
 
 

@@ -66,20 +66,17 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 
 void	shoot_fov_ray(void)
 {
-	float			degree;
-	t_point		start;
-	t_point		end;
-	t_point		dest;
-	t_ray_info	ray_info;
+	float		degree;
+	t_ray_info	info;
 
-	start = player()->cord;
-	end = player()->view_point;
+	info.ray_start = player()->cord;
+	info.end_point = player()->view_point;
 	degree = ((float)Player_FOV / 2) * -1;
 	while (degree <= (float)Player_FOV / 2)
 	{
-		dest = rotate_point(start, end, degree);
-		if (shoot_ray(start, dest, &(ray_info), detect_wall_hit))
-			ray_casting(mlx(), degree, &(ray_info));
+		info.ray_dest = rotate_point(info.ray_start, info.end_point, degree);
+		if (shoot_ray(info.ray_start, info.ray_dest, &(info), detect_wall_hit))
+			ray_casting(mlx(), degree, &(info));
 		degree += RAY_RES;
 	}
 }
