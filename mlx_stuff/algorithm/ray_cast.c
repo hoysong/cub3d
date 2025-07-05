@@ -98,6 +98,7 @@ static void	try_put_plane(t_point line_start, t_ray_info *info, t_ray_info *prev
 		prev_line_start.y = get_vertical_length(degree, prev_info);
 		prev_line_start.y = (float)WIN_HEIGHT/2 - prev_line_start.y/2;
 		prev_line_start.x = get_line_location(degree);
+		printf("len %f\n", prev_line_start.y);
 		return ;
 	}
 	/*X같은 경우는 마지막 각도일 경우에 실행하면된다.*/
