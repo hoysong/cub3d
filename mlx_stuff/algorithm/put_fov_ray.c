@@ -1,6 +1,7 @@
 #include "./my_algorithm.h"
 #include "../mlx_hdler.h"
 #include "../../parser/pars_pub.h"
+#include "../player.h"
 #include <math.h>
 
 static inline t_img *get_player_view_texture(t_point point, t_point d)
@@ -20,8 +21,7 @@ static inline t_img *get_player_view_texture(t_point point, t_point d)
 //		return (NULL);
 }
 
-//inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
-int	detect_wall_hit(t_point point, t_point d, void *ray_info)
+static int	fov_ray_routine(t_point point, t_point d, void *ray_info)
 {
 	t_point	floor_pt;
 
@@ -31,16 +31,25 @@ int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 			&(mlx()->minimap),
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
-			FOV_COLOR);
+			0x0000ff);
 	if (get_map()
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
-		((t_ray_info *)ray_info)->wall_ptr =
-			&(get_map()[(int)TO_INDEX(floor_pt.y)][(int)TO_INDEX(floor_pt.x)]);
-		((t_ray_info *)ray_info)->texture = get_player_view_texture(point, d);
-		((t_ray_info *)ray_info)->ray_hit = point;
 		return (1);
 	}
 	return (0);
+}
+
+void	draw_fov(t_player *player)
+{
+	float	degree;
+	t_point	dest_point;
+
+	degree = ((float)Player_FOV / 2) * -1;
+	dest_point = rotate_point(player->cord, player->view_point, degree);
+	shoot_ray(player->cord, dest_point, NULL, fov_ray_routine);
+	degree = ((float)Player_FOV / 2);
+	dest_point = rotate_point(player->cord, player->view_point, degree);
+	shoot_ray(player->cord, dest_point, NULL, fov_ray_routine);
 }

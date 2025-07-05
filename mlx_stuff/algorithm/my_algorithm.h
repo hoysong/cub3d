@@ -12,8 +12,10 @@ typedef struct s_point
 
 typedef struct s_ray_info
 {
+	float	degree;
+	char	*wall_ptr;
 	t_img	*texture;
-	t_point	ray_hit;
+	t_point		ray_hit;
 	t_point		ray_start;
 	t_point		end_point;
 	t_point		ray_dest;

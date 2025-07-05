@@ -10,7 +10,7 @@
 //# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
 
 /*Minimap size.*/
-# define MINISIZE	550
+# define MINISIZE	150
 /*Minimap BG_color.*/
 # define BG_Color	0xdddddd
 /*Minimap GridColor.*/
@@ -33,9 +33,9 @@
 /*마우스 인풋을 받는 간격.*/
 # define MOUSE_TICK		4
 /*Player FOV.*/
-# define Player_FOV		90
+# define Player_FOV		100
 /*Player Angle per tick.*/
-# define CAM_ROTATE_ANGLE	3
+# define CAM_ROTATE_ANGLE	2
 /*Player's move distance.*/
 /*1ray만큼의.. 이동거리입니다.*/
 # define STEP_PER_PIXEL	7
