@@ -73,29 +73,41 @@ static void	try_put_plane(t_point line_start, t_ray_info *info, t_ray_info *prev
 	if (prev_line_start.y == 0)
 	{
 		*prev_info = *info;
+		degree = prev_info->degree;
+		printf("BEFORE while prev_texture : %p\n", prev_info->texture);
+		printf("BEFORE while prev_wall : %p\n", prev_info->wall_ptr);
 		while (1)
 		{
 			prev_info->ray_dest = rotate_point(
 					prev_info->ray_start,
 					prev_info->end_point,
-					prev_info->degree
+					degree
 					);
 			shoot_ray(prev_info->ray_start, prev_info->ray_dest, prev_info, detect_wall_hit);
+			printf("prev_texture : %p\n", prev_info->texture);
+			printf("prev_wall : %p\n", prev_info->wall_ptr);
 			/*ray가 히트한 곳이 현재 벽이 아니라면, 멈춘다.*/
 			if (prev_info->wall_ptr != info->wall_ptr || prev_info->texture != info->texture)
 			{
-				prev_info->degree += RAY_RES;
+				printf("LOOP_stop!\n");
+				degree += RAY_RES;
+				prev_info->ray_dest = rotate_point(
+						prev_info->ray_start,
+						prev_info->end_point,
+						degree
+						);
 				shoot_ray(prev_info->ray_start, prev_info->ray_dest, prev_info, detect_wall_hit);
 				break ;
 			}
-			prev_info->degree -= RAY_RES;
+			degree -= RAY_RES;
+			printf("degree : %f\n", degree);
 		}
-		prev_line_start.y = get_vertical_length(prev_info->degree, prev_info);
-		printf("get vert degree %f\n", prev_info->degree);
+		prev_line_start.y = get_vertical_length(degree, prev_info);
+//		printf("get vert degree %f\n", prev_info->degree);
 		prev_line_start.y = (float)WIN_HEIGHT/2 - prev_line_start.y/2;
-		printf("== get_line_location ==\n");
-		prev_line_start.x = get_line_location(prev_info->degree);
-		printf("cast_line_len: %f\n", prev_line_start.x);
+//		printf("== get_line_location ==\n");
+		prev_line_start.x = get_line_location(degree);
+//		printf("cast_line_len: %f\n", prev_line_start.x);
 		printf("prev_texture : %p\n", prev_info->texture);
 		printf("prev_wall : %p\n", prev_info->wall_ptr);
 		return ;
@@ -150,12 +162,12 @@ static void	ray_casting(t_mlx *mlx, t_ray_info *info, t_ray_info *prev_info)
 	t_point	line_start_location;
 	line_start_location.y = line_start;
 	line_start_location.x = line_x;
-				printf("INFO\n");
-				print_info(info);
-				printf("PREV_INFO\n");
-				print_info(prev_info);
-				printf("line location %f\n", line_start_location.y);
-				printf("line location %f\n", line_start_location.x);
+	//			printf("INFO\n");
+	//			print_info(info);
+	//			printf("PREV_INFO\n");
+	//			print_info(prev_info);
+	//			printf("line location %f\n", line_start_location.y);
+	//			printf("line location %f\n", line_start_location.x);
 	try_put_plane(line_start_location, info, prev_info);
 	/*put_line*/
 	int	color;
@@ -179,10 +191,11 @@ extern void	draw_fov(t_player *player);
 
 void	shoot_fov_ray(void)
 {
+	static int	loop_chk_test;
 	t_ray_info	info;
 	t_ray_info	prev_info;
 
-	printf("=============SHOOTING_RAY=============\n");
+	printf("==========================SHOOTING_RAY=============\n");
 	info.ray_start = player()->cord;
 	info.end_point = player()->view_point;
 	info.degree = ((float)Player_FOV / 2) * -1;
@@ -192,15 +205,17 @@ void	shoot_fov_ray(void)
 	prev_info.degree = 123;
 	while (info.degree <= (float)Player_FOV / 2)
 	{
+		loop_chk_test++;
 		info.ray_dest = rotate_point(info.ray_start, info.end_point, info.degree);
 		if (shoot_ray(info.ray_start, info.ray_dest, &(info), detect_wall_hit))
 		{
 			if (prev_info.wall_ptr != info.wall_ptr
 				|| prev_info.texture != info.texture)
 			{
-				ray_casting(mlx(), &(info), &(prev_info));
+				printf("loopchk : %d\n", loop_chk_test);
 				printf("shootray's texture: %p\n", prev_info.texture);
 				printf("shootray's wall: %p\n", prev_info.wall_ptr);
+				ray_casting(mlx(), &(info), &(prev_info));
 			}
 			else if (info.degree == (float)Player_FOV / 2)
 				ray_casting(mlx(), &(info), &(prev_info));
@@ -209,4 +224,5 @@ void	shoot_fov_ray(void)
 		info.degree += RAY_RES;
 	}
 	draw_fov(player());
+	loop_chk_test = 0;
 }
