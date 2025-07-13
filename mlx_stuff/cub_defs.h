@@ -33,7 +33,7 @@
 /*마우스 인풋을 받는 간격.*/
 # define MOUSE_TICK		4
 /*Player FOV.*/
-# define Player_FOV		350
+# define Player_FOV		90
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	3
 /*Player's move distance.*/

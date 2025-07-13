@@ -1,7 +1,6 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
-#include <stdio.h>
 
 static inline float	zero_start_degree(float degree)
 {
@@ -9,7 +8,7 @@ static inline float	zero_start_degree(float degree)
 	return (degree);
 }
 
-float	get_vertlen(t_point a, t_point b, t_point c)
+static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
 	m = (b.y - a.y) / (b.x - a.x);
@@ -21,42 +20,16 @@ float	get_vertlen(t_point a, t_point b, t_point c)
 
 static inline float	get_vertical_length(float degree, t_ray_info *info)
 {
-	float	cos_degree;
+	float	vert_len;
+	float	inverse;
 
-	if (degree < 0)
-		cos_degree = my_abs(degree);
-	else
-		cos_degree = degree;
-
-	float	hit_len;
-	float	perp_len;
-
-	hit_len = get_vertlen(
+	vert_len = get_vertlen(
 			player()->cord,
 			rotate_point(player()->cord, player()->view_point, 90),
 			info->ray_hit);
-	perp_len = hit_len;
-
-//	hit_len = get_length(player()->cord, info->ray_hit);
-//	/*90도인 경우 0이 나와버려 문제가 발생한다 (주석 없애지 말 것.)*/
-//	/*지금 해결된 상태는 아님.*/
-//	perp_len = cos(cos_degree * (Pie/180)) * hit_len;
 
 	/*to inverse*/
-	float	inverse;
-
-	//if (cos_degree == 90)
-	//{
-	//	perp_len = hit_len;
-	//}
-	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / perp_len;
-	//printf("degree  : %f\n", degree);
-	//printf("cos_degree  : %f\n", cos_degree);
-	printf("rayhit  : %f\n", hit_len);
-	//printf("cos()   : %f\n", cos(cos_degree * (Pie/180)));
-	printf("cos*hit : %f\n", perp_len);
-	printf("RESULT  : %f\n", inverse);
-	printf("\n");
+	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
 	if (inverse > WIN_HEIGHT || inverse < 0)
 		inverse = WIN_HEIGHT;
 	return (inverse);
