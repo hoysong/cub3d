@@ -12,11 +12,12 @@ typedef struct s_point
 
 typedef struct s_ray_info
 {
+	char	*wall_addr;
 	t_img	*texture;
-	t_point	ray_hit;
 	t_point		ray_start;
-	t_point		end_point;
 	t_point		ray_dest;
+	t_point		ray_hit;
+	t_point		end_point;
 }t_ray_info;
 
 

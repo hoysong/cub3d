@@ -1,6 +1,9 @@
 #include "./my_algorithm.h"
 #include <unistd.h>
 #include <stdio.h>
+/*아래 define들은 추후 삭제해도 됨.*/
+#define START_PIX_COLOR 0x00aa00
+#define END_PIX_COLOR 0x00aa00
 
 static int	fill_line(t_point pixel_location, t_point dummy1, void *dummy2)
 {
@@ -15,8 +18,8 @@ static int	fill_line(t_point pixel_location, t_point dummy1, void *dummy2)
 //		put_pixel_to_img(&(mlx()->background), line_x, i, 0x440000);
 //		++i;
 //	}
-	put_pixel_to_img(&(mlx()->background), line_x, pixel_location.y, 0x00ff00);
-	put_pixel_to_img(&(mlx()->background), line_x, line_end, 0x00ff00);
+	put_pixel_to_img(&(mlx()->background), line_x, pixel_location.y, START_PIX_COLOR);
+	put_pixel_to_img(&(mlx()->background), line_x, line_end, END_PIX_COLOR);
 	return (0);
 }
 
