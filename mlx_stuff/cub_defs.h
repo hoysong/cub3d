@@ -10,7 +10,7 @@
 //# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
 
 /*Minimap size.*/
-# define MINISIZE	350
+# define MINISIZE	150
 /*Minimap BG_color.*/
 # define BG_Color	0x666666
 /*Minimap GridColor.*/

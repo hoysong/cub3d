@@ -360,8 +360,8 @@ static inline float	get_line_y(t_point point)
 
 	/*to inverse*/
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	if (inverse > WIN_HEIGHT || inverse < 0)
-		inverse = WIN_HEIGHT;
+//	if (inverse > WIN_HEIGHT || inverse < 0)
+//		inverse = WIN_HEIGHT;
 	inverse = (float)WIN_HEIGHT/2 - inverse/2;
 	return (inverse);
 }
@@ -372,21 +372,39 @@ static inline int	get_line_x(float degree)
 	zero_degree = degree;
 	float	degree_to_percent = zero_degree / Player_FOV * 100;
 	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
+//	printf("GET_X\n");
+//	printf("degree            : %f\n", zero_degree);
+//	printf("degree_to_percent : %f\n", degree_to_percent);
+//	printf("line_location     : %f\n", line_location);
+//	printf("%f\n", zero_degree);
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
 	return (line_location);
 }
 
 //	put_pixel_to_img(&(mlx->background), line_location, line_start, color_num);
-static void	put_line(t_img *img_ptr, t_point point)
+static void	put_line(t_img *img_ptr, t_point point, int color)
 {
 	float	line_end;
 	line_end = WIN_HEIGHT - point.y;
 	while (point.y < line_end)
 	{
-		put_pixel_to_img(img_ptr, point.x, point.y, 0x00ff00);
+		if (
+				(point.x > 0 && point.x < WIN_WIDTH) &&
+				(point.y > 0 && point.y < WIN_HEIGHT)
+				)
+			put_pixel_to_img(img_ptr, point.x, point.y, color);
 		++point.y;
 	}
+}
+
+int	put_texture(t_point ray, t_point y, void *dummy_3)
+{
+		if (
+				(ray.x > 0 && ray.x < WIN_WIDTH) &&
+				(ray.y > 0 && ray.y < WIN_HEIGHT)
+				)
+			put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x0);
 }
 
 void	try_put_vertline(t_wall_node *node)
@@ -397,9 +415,19 @@ void	try_put_vertline(t_wall_node *node)
 
 	while (node)
 	{
+		/*시작면의 시작을 구함.*/
 		tex_start.y = get_line_y(node->wall_start);
 		tex_start.x = get_line_x(node->start_degree);
-		put_line(&(mlx_ptr->background), tex_start);
+		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
+		/*끝면의 시작을 구함.*/
+		tex_end.y = get_line_y(node->wall_end);
+		tex_end.x = get_line_x(node->end_degree);
+		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
+		printf("SHOOTING RAY\n");
+		printf("from: %f | %f\n", tex_start.x, tex_start.y);
+		printf("to  : %f | %f\n", tex_end.x, tex_end.y);
+		shoot_ray(tex_start, tex_end, NULL, put_texture);
+
 		node = node->next;
 	}
 }
@@ -413,6 +441,8 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray();
+	printf("BEFORE - : %f\n", node->start_degree);
+	node->start_degree *= -1;
 	try_put_edge(node);
 	try_put_vertline(node);
 	wall_destroy_list(node);
