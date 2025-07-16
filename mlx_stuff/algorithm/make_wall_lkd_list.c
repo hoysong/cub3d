@@ -143,12 +143,27 @@ void	init_info(t_ray_info *info)
 
 float	get_degree(t_point *a, t_point *b, t_point *c)
 {
-	return (1);
+	float	a_num;
+	float	b_num;
+	float	c_num;
+	float	d_num;
+	float	arc_cos;
+
+	a_num = (a->x - b->x)*(c->x - b->x);
+	b_num = (a->y - b->y)*(c->y - b->y);
+	c_num = pow((a->x - b->x), 2) + pow((a->y - b->y), 2);
+	d_num = pow((c->x - b->x), 2) + pow((c->y - b->y), 2);
+	arc_cos = acos(
+			(a_num + b_num) / (sqrt(c_num) * sqrt(d_num))
+			);
+	return (arc_cos);
 }
 
 void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 {
 	node = wall_init_last_node(node);
+	/*텍스쳐를 먼저 확인하기.
+	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
 }
 
 t_wall_node	*new_shoot_fov_ray(void)
