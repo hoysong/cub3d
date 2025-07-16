@@ -87,6 +87,12 @@ void	wall_destroy_list(t_wall_node *node)
  * ===============
  */
 
+static inline float	zero_start_degree(float degree)
+{
+	degree += (float)Player_FOV / 2;
+	return (degree);
+}
+
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
@@ -111,7 +117,46 @@ static inline float	get_vertical_length(t_ray_info *info)
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
 	if (inverse > WIN_HEIGHT || inverse < 0)
 		inverse = WIN_HEIGHT;
+	inverse = (float)WIN_HEIGHT/2 - inverse/2;
 	return (inverse);
+}
+
+static inline int	get_line_location(float degree)
+{
+	float	zero_degree = zero_start_degree(degree);
+	zero_degree = degree;
+	float	degree_to_percent = zero_degree / Player_FOV * 100;
+	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
+	if (line_location == WIN_WIDTH)
+		line_location = WIN_WIDTH - 1;
+	return (line_location);
+}
+
+extern void	try_put_plane(float start_y, float line_x, int degree);
+extern void	try_put_plane_2(float degree, float line_len, t_ray_info *info);
+
+static void	ray_casting(t_mlx *mlx, t_ray_info *info)
+{
+	float	line_len;
+	float	line_start;
+	float	line_end;
+	int		line_location;
+
+	line_len = get_vertical_length(info);
+	line_start = (float)WIN_HEIGHT/2 - line_len/2;
+	line_end = (float)WIN_HEIGHT/2 + line_len/2;
+	line_location = get_line_location(info->degree);
+	/*try_put*/
+//	try_put_plane(line_start, line_location, (int)degree);
+//	try_put_plane_2(degree, line_len, info);
+	/*put_line*/
+	while (line_start < line_end)
+	{
+		printf("%d\n", line_location);
+		printf("%f\n", line_start);
+		put_pixel_to_img(&(mlx->background), line_location, line_start, 0x00ff00);
+		++line_start;
+	}
 }
 
 /*fov범위만큼 벽들에 ray를 쏠 것이다.
@@ -181,8 +226,8 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 	else if (&(mlx_ptr->xpm_south) == info->texture)
 	{
 		printf("2\n");
-		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		start->y = info->wall_y * SIZE_OF_BLOCK;
+		start->x = info->wall_x * SIZE_OF_BLOCK;
+		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 	}
@@ -199,8 +244,8 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 		printf("4\n");
 		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		end->x = info->wall_x * SIZE_OF_BLOCK;
-		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		end->y = info->wall_y * SIZE_OF_BLOCK;
 	}
 }
 
@@ -252,9 +297,9 @@ t_wall_node	*new_shoot_fov_ray(void)
 
 	init_info(&info);
 	prev_info = info;
+	printf("======================================================\n");
 	while (info.degree <= Player_FOV)
 	{
-		printf("deg: %f\n", info.degree);
 		info.ray_dest = rotate_point(
 				info.ray_start, info.end_point,
 				info.degree
@@ -265,41 +310,110 @@ t_wall_node	*new_shoot_fov_ray(void)
 			if (prev_info.texture != info.texture ||
 				prev_info.wall_addr != info.wall_addr)
 			{
+				printf("deg: %f\n", info.degree);
 				/*맞다면 노드를 생성한다.*/
 				add_new_wall_node(node, &info);
 				node = node->next;
+				printf("\n");
 			}
 		}
 		prev_info = info;
 		info.degree += RAY_RES;
 	}
+	/*처음 노드가 비어있어서 첫 노드만 없애는 작업*/
+	node = wall_find_first_node(node);
+	node = node->next;
+	free(node->prev);
+	node->prev = NULL;
 	return (node);
 }
 
+/*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
 void	try_put_edge(t_wall_node *node)
 {
-	node = wall_find_first_node(node);
-	put_pixel_to_img(
-			&(mlx()->minimap),
-			to_minimap_ratio(node->wall_start).x,
-			to_minimap_ratio(node->wall_start).y,
-			0x00ff00);
-	put_pixel_to_img(
-			&(mlx()->minimap),
-			to_minimap_ratio(node->wall_end).x,
-			to_minimap_ratio(node->wall_end).y,
-			0x00ff00);
+//	node = wall_find_first_node(node);
+	while (node)
+	{
+		put_pixel_to_img(
+				&(mlx()->minimap),
+				to_minimap_ratio(node->wall_start).x,
+				to_minimap_ratio(node->wall_start).y,
+				0x00ffff);
+		put_pixel_to_img(
+				&(mlx()->minimap),
+				to_minimap_ratio(node->wall_end).x,
+				to_minimap_ratio(node->wall_end).y,
+				0x00ffff);
+		node = node->next;
+	}
+}
+
+static inline float	get_line_y(t_point point)
+{
+	float	vert_len;
+	float	inverse;
+
+	vert_len = get_vertlen(
+			player()->cord,
+			rotate_point(player()->cord, player()->view_point, 90),
+			point);
+
+	/*to inverse*/
+	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
+	if (inverse > WIN_HEIGHT || inverse < 0)
+		inverse = WIN_HEIGHT;
+	inverse = (float)WIN_HEIGHT/2 - inverse/2;
+	return (inverse);
+}
+
+static inline int	get_line_x(float degree)
+{
+	float	zero_degree = zero_start_degree(degree);
+	zero_degree = degree;
+	float	degree_to_percent = zero_degree / Player_FOV * 100;
+	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
+	if (line_location == WIN_WIDTH)
+		line_location = WIN_WIDTH - 1;
+	return (line_location);
+}
+
+//	put_pixel_to_img(&(mlx->background), line_location, line_start, color_num);
+static void	put_line(t_img *img_ptr, t_point point)
+{
+	float	line_end;
+	line_end = WIN_HEIGHT - point.y;
+	while (point.y < line_end)
+	{
+		put_pixel_to_img(img_ptr, point.x, point.y, 0x00ff00);
+		++point.y;
+	}
+}
+
+void	try_put_vertline(t_wall_node *node)
+{
+	t_mlx	*mlx_ptr = mlx();
+	t_point	tex_start;
+	t_point	tex_end;
+
+	while (node)
+	{
+		tex_start.y = get_line_y(node->wall_start);
+		tex_start.x = get_line_x(node->start_degree);
+		put_line(&(mlx_ptr->background), tex_start);
+		node = node->next;
+	}
 }
 
 /*이름은 나중에 draw_walls라고 하는게 좋을 듯 싶다.
  * draw_walls()
- * put_texture()*/
+ * put_texture()
+ */
 void	make_wall_linked_list(void)
 {
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray();
 	try_put_edge(node);
-
+	try_put_vertline(node);
 	wall_destroy_list(node);
 }

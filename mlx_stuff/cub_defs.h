@@ -2,7 +2,7 @@
 # define CUB_DEFS_H
 
 /*Window size.*/
-# define WIN_WIDTH	1000
+# define WIN_WIDTH	900
 # define WIN_HEIGHT	600
 
 /*mouse*/
@@ -10,15 +10,15 @@
 //# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
 
 /*Minimap size.*/
-# define MINISIZE	300
+# define MINISIZE	350
 /*Minimap BG_color.*/
-# define BG_Color	0xcccccc
+# define BG_Color	0x666666
 /*Minimap GridColor.*/
-# define GridColor	0xcccccc
+# define GridColor	0x666666
 /*Minimap WallColor.*/
-# define WallColor	0x888888
+# define WallColor	0x222222
 /*FOV_COLOR*/
-# define FOV_COLOR	0xcc0000
+# define FOV_COLOR	0x990000
 
 /*size of block.*/
 # define SIZE_OF_BLOCK	100
