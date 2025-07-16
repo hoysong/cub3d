@@ -12,13 +12,13 @@
 /*Minimap size.*/
 # define MINISIZE	300
 /*Minimap BG_color.*/
-# define BG_Color	0xdddddd
+# define BG_Color	0xcccccc
 /*Minimap GridColor.*/
-# define GridColor	0xdddddd
+# define GridColor	0xcccccc
 /*Minimap WallColor.*/
-# define WallColor	0x999999
+# define WallColor	0x888888
 /*FOV_COLOR*/
-# define FOV_COLOR	0xff0000
+# define FOV_COLOR	0xcc0000
 
 /*size of block.*/
 # define SIZE_OF_BLOCK	100

@@ -46,6 +46,13 @@ t_wall_node	*wall_init_node(void)
 	return (node);
 }
 
+t_wall_node	*wall_find_first_node(t_wall_node *node)
+{
+	while(node->prev != NULL)
+		node = node->prev;
+	return (node);
+}
+
 /*returns last node.*/
 t_wall_node	*wall_find_lst_node(t_wall_node *node)
 {
@@ -136,7 +143,7 @@ void	init_info(t_ray_info *info)
 	info->end_point = rotate_point(
 			info->ray_start,
 			info->end_point,
-			(Player_FOV / 2)*-1
+			((float)Player_FOV / 2)*-1
 			);
 	info->ray_dest = info->end_point;
 }
@@ -156,7 +163,45 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	arc_cos = acos(
 			(a_num + b_num) / (sqrt(c_num) * sqrt(d_num))
 			);
-	return (arc_cos);
+	return (arc_cos * (180 / Pie));
+}
+
+void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
+{
+	t_mlx	*mlx_ptr = mlx();
+
+	if (&(mlx_ptr->xpm_north) == info->texture)
+	{
+		printf("1\n");
+		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		start->y = info->wall_y * SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK;
+		end->y = info->wall_y * SIZE_OF_BLOCK;
+	}
+	else if (&(mlx_ptr->xpm_south) == info->texture)
+	{
+		printf("2\n");
+		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		start->y = info->wall_y * SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	}
+	else if (&(mlx_ptr->xpm_west) == info->texture)
+	{
+		printf("3\n");
+		start->x = info->wall_x * SIZE_OF_BLOCK;
+		start->y = info->wall_y * SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK;
+		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	}
+	else if (&(mlx_ptr->xpm_east) == info->texture)
+	{
+		printf("4\n");
+		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK;
+		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	}
 }
 
 void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
@@ -164,6 +209,12 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	node = wall_init_last_node(node);
 	/*텍스쳐를 먼저 확인하기.
 	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
+	get_wall_start_end(info, &(node->wall_start), &(node->wall_end));
+	node->start_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start));
+	node->end_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_end));
+	node->texture = info->texture;
+	printf("start deg: %f\n", node->start_degree);
+	printf("end   deg: %f\n", node->end_degree);
 }
 
 t_wall_node	*new_shoot_fov_ray(void)
@@ -225,6 +276,21 @@ t_wall_node	*new_shoot_fov_ray(void)
 	return (node);
 }
 
+void	try_put_edge(t_wall_node *node)
+{
+	node = wall_find_first_node(node);
+	put_pixel_to_img(
+			&(mlx()->minimap),
+			to_minimap_ratio(node->wall_start).x,
+			to_minimap_ratio(node->wall_start).y,
+			0x00ff00);
+	put_pixel_to_img(
+			&(mlx()->minimap),
+			to_minimap_ratio(node->wall_end).x,
+			to_minimap_ratio(node->wall_end).y,
+			0x00ff00);
+}
+
 /*이름은 나중에 draw_walls라고 하는게 좋을 듯 싶다.
  * draw_walls()
  * put_texture()*/
@@ -233,6 +299,7 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray();
+	try_put_edge(node);
 
 	wall_destroy_list(node);
 }
