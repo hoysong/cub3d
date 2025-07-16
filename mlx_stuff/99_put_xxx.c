@@ -64,7 +64,8 @@ void	put_frame(void)
 	if (mlx()->toggle_minimap)
 		draw_minimap();
 	/*그림들 위에 Ray결과 덮어쓰기.*/
-	shoot_fov_ray();
+//	shoot_fov_ray();
+	make_wall_linked_list();
 	/*try put xpm*/
 //	try_put_xpm();
 	/*화면 올리기.*/
