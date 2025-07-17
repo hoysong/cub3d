@@ -200,14 +200,24 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	float	c_num;
 	float	d_num;
 	float	arc_cos;
+	float	x_num;
 
 	a_num = (a->x - b->x)*(c->x - b->x);
 	b_num = (a->y - b->y)*(c->y - b->y);
 	c_num = pow((a->x - b->x), 2) + pow((a->y - b->y), 2);
 	d_num = pow((c->x - b->x), 2) + pow((c->y - b->y), 2);
-	arc_cos = acos(
-			(a_num + b_num) / (sqrt(c_num) * sqrt(d_num))
-			);
+	x_num = (a_num + b_num) / (sqrt(c_num) * sqrt(d_num));
+	/* 기준각과 텍스터 시작 좌표가 기막히게 비슷할 경우 문제가 발생한다.
+	 * 해당 문제를 해결하기 위한 방법.*/
+	if (x_num > 1)
+		x_num = 1;
+	else if (x_num < -1)
+		x_num = -1;
+	arc_cos = acos(x_num);
+	printf("acos: %f\n",arc_cos);
+	printf("%f\n", (a_num + b_num));
+	printf("------div----- = %f\n", (a_num + b_num) / (sqrt(c_num) * sqrt(d_num)));
+	printf("%f\n\n", (sqrt(c_num) * sqrt(d_num)));
 	return (arc_cos * (180 / Pie));
 }
 
@@ -217,7 +227,6 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 
 	if (&(mlx_ptr->xpm_north) == info->texture)
 	{
-		printf("1\n");
 		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		start->y = info->wall_y * SIZE_OF_BLOCK;
 		end->x = info->wall_x * SIZE_OF_BLOCK;
@@ -225,7 +234,6 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 	}
 	else if (&(mlx_ptr->xpm_south) == info->texture)
 	{
-		printf("2\n");
 		start->x = info->wall_x * SIZE_OF_BLOCK;
 		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
@@ -233,7 +241,6 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 	}
 	else if (&(mlx_ptr->xpm_west) == info->texture)
 	{
-		printf("3\n");
 		start->x = info->wall_x * SIZE_OF_BLOCK;
 		start->y = info->wall_y * SIZE_OF_BLOCK;
 		end->x = info->wall_x * SIZE_OF_BLOCK;
@@ -241,7 +248,6 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 	}
 	else if (&(mlx_ptr->xpm_east) == info->texture)
 	{
-		printf("4\n");
 		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
@@ -255,7 +261,9 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	/*텍스쳐를 먼저 확인하기.
 	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
 	get_wall_start_end(info, &(node->wall_start), &(node->wall_end));
+	printf("start ");
 	node->start_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start));
+	printf("end   ");
 	node->end_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_end));
 	node->texture = info->texture;
 	printf("start deg: %f\n", node->start_degree);
@@ -329,7 +337,7 @@ t_wall_node	*new_shoot_fov_ray(void)
 }
 
 /*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
-void	try_put_edge(t_wall_node *node)
+void	try_put_edge_to_map(t_wall_node *node)
 {
 //	node = wall_find_first_node(node);
 	while (node)
@@ -372,11 +380,10 @@ static inline int	get_line_x(float degree)
 	zero_degree = degree;
 	float	degree_to_percent = zero_degree / Player_FOV * 100;
 	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
-//	printf("GET_X\n");
-//	printf("degree            : %f\n", zero_degree);
-//	printf("degree_to_percent : %f\n", degree_to_percent);
-//	printf("line_location     : %f\n", line_location);
-//	printf("%f\n", zero_degree);
+	printf("GET_X\n");
+	printf("degree            : %f\n", zero_degree);
+	printf("degree_to_percent : %f\n", degree_to_percent);
+	printf("line_location     : %f\n\n", line_location);
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
 	return (line_location);
@@ -387,6 +394,7 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 {
 	float	line_end;
 	line_end = WIN_HEIGHT - point.y;
+	printf("on put_line %f | %f\n", point.x, point.y);
 	while (point.y < line_end)
 	{
 		if (
@@ -395,6 +403,7 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 				)
 			put_pixel_to_img(img_ptr, point.x, point.y, color);
 		++point.y;
+//		printf("line_new : %f\n", point.y);
 	}
 }
 
@@ -417,17 +426,33 @@ void	try_put_vertline(t_wall_node *node)
 	{
 		/*시작면의 시작을 구함.*/
 		tex_start.y = get_line_y(node->wall_start);
+		printf("get_start_x: ");
 		tex_start.x = get_line_x(node->start_degree);
 		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
 		/*끝면의 시작을 구함.*/
 		tex_end.y = get_line_y(node->wall_end);
+		printf("get_end_x: ");
 		tex_end.x = get_line_x(node->end_degree);
 		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
 		printf("SHOOTING RAY\n");
 		printf("from: %f | %f\n", tex_start.x, tex_start.y);
-		printf("to  : %f | %f\n", tex_end.x, tex_end.y);
+		printf("to  : %f | %f\n\n", tex_end.x, tex_end.y);
 		shoot_ray(tex_start, tex_end, NULL, put_texture);
 
+		node = node->next;
+	}
+}
+
+void	print_list(t_wall_node *node)
+{
+	printf("====print_list====\n");
+	while (node)
+	{
+		printf("wall_start  : %f | %f\n", node->wall_start.x, node->wall_start.y);
+		printf("start_degree: %f\n", node->start_degree);
+		printf("wall_end  : %f | %f\n", node->wall_end.x, node->wall_end.y);
+		printf("end_degree: %f\n", node->end_degree);
+		printf("\n");
 		node = node->next;
 	}
 }
@@ -441,9 +466,10 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray();
-	printf("BEFORE - : %f\n", node->start_degree);
+//	printf("BEFORE - : %f\n", node->start_degree);
+	print_list(node);
 	node->start_degree *= -1;
-	try_put_edge(node);
+	try_put_edge_to_map(node);
 	try_put_vertline(node);
 	wall_destroy_list(node);
 }
