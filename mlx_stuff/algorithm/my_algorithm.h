@@ -21,6 +21,9 @@ typedef struct s_ray_info
 	t_point		ray_dest;
 	t_point		ray_hit;
 	t_point		end_point;
+	float		screen_left;
+	float		screen_right;
+	float		virtual_screen_width;
 }t_ray_info;
 
 typedef struct s_wall_node t_wall_node;
@@ -28,11 +31,16 @@ typedef struct s_wall_node
 {
 	t_wall_node	*next;
 	t_wall_node	*prev;
+	t_ray_info	*info;
 	t_img		*texture;
+
 	t_point		wall_start;
 	float		start_degree;
+	float		start_x;
+
 	t_point		wall_end;
 	float		end_degree;
+	float		end_x;
 }t_wall_node;
 
 /*ray를 투사합니다.*/

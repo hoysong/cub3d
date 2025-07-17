@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+/*x의 값이 테두리로 갈 수록 좁아지면서 물결처럼 나오는 것이다.*/
 
 /* ray의 벽 출돌 이후.
  * 면의 시작선과 끝선을 알도록 하면 너비를 구할 수 있음.
@@ -23,6 +24,7 @@
  * rayhit거리가 가장 긴 정보를 가진 node부터 그려버리면 된다.
  * 이렇게 진짜 면을 casting한다는 생각으로 접근하면 많은 문제가 해결이 된다.
  */
+static inline float	get_line_y(t_point point);
 
 t_wall_node	*wall_init_node(void)
 {
@@ -33,6 +35,7 @@ t_wall_node	*wall_init_node(void)
 		exit(1);
 	node->next = NULL;
 	node->prev = NULL;
+	node->info = NULL;
 	node->texture = NULL;
 
 	node->wall_start.x = 0;
@@ -181,6 +184,9 @@ void	init_info(t_ray_info *info)
 	info->degree = 0;
 	info->wall_x = 0;
 	info->wall_y = 0;
+	info->screen_left = 0;
+	info->screen_right = 0;
+	info->virtual_screen_width = 0;
 	info->wall_addr = NULL;
 	info->texture = NULL;
 	info->ray_start = player()->cord;
@@ -268,9 +274,43 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	node->texture = info->texture;
 	printf("start deg: %f\n", node->start_degree);
 	printf("end   deg: %f\n", node->end_degree);
+	node->info = info;
 }
 
-t_wall_node	*new_shoot_fov_ray(void)
+void	get_virtual_screen_width(t_ray_info *info)
+{
+	float	under_len;
+
+	/*좌측 스크린 사이즈 구하기.*/
+	shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit);
+	under_len = get_vertlen(
+			player()->cord,
+			rotate_point(player()->cord, player()->view_point, 90),
+			info->ray_hit);
+	info->screen_left = tan(Player_FOV / 2 * (Pie/180)) * under_len;
+
+	/*우측 스크린 사이즈 구하기.*/
+	info->degree = Player_FOV;
+
+	info->ray_dest = rotate_point(
+			info->ray_start, info->end_point,
+			info->degree
+			);
+
+	shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit);
+	under_len = get_vertlen(
+			player()->cord,
+			rotate_point(player()->cord, player()->view_point, 90),
+			info->ray_hit);
+	info->screen_right = tan(Player_FOV / 2 * (Pie/180)) * under_len;
+	info->virtual_screen_width = info->screen_left + info->screen_right;
+	info->degree = 0;
+//	printf("virtual_left : %f\n", screen_left);
+//	printf("virtual_right: %f\n", screen_right);
+//	printf("virtual_width: %f\n", info->virtual_screen_width);
+}
+
+t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 {
 	/* while문을 돌리면서 list를 만들기.
 	 * 	노드 하나하나를 생성하면서 진행됨.
@@ -298,35 +338,37 @@ t_wall_node	*new_shoot_fov_ray(void)
 	 * 		아마 x2 - x로 계산하면 간단하게 너비를 구할 수 있다.
 	 * 		텍스쳐는 비율로 어디의 선을 그어내면 될지 구하면 될 듯 하다.
 	 */
-	t_ray_info	info;
 	t_ray_info	prev_info;
 	t_wall_node	*node;
 	node = wall_init_node();
 
-	init_info(&info);
-	prev_info = info;
+	init_info(info);
+	get_virtual_screen_width(info);
+	prev_info = *info;
+
 	printf("======================================================\n");
-	while (info.degree <= Player_FOV)
+	while (info->degree <= Player_FOV)
 	{
-		info.ray_dest = rotate_point(
-				info.ray_start, info.end_point,
-				info.degree
+		info->ray_dest = rotate_point(
+				info->ray_start, info->end_point,
+				info->degree
 				);
-		if (shoot_ray(info.ray_start, info.ray_dest, &info, detect_wall_hit))
+		if (shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit))
 		{
 			/*새로운 벽이나 새로운 텍스쳐에 도달했는가?*/
-			if (prev_info.texture != info.texture ||
-				prev_info.wall_addr != info.wall_addr)
+			if (prev_info.texture != info->texture ||
+				prev_info.wall_addr != info->wall_addr)
 			{
-				printf("deg: %f\n", info.degree);
+				printf("deg: %f\n", info->degree);
 				/*맞다면 노드를 생성한다.*/
-				add_new_wall_node(node, &info);
+				/*그리고 표시되는 윈도우의 길이를 알아야 한다.*/
+				add_new_wall_node(node, info);
 				node = node->next;
 				printf("\n");
 			}
 		}
-		prev_info = info;
-		info.degree += RAY_RES;
+		prev_info = *info;
+		info->degree += RAY_RES;
 	}
 	/*처음 노드가 비어있어서 첫 노드만 없애는 작업*/
 	node = wall_find_first_node(node);
@@ -389,6 +431,7 @@ static inline int	get_line_x(float degree)
 	return (line_location);
 }
 
+
 //	put_pixel_to_img(&(mlx->background), line_location, line_start, color_num);
 static void	put_line(t_img *img_ptr, t_point point, int color)
 {
@@ -414,6 +457,7 @@ int	put_texture(t_point ray, t_point y, void *dummy_3)
 				(ray.y > 0 && ray.y < WIN_HEIGHT)
 				)
 			put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x0);
+		return (0);
 }
 
 void	try_put_vertline(t_wall_node *node)
@@ -433,6 +477,7 @@ void	try_put_vertline(t_wall_node *node)
 		tex_end.y = get_line_y(node->wall_end);
 		printf("get_end_x: ");
 		tex_end.x = get_line_x(node->end_degree);
+		//new_get_line_x(node, &tex_start, &tex_end);
 		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
 		printf("SHOOTING RAY\n");
 		printf("from: %f | %f\n", tex_start.x, tex_start.y);
@@ -448,6 +493,7 @@ void	print_list(t_wall_node *node)
 	printf("====print_list====\n");
 	while (node)
 	{
+		printf("ray_info: %p\n",node->info);
 		printf("wall_start  : %f | %f\n", node->wall_start.x, node->wall_start.y);
 		printf("start_degree: %f\n", node->start_degree);
 		printf("wall_end  : %f | %f\n", node->wall_end.x, node->wall_end.y);
@@ -463,9 +509,10 @@ void	print_list(t_wall_node *node)
  */
 void	make_wall_linked_list(void)
 {
+	t_ray_info	info;
 	t_wall_node	*node;
 
-	node = new_shoot_fov_ray();
+	node = new_shoot_fov_ray(&info);
 //	printf("BEFORE - : %f\n", node->start_degree);
 	print_list(node);
 	node->start_degree *= -1;
