@@ -3,6 +3,34 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+/* while문을 돌리면서 list를 만들기.
+ * 	노드 하나하나를 생성하면서 진행됨.
+ * 	1. 노드가 생성될 수 있는 조건.
+ * 		현재의 ray가 도달한 주소가 다르거나 다른 텍스쳐인 경우.
+ * 	2. 노드가 만들어지고 하는 일.
+ * 		도착한 곳의 texture를 판별하여 어디가 선의 시작이고 어디가 선의 끝인지 알아냄.
+ * 	3. 그렇다면 선에 대한 정보는 어떤 것들이 필요한가.
+ * 		+ 선의 시작위치
+ * 			가로(x)의 어디에 위치할 것인지.
+ * 			세로(y)의 어디서 시작하는지.
+ * 		+ 선의 가로 중 어디에 위치할지를 정하기 위해서는 각도가 필요하다.
+ * 			그렇다면 3점 사이의 각도를 구하면 될 듯 하다.
+ * 			실제로는 info.end_point를 info.ray_start를 기준으로 회전시키는 것이다.
+ * 			end_point, start, wall_start 순으로 연결시키면
+ * 			start 쪽의 각도를 알아낼 수 있다.
+ * 실제로 그리는 것은 위 과정 이후에 하면 되니 간단하게 된다.
+ * 그리는 과정은 다음과 같이 하면된다.
+ * 	1. 가장 먼 거리의 벽을 구한다.
+ * 		이는 ray_start와 ray_hit간의 거리를 구하기만 하면 되니 편하다.
+ * 	2. 시작과 끝을 연결한다.
+ * 		x,y에 위치한 면의 시작과 x2,y2에 위치한 면의 끝을 이어준다.
+ * 	3. 연결 과정에서 텍스쳐를 입힌다.
+ * 		텍스쳐는 면 시작과 끝의 너비를 구해서 입력하면 된다.
+ * 		아마 x2 - x로 계산하면 간단하게 너비를 구할 수 있다.
+ * 		텍스쳐는 비율로 어디의 선을 그어내면 될지 구하면 될 듯 하다.
+ */
+
 /*x의 값이 테두리로 갈 수록 좁아지면서 물결처럼 나오는 것이다.*/
 
 /* ray의 벽 출돌 이후.
@@ -24,6 +52,7 @@
  * rayhit거리가 가장 긴 정보를 가진 node부터 그려버리면 된다.
  * 이렇게 진짜 면을 casting한다는 생각으로 접근하면 많은 문제가 해결이 된다.
  */
+
 static inline float	get_line_y(t_point point);
 
 t_wall_node	*wall_init_node(void)
@@ -312,32 +341,6 @@ void	get_virtual_screen_width(t_ray_info *info)
 
 t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 {
-	/* while문을 돌리면서 list를 만들기.
-	 * 	노드 하나하나를 생성하면서 진행됨.
-	 * 	1. 노드가 생성될 수 있는 조건.
-	 * 		현재의 ray가 도달한 주소가 다르거나 다른 텍스쳐인 경우.
-	 * 	2. 노드가 만들어지고 하는 일.
-	 * 		도착한 곳의 texture를 판별하여 어디가 선의 시작이고 어디가 선의 끝인지 알아냄.
-	 * 	3. 그렇다면 선에 대한 정보는 어떤 것들이 필요한가.
-	 * 		+ 선의 시작위치
-	 * 			가로(x)의 어디에 위치할 것인지.
-	 * 			세로(y)의 어디서 시작하는지.
-	 * 		+ 선의 가로 중 어디에 위치할지를 정하기 위해서는 각도가 필요하다.
-	 * 			그렇다면 3점 사이의 각도를 구하면 될 듯 하다.
-	 * 			실제로는 info.end_point를 info.ray_start를 기준으로 회전시키는 것이다.
-	 * 			end_point, start, wall_start 순으로 연결시키면
-	 * 			start 쪽의 각도를 알아낼 수 있다.
-	 * 실제로 그리는 것은 위 과정 이후에 하면 되니 간단하게 된다.
-	 * 그리는 과정은 다음과 같이 하면된다.
-	 * 	1. 가장 먼 거리의 벽을 구한다.
-	 * 		이는 ray_start와 ray_hit간의 거리를 구하기만 하면 되니 편하다.
-	 * 	2. 시작과 끝을 연결한다.
-	 * 		x,y에 위치한 면의 시작과 x2,y2에 위치한 면의 끝을 이어준다.
-	 * 	3. 연결 과정에서 텍스쳐를 입힌다.
-	 * 		텍스쳐는 면 시작과 끝의 너비를 구해서 입력하면 된다.
-	 * 		아마 x2 - x로 계산하면 간단하게 너비를 구할 수 있다.
-	 * 		텍스쳐는 비율로 어디의 선을 그어내면 될지 구하면 될 듯 하다.
-	 */
 	t_ray_info	prev_info;
 	t_wall_node	*node;
 	node = wall_init_node();
@@ -431,8 +434,6 @@ static inline int	get_line_x(float degree)
 	return (line_location);
 }
 
-
-//	put_pixel_to_img(&(mlx->background), line_location, line_start, color_num);
 static void	put_line(t_img *img_ptr, t_point point, int color)
 {
 	float	line_end;
@@ -446,7 +447,6 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 				)
 			put_pixel_to_img(img_ptr, point.x, point.y, color);
 		++point.y;
-//		printf("line_new : %f\n", point.y);
 	}
 }
 
@@ -468,20 +468,14 @@ void	try_put_vertline(t_wall_node *node)
 
 	while (node)
 	{
-		/*시작면의 시작을 구함.*/
 		tex_start.y = get_line_y(node->wall_start);
-		printf("get_start_x: ");
 		tex_start.x = get_line_x(node->start_degree);
 		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
-		/*끝면의 시작을 구함.*/
+
 		tex_end.y = get_line_y(node->wall_end);
-		printf("get_end_x: ");
 		tex_end.x = get_line_x(node->end_degree);
-		//new_get_line_x(node, &tex_start, &tex_end);
 		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
-		printf("SHOOTING RAY\n");
-		printf("from: %f | %f\n", tex_start.x, tex_start.y);
-		printf("to  : %f | %f\n\n", tex_end.x, tex_end.y);
+
 		shoot_ray(tex_start, tex_end, NULL, put_texture);
 
 		node = node->next;
