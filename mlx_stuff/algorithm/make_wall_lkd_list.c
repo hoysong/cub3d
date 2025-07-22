@@ -38,34 +38,6 @@ void	init_info(t_ray_info *info)
 	info->ray_dest = info->end_point;
 }
 
-//float	get_degree(t_point *a, t_point *b, t_point *c)
-//{
-//	float	a_num;
-//	float	b_num;
-//	float	c_num;
-//	float	d_num;
-//	float	arc_cos;
-//	float	x_num;
-//
-//	a_num = (a->x - b->x)*(c->x - b->x);
-//	b_num = (a->y - b->y)*(c->y - b->y);
-//	c_num = pow((a->x - b->x), 2) + pow((a->y - b->y), 2);
-//	d_num = pow((c->x - b->x), 2) + pow((c->y - b->y), 2);
-//	x_num = (a_num + b_num) / (sqrt(c_num) * sqrt(d_num));
-//	/* 기준각과 텍스터 시작 좌표가 기막히게 비슷할 경우 문제가 발생한다.
-//	 * 해당 문제를 해결하기 위한 방법.*/
-//	if (x_num > 1)
-//		x_num = 1;
-//	else if (x_num < -1)
-//		x_num = -1;
-//	arc_cos = acos(x_num);
-//	printf("acos: %f\n",arc_cos);
-//	printf("%f\n", (a_num + b_num));
-//	printf("------div----- = %f\n", (a_num + b_num) / (sqrt(c_num) * sqrt(d_num)));
-//	printf("%f\n\n", (sqrt(c_num) * sqrt(d_num)));
-//	return (arc_cos * (180 / Pie));
-//}
-
 float	get_degree(t_point *a, t_point *b, t_point *c)
 {
 	t_point	a_b_vect;
@@ -88,10 +60,6 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	else if (result_atan < -Pie)
 		result_atan += 2*Pie;
 	degree = result_atan * (180 / Pie);
-	printf("a_b tan: %f\n", a_b_atan);
-	printf("c_b tan: %f\n", c_b_atan);
-	printf("res tan: %f\n", result_atan);
-	printf("deg    : %f\n", degree);
 	return (degree);
 }
 
@@ -331,7 +299,6 @@ void	make_wall_linked_list(void)
 	node = new_shoot_fov_ray(&info);
 	printf("PRINT LIST\n");
 	print_list(node);
-//	node->start_degree *= -1;
 	try_put_edge_to_map(node);
 	try_put_vertline(node);
 	wall_destroy_list(node);
