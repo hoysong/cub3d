@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include "./wall_lkd_list/wall_lkd_list.h"
 
-static inline float	get_line_y(t_point point);
-
 static inline float	zero_start_degree(float degree)
 {
 	degree += (float)Player_FOV / 2;
@@ -23,70 +21,11 @@ static inline float	get_vertlen(t_point a, t_point b, t_point c)
 	return (result);
 }
 
-static inline float	get_vertical_length(t_ray_info *info)
-{
-	float	vert_len;
-	float	inverse;
-
-	vert_len = get_vertlen(
-			player()->cord,
-			rotate_point(player()->cord, player()->view_point, 90),
-			info->ray_hit);
-
-	/*to inverse*/
-	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	if (inverse > WIN_HEIGHT || inverse < 0)
-		inverse = WIN_HEIGHT;
-	inverse = (float)WIN_HEIGHT/2 - inverse/2;
-	return (inverse);
-}
-
-static inline int	get_line_location(float degree)
-{
-	float	zero_degree = zero_start_degree(degree);
-	zero_degree = degree;
-	float	degree_to_percent = zero_degree / Player_FOV * 100;
-	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
-	if (line_location == WIN_WIDTH)
-		line_location = WIN_WIDTH - 1;
-	return (line_location);
-}
-
-extern void	try_put_plane(float start_y, float line_x, int degree);
-extern void	try_put_plane_2(float degree, float line_len, t_ray_info *info);
-
-static void	ray_casting(t_mlx *mlx, t_ray_info *info)
-{
-	float	line_len;
-	float	line_start;
-	float	line_end;
-	int		line_location;
-
-	line_len = get_vertical_length(info);
-	line_start = (float)WIN_HEIGHT/2 - line_len/2;
-	line_end = (float)WIN_HEIGHT/2 + line_len/2;
-	line_location = get_line_location(info->degree);
-	/*try_put*/
-//	try_put_plane(line_start, line_location, (int)degree);
-//	try_put_plane_2(degree, line_len, info);
-	/*put_line*/
-	while (line_start < line_end)
-	{
-		printf("%d\n", line_location);
-		printf("%f\n", line_start);
-		put_pixel_to_img(&(mlx->background), line_location, line_start, 0x00ff00);
-		++line_start;
-	}
-}
-
 void	init_info(t_ray_info *info)
 {
 	info->degree = 0;
 	info->wall_x = 0;
 	info->wall_y = 0;
-	info->screen_left = 0;
-	info->screen_right = 0;
-	info->virtual_screen_width = 0;
 	info->wall_addr = NULL;
 	info->texture = NULL;
 	info->ray_start = player()->cord;
@@ -99,32 +38,61 @@ void	init_info(t_ray_info *info)
 	info->ray_dest = info->end_point;
 }
 
+//float	get_degree(t_point *a, t_point *b, t_point *c)
+//{
+//	float	a_num;
+//	float	b_num;
+//	float	c_num;
+//	float	d_num;
+//	float	arc_cos;
+//	float	x_num;
+//
+//	a_num = (a->x - b->x)*(c->x - b->x);
+//	b_num = (a->y - b->y)*(c->y - b->y);
+//	c_num = pow((a->x - b->x), 2) + pow((a->y - b->y), 2);
+//	d_num = pow((c->x - b->x), 2) + pow((c->y - b->y), 2);
+//	x_num = (a_num + b_num) / (sqrt(c_num) * sqrt(d_num));
+//	/* 기준각과 텍스터 시작 좌표가 기막히게 비슷할 경우 문제가 발생한다.
+//	 * 해당 문제를 해결하기 위한 방법.*/
+//	if (x_num > 1)
+//		x_num = 1;
+//	else if (x_num < -1)
+//		x_num = -1;
+//	arc_cos = acos(x_num);
+//	printf("acos: %f\n",arc_cos);
+//	printf("%f\n", (a_num + b_num));
+//	printf("------div----- = %f\n", (a_num + b_num) / (sqrt(c_num) * sqrt(d_num)));
+//	printf("%f\n\n", (sqrt(c_num) * sqrt(d_num)));
+//	return (arc_cos * (180 / Pie));
+//}
+
 float	get_degree(t_point *a, t_point *b, t_point *c)
 {
-	float	a_num;
-	float	b_num;
-	float	c_num;
-	float	d_num;
-	float	arc_cos;
-	float	x_num;
+	t_point	a_b_vect;
+	t_point	c_b_vect;
+	float	a_b_atan;
+	float	c_b_atan;
+	float	result_atan;
+	float	degree;
 
-	a_num = (a->x - b->x)*(c->x - b->x);
-	b_num = (a->y - b->y)*(c->y - b->y);
-	c_num = pow((a->x - b->x), 2) + pow((a->y - b->y), 2);
-	d_num = pow((c->x - b->x), 2) + pow((c->y - b->y), 2);
-	x_num = (a_num + b_num) / (sqrt(c_num) * sqrt(d_num));
-	/* 기준각과 텍스터 시작 좌표가 기막히게 비슷할 경우 문제가 발생한다.
-	 * 해당 문제를 해결하기 위한 방법.*/
-	if (x_num > 1)
-		x_num = 1;
-	else if (x_num < -1)
-		x_num = -1;
-	arc_cos = acos(x_num);
-	printf("acos: %f\n",arc_cos);
-	printf("%f\n", (a_num + b_num));
-	printf("------div----- = %f\n", (a_num + b_num) / (sqrt(c_num) * sqrt(d_num)));
-	printf("%f\n\n", (sqrt(c_num) * sqrt(d_num)));
-	return (arc_cos * (180 / Pie));
+	a_b_vect.x = a->x - b->x;
+	a_b_vect.y = a->y - b->y;
+	c_b_vect.x = c->x - b->x;
+	c_b_vect.y = c->y - b->y;
+
+	a_b_atan = atan2(a_b_vect.y, a_b_vect.x);
+	c_b_atan = atan2(c_b_vect.y, c_b_vect.x);
+	result_atan = c_b_atan - a_b_atan;
+	if (result_atan > Pie)
+		result_atan -= 2*Pie;
+	else if (result_atan < -Pie)
+		result_atan += 2*Pie;
+	degree = result_atan * (180 / Pie);
+	printf("a_b tan: %f\n", a_b_atan);
+	printf("c_b tan: %f\n", c_b_atan);
+	printf("res tan: %f\n", result_atan);
+	printf("deg    : %f\n", degree);
+	return (degree);
 }
 
 void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
@@ -177,50 +145,6 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	node->info = info;
 }
 
-void	get_virtual_screen_width(t_ray_info *info)
-{
-	float	under_len;
-
-	/*좌측 스크린 사이즈 구하기.*/
-	shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit);
-	under_len = get_vertlen(
-			player()->cord,
-			rotate_point(player()->cord, player()->view_point, 90),
-			info->ray_hit);
-	info->screen_left = tan(Player_FOV / 2 * (Pie/180)) * under_len;
-
-	/*우측 스크린 사이즈 구하기.*/
-	info->degree = Player_FOV;
-
-	info->ray_dest = rotate_point(
-			info->ray_start, info->end_point,
-			info->degree
-			);
-
-	shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit);
-	under_len = get_vertlen(
-			player()->cord,
-			rotate_point(player()->cord, player()->view_point, 90),
-			info->ray_hit);
-	info->screen_right = tan(Player_FOV / 2 * (Pie/180)) * under_len;
-	info->virtual_screen_width = info->screen_left + info->screen_right;
-	info->degree = 0;
-	if (info->screen_left > info->screen_right)
-	{
-		info->screen_right = info->screen_left;
-	}
-	else if (info->screen_left < info->screen_right)
-	{
-		info->screen_left = info->screen_right;
-	}
-	info->screen_left = 500;
-	info->screen_right = 500;
-	info->virtual_screen_width = info->screen_left*2;
-//	printf("virtual_left : %f\n", screen_left);
-//	printf("virtual_right: %f\n", screen_right);
-//	printf("virtual_width: %f\n", info->virtual_screen_width);
-}
-
 t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 {
 	t_ray_info	prev_info;
@@ -228,7 +152,6 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 	node = wall_init_node();
 
 	init_info(info);
-	get_virtual_screen_width(info);
 	prev_info = *info;
 
 	printf("======================================================\n");
@@ -295,6 +218,7 @@ static inline float	get_line_y(t_point point)
 
 	/*to inverse*/
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
+	printf("inverse: %f\n", inverse);
 //	if (inverse > WIN_HEIGHT || inverse < 0)
 //		inverse = WIN_HEIGHT;
 	inverse = (float)WIN_HEIGHT/2 - inverse/2;
@@ -303,14 +227,12 @@ static inline float	get_line_y(t_point point)
 
 static inline int	get_line_x(float degree)
 {
-	float	zero_degree = zero_start_degree(degree);
-	zero_degree = degree;
-	float	degree_to_percent = zero_degree / Player_FOV * 100;
+	float	degree_to_percent = degree / Player_FOV * 100;
 	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
 	printf("GET_X\n");
-	printf("degree            : %f\n", zero_degree);
+	printf("degree            : %f\n", degree);
 	printf("degree_to_percent : %f\n", degree_to_percent);
-	printf("line_location     : %f\n\n", line_location);
+	printf("line_location     : %f\n", line_location);
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
 	return (line_location);
@@ -330,6 +252,7 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 			put_pixel_to_img(img_ptr, point.x, point.y, color);
 		++point.y;
 	}
+	printf("\n");
 }
 
 int	put_texture(t_point ray, t_point y, void *dummy_3)
@@ -342,140 +265,18 @@ int	put_texture(t_point ray, t_point y, void *dummy_3)
 		return (0);
 }
 
-float	new_get_line_end(t_wall_node *node, t_point *start, t_point *end)
+void	print_tex(t_img *img)
 {
-	float	vert_len;
-	float	inverse;
-
-	/*가상의 삼각형 밑변을 구함.*/
-	vert_len = get_vertlen(
-			player()->cord,
-			rotate_point(player()->cord, player()->view_point, 90),
-			node->wall_end);
-
-	/*실제 화면의 길이로 변환.*/
-	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	/*실제 화면에서 시작하는 픽셀y 위치를 구함.*/
-	inverse = (float)WIN_HEIGHT/2 - inverse/2;
-	/*탄젠트를 통해 높이를 구하는 공식이 필요함.*/
-	/*fov / 2 - 벽각도.*/
-	float	height;
-	if (node->end_degree < Player_FOV / 2)
-	{
-		printf("각도작음\n");
-		/*만약 FOV/2보다 큰 곳에 수직선이 위치하면 해당 각도는 fov/2를 빼줘야 함.*/
-		height = tan((Player_FOV / 2 - node->end_degree) * (Pie / 180)) * vert_len;
-		printf("vertlen: %f\n",vert_len);
-		printf("node->degree %f\n", node->end_degree);
-		printf("tan: %f\n", tan((node->end_degree - Player_FOV / 2) * (Pie / 180)));
-	}
-	else
-		/*만약 FOV/2보다 작은 곳에 수직선이 위치하면 해당 각도는 fov/2에서 빼야 함.*/
-		height = tan((node->end_degree - Player_FOV / 2) * (Pie / 180)) * vert_len;
-	/*그럼 아주 수직인 경우에는 문제가 없나?*/
-	/*나중에 생각해보기.*/
-	/*일단 높이는 구한 상황.*/
-	/*이제는 가상 화면에서의 거리를 구해야 함.*/
-	float	virtual_screen_x;
-
-	if (node->end_degree < Player_FOV / 2)
-		/*각도가 fov/2보다 작다면 왼쪽에서 뺀다.*/
-		virtual_screen_x = node->info->screen_left - height;
-	else	
-		/*각도가 fov/2보다 크다면 왼쪽을 더한다.*/
-		virtual_screen_x = node->info->screen_left + height;
-
-	float	percent = virtual_screen_x / node->info->virtual_screen_width * 100;
-	float	x_location = WIN_WIDTH * (percent / 100);
-
-	printf("virtual_width: %f\n", node->info->virtual_screen_width);
-	printf("tan_height:    %f\n", height);
-	printf("virtual_screen_x: %f\n", virtual_screen_x);
-	printf("x_location: %f\n", x_location);
-	printf("\n");
-
-	return (x_location);
+	printf("Texture: ");
+	if (&(mlx()->xpm_north) == img)
+		printf("NORTH\n");
+	else if (&(mlx()->xpm_south) == img)
+		printf("SOUTH\n");
+	else if (&(mlx()->xpm_west) == img)
+		printf("WEST\n");
+	else if (&(mlx()->xpm_east) == img)
+		printf("east\n");
 }
-
-float	new_get_line_start(t_wall_node *node, t_point *start, t_point *end)
-{
-	float	vert_len;
-	float	inverse;
-
-	/*가상의 삼각형 밑변을 구함.*/
-	vert_len = get_vertlen(
-			player()->cord,
-			rotate_point(player()->cord, player()->view_point, 90),
-			node->wall_start);
-
-	/*실제 화면의 길이로 변환.*/
-	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	/*실제 화면에서 시작하는 픽셀y 위치를 구함.*/
-	inverse = (float)WIN_HEIGHT/2 - inverse/2;
-	/*탄젠트를 통해 높이를 구하는 공식이 필요함.*/
-	/*fov / 2 - 벽각도.*/
-	float	height;
-	if (node->start_degree < Player_FOV / 2)
-	{
-		printf("각도작음\n");
-		/*만약 FOV/2보다 큰 곳에 수직선이 위치하면 해당 각도는 fov/2를 빼줘야 함.*/
-		height = tan((Player_FOV / 2 - node->start_degree) * (Pie / 180)) * vert_len;
-		printf("vertlen: %f\n",vert_len);
-		printf("node->degree %f\n", node->start_degree);
-		printf("tan: %f\n", tan((node->start_degree - Player_FOV / 2) * (Pie / 180)));
-	}
-	else
-		/*만약 FOV/2보다 작은 곳에 수직선이 위치하면 해당 각도는 fov/2에서 빼야 함.*/
-		height = tan((node->start_degree - Player_FOV / 2) * (Pie / 180)) * vert_len;
-	/*그럼 아주 수직인 경우에는 문제가 없나?*/
-	/*나중에 생각해보기.*/
-	/*일단 높이는 구한 상황.*/
-	/*이제는 가상 화면에서의 거리를 구해야 함.*/
-	float	virtual_screen_x;
-
-	if (node->start_degree < Player_FOV / 2)
-		/*각도가 fov/2보다 작다면 왼쪽에서 뺀다.*/
-		virtual_screen_x = node->info->screen_left - height;
-	else	
-		/*각도가 fov/2보다 크다면 왼쪽을 더한다.*/
-		virtual_screen_x = node->info->screen_left + height;
-
-	float	percent = virtual_screen_x / node->info->virtual_screen_width * 100;
-	float	x_location = WIN_WIDTH * (percent / 100);
-
-	printf("virtual_width: %f\n", node->info->virtual_screen_width);
-	printf("tan_height:    %f\n", height);
-	printf("virtual_screen_x: %f\n", virtual_screen_x);
-	printf("x_location: %f\n", x_location);
-	printf("\n");
-
-	return (x_location);
-}
-
-//void	try_put_vertline(t_wall_node *node)
-//{
-//	t_mlx	*mlx_ptr = mlx();
-//	t_point	tex_start;
-//	t_point	tex_end;
-//
-//	printf("virtual_left: %f\n", node->info->screen_left);
-//	printf("virtual_right: %f\n", node->info->screen_right);
-//	while (node)
-//	{
-//		tex_start.x = new_get_line_start(node, &tex_start, &tex_start);
-////		tex_start.y = get_line_y(node->wall_start);
-////		tex_start.x = get_line_x(node->start_degree);
-////		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
-////
-////		tex_end.y = get_line_y(node->wall_end);
-////		tex_end.x = get_line_x(node->end_degree);
-////		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
-////
-////		shoot_ray(tex_start, tex_end, NULL, put_texture);
-//
-//		node = node->next;
-//	}
-//}
 
 void	try_put_vertline(t_wall_node *node)
 {
@@ -483,16 +284,17 @@ void	try_put_vertline(t_wall_node *node)
 	t_point	tex_start;
 	t_point	tex_end;
 
-	printf("virtual_left: %f\n", node->info->screen_left);
-	printf("virtual_right: %f\n", node->info->screen_right);
 	while (node)
 	{
+		printf("=== PUT_WALL ===\n");
+		print_tex(node->texture);
 		tex_start.y = get_line_y(node->wall_start);
-		tex_start.x = new_get_line_start(node, &tex_start, &tex_start);
+		/*아래에서 x의 위치가 잘못 지정되는 듯 하다.*/
+		tex_start.x = get_line_x(node->start_degree);
 		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
 
 		tex_end.y = get_line_y(node->wall_end);
-		tex_end.x = new_get_line_end(node, &tex_start, &tex_start);
+		tex_end.x = get_line_x(node->end_degree);
 		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
 
 		shoot_ray(tex_start, tex_end, NULL, put_texture);
@@ -527,9 +329,9 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray(&info);
-//	printf("BEFORE - : %f\n", node->start_degree);
+	printf("PRINT LIST\n");
 	print_list(node);
-	node->start_degree *= -1;
+//	node->start_degree *= -1;
 	try_put_edge_to_map(node);
 	try_put_vertline(node);
 	wall_destroy_list(node);

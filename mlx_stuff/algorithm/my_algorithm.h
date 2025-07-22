@@ -21,9 +21,6 @@ typedef struct s_ray_info
 	t_point		ray_dest;
 	t_point		ray_hit;
 	t_point		end_point;
-	float		screen_left;
-	float		screen_right;
-	float		virtual_screen_width;
 }t_ray_info;
 
 typedef struct s_wall_node t_wall_node;
