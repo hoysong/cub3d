@@ -18,6 +18,11 @@ static inline float	get_vertlen(t_point a, t_point b, t_point c)
 
 	float result;
 	result = my_abs(m*c.x - c.y + (a.y - (m*a.x))) / sqrt(pow(m, 2) + 1);
+	printf("GET_VERTLEN %f\n", m);
+	printf("result: %f\n", result);
+	printf("%f + %f\n", m*c.x - c.y, (a.y - (m*a.x)));
+	printf("========================\n");
+	printf("%f\n", sqrt(pow(m, 2) + 1));
 	return (result);
 }
 
@@ -185,6 +190,7 @@ static inline float	get_line_y(t_point point)
 			point);
 
 	/*to inverse*/
+	printf("vert_len %f\n", vert_len);
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
 	printf("inverse: %f\n", inverse);
 //	if (inverse > WIN_HEIGHT || inverse < 0)
@@ -257,7 +263,6 @@ void	try_put_vertline(t_wall_node *node)
 		printf("=== PUT_WALL ===\n");
 		print_tex(node->texture);
 		tex_start.y = get_line_y(node->wall_start);
-		/*아래에서 x의 위치가 잘못 지정되는 듯 하다.*/
 		tex_start.x = get_line_x(node->start_degree);
 		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
 
