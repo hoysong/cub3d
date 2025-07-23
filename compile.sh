@@ -1,4 +1,4 @@
-clang ./main.c\
+cc ./main.c\
 	./parser/*.c \
 	./parser/pars/*.c \
 	./parser/vld_chk/*.c \

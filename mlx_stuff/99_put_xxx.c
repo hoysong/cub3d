@@ -21,7 +21,7 @@ inline void	put_minimap(void)
 	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->minimap.img_ptr, 0, 0);
 }
 
-static int	get_xpm_pixel_color(t_img xpm, t_point pixel)
+int	get_xpm_pixel_color(t_img xpm, t_point pixel)
 {
 	return(((int *)xpm.data_addr)
 			[ (((int)pixel.y * xpm.size_line)/4) +

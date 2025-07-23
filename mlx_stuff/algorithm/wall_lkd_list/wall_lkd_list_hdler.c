@@ -80,11 +80,11 @@ t_wall_node	*wall_init_node(void)
 	node->info = NULL;
 	node->texture = NULL;
 
-	node->wall_start.x = 0;
-	node->wall_start.y = 0;
+	node->wall_start_cord.x = 0;
+	node->wall_start_cord.y = 0;
 
-	node->wall_end.x = 0;
-	node->wall_end.y = 0;
+	node->wall_end_cord.x = 0;
+	node->wall_end_cord.y = 0;
 
 	node->start_degree = 0;
 	node->end_degree = 0;

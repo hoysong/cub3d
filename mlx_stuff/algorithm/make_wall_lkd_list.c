@@ -107,11 +107,13 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	node = wall_init_last_node(node);
 	/*텍스쳐를 먼저 확인하기.
 	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
-	get_wall_start_end(info, &(node->wall_start), &(node->wall_end));
+	get_wall_start_end(info, &(node->wall_start_cord), &(node->wall_end_cord));
 	printf("start ");
-	node->start_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start));
+	node->start_degree =
+		get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start_cord));
 	printf("end   ");
-	node->end_degree = get_degree(&(info->end_point), &(info->ray_start), &(node->wall_end));
+	node->end_degree =
+		get_degree(&(info->end_point), &(info->ray_start), &(node->wall_end_cord));
 	node->texture = info->texture;
 	printf("start deg: %f\n", node->start_degree);
 	printf("end   deg: %f\n", node->end_degree);
@@ -167,13 +169,13 @@ void	try_put_edge_to_map(t_wall_node *node)
 	{
 		put_pixel_to_img(
 				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_start).x,
-				to_minimap_ratio(node->wall_start).y,
+				to_minimap_ratio(node->wall_start_cord).x,
+				to_minimap_ratio(node->wall_start_cord).y,
 				0x00ffff);
 		put_pixel_to_img(
 				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_end).x,
-				to_minimap_ratio(node->wall_end).y,
+				to_minimap_ratio(node->wall_end_cord).x,
+				to_minimap_ratio(node->wall_end_cord).y,
 				0x00ffff);
 		node = node->next;
 	}
@@ -229,7 +231,7 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 	printf("\n");
 }
 
-int	put_texture(t_point ray, t_point y, void *dummy_3)
+int	put_top_line(t_point ray, t_point y, void *dummy_3)
 {
 		if (
 				(ray.x > 0 && ray.x < WIN_WIDTH) &&
@@ -252,29 +254,29 @@ void	print_tex(t_img *img)
 		printf("east\n");
 }
 
-void	try_put_vertline(t_wall_node *node)
-{
-	t_mlx	*mlx_ptr = mlx();
-	t_point	tex_start;
-	t_point	tex_end;
-
-	while (node)
-	{
-		printf("=== PUT_WALL ===\n");
-		print_tex(node->texture);
-		tex_start.y = get_line_y(node->wall_start);
-		tex_start.x = get_line_x(node->start_degree);
-		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
-
-		tex_end.y = get_line_y(node->wall_end);
-		tex_end.x = get_line_x(node->end_degree);
-		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
-
-		shoot_ray(tex_start, tex_end, NULL, put_texture);
-
-		node = node->next;
-	}
-}
+//void	try_put_vertline(t_wall_node *node)
+//{
+//	t_mlx	*mlx_ptr = mlx();
+//	t_point	tex_start;
+//	t_point	tex_end;
+//
+//	while (node)
+//	{
+//		printf("=== PUT_WALL ===\n");
+//		print_tex(node->texture);
+//		tex_start.y = get_line_y(node->wall_start);
+//		tex_start.x = get_line_x(node->start_degree);
+//		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
+//
+//		tex_end.y = get_line_y(node->wall_end);
+//		tex_end.x = get_line_x(node->end_degree);
+//		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
+//
+//		shoot_ray(tex_start, tex_end, NULL, put_texture);
+//
+//		node = node->next;
+//	}
+//}
 
 void	print_list(t_wall_node *node)
 {
@@ -282,11 +284,110 @@ void	print_list(t_wall_node *node)
 	while (node)
 	{
 		printf("ray_info: %p\n",node->info);
-		printf("wall_start  : %f | %f\n", node->wall_start.x, node->wall_start.y);
+		printf("wall_start  : %f | %f\n", node->wall_start_cord.x, node->wall_start_cord.y);
 		printf("start_degree: %f\n", node->start_degree);
-		printf("wall_end  : %f | %f\n", node->wall_end.x, node->wall_end.y);
+		printf("wall_end  : %f | %f\n", node->wall_end_cord.x, node->wall_end_cord.y);
 		printf("end_degree: %f\n", node->end_degree);
 		printf("\n");
+		node = node->next;
+	}
+}
+
+void	calculate_point_location(t_wall_node *node)
+{
+	while (node)
+	{
+		node->start_point.y = get_line_y(node->wall_start_cord);
+		node->start_point.x = get_line_x(node->start_degree);
+
+		node->end_point.y = get_line_y(node->wall_end_cord);
+		node->end_point.x = get_line_x(node->end_degree);
+
+		node->wall_width = node->end_point.x - node->start_point.x;
+
+		node = node->next;
+	}
+}
+
+void	try_put_vert_line(t_wall_node *node)
+{
+	t_mlx	*mlx_ptr = mlx();
+
+	while (node)
+	{
+		put_line(&(mlx_ptr->background), node->start_point, 0x00ff00);
+		put_line(&(mlx_ptr->background), node->end_point, 0xffff00);
+		shoot_ray(node->start_point, node->end_point, NULL, put_top_line);
+		node = node->next;
+	}
+}
+
+void	first_last_correction(t_wall_node *node)
+{
+	printf("\nCORRECTION\n");
+	/*init_first_node_wall_location.*/
+	node->info->degree = 0;
+	node->info->ray_dest = rotate_point(
+			node->info->ray_start, node->info->end_point,
+			node->info->degree
+			);
+	if (shoot_ray(node->info->ray_start, node->info->ray_dest, node->info, detect_wall_hit))
+	{
+		{
+			node->start_point.y = get_line_y(node->info->ray_hit);
+			node->start_point.x = get_line_x(0);
+		}
+	}
+
+	node = wall_find_lst_node(node);
+
+	node->info->degree = (float)Player_FOV - RAY_RES;
+	node->info->ray_dest = rotate_point(
+			node->info->ray_start, node->info->end_point,
+			node->info->degree
+			);
+	if (shoot_ray(node->info->ray_start, node->info->ray_dest, node->info, detect_wall_hit))
+	{
+		{
+			node->end_point.y = get_line_y(node->info->ray_hit);
+			node->end_point.x = get_line_x(Player_FOV);
+		}
+	}
+}
+
+int	put_texture(t_point ray, t_point y, void *node)
+{
+	/* ray.x는 width - ray.x에 사용.
+	 * 폭을 구해낼 수 있다.
+	 * ray.y는 height - ray.y에 사용.
+	 * 높이를 구해낼 수 있다.
+	 * 일단 면을 채우는 것을 먼저 시도하기.
+	 * ray.y가 면 세로선의 시작점.
+	 * ray.y
+	 */
+	float	lower_point = ((float)WIN_HEIGHT / 2) + (((float)WIN_HEIGHT / 2) - ray.y);
+
+	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
+		(ray.y > 0 && ray.y < WIN_HEIGHT))
+		put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x00ff00);
+	/*세로 채우기.*/
+	while (ray.y < lower_point)
+	{
+		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
+			(ray.y > 0 && ray.y < WIN_HEIGHT))
+			put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x00ff00);
+		ray.y++;
+	}
+	return (0);
+}
+
+void	try_put_texture(t_wall_node *node)
+{
+	t_mlx	*mlx_ptr = mlx();
+
+	while (node)
+	{
+		shoot_ray(node->start_point, node->end_point, node, put_texture);
 		node = node->next;
 	}
 }
@@ -305,6 +406,10 @@ void	make_wall_linked_list(void)
 	printf("PRINT LIST\n");
 	print_list(node);
 	try_put_edge_to_map(node);
-	try_put_vertline(node);
+//	try_put_vertline(node);
+	calculate_point_location(node);
+	first_last_correction(node);
+	try_put_vert_line(node);
+	try_put_texture(node);
 	wall_destroy_list(node);
 }

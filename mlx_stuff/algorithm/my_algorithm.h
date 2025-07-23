@@ -31,13 +31,17 @@ typedef struct s_wall_node
 	t_ray_info	*info;
 	t_img		*texture;
 
-	t_point		wall_start;
+	t_point		wall_start_cord;
+	t_point		start_point;
 	float		start_degree;
 	float		start_x;
 
-	t_point		wall_end;
+	t_point		wall_end_cord;
+	t_point		end_point;
 	float		end_degree;
 	float		end_x;
+
+	float		wall_width;
 }t_wall_node;
 
 /*ray를 투사합니다.*/
