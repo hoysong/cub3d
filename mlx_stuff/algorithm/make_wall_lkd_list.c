@@ -355,7 +355,7 @@ void	first_last_correction(t_wall_node *node)
 	}
 }
 
-int	put_texture(t_point ray, t_point y, void *node)
+int	put_texture(t_point ray, t_point y, void *param)
 {
 	/* ray.x는 width - ray.x에 사용.
 	 * 폭을 구해낼 수 있다.
@@ -371,11 +371,32 @@ int	put_texture(t_point ray, t_point y, void *node)
 		(ray.y > 0 && ray.y < WIN_HEIGHT))
 		put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x00ff00);
 	/*세로 채우기.*/
+	t_wall_node	*node = param;
+	t_point		start_ray = ray;
+	t_point		pixel = ray;
+//	float	degree_to_percent = zero_degree / Player_FOV * 100;
+//	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
+	if (node->prev == NULL)
+		pixel.x = node->texture->xpm_width * ((node->end_point.x - ray.x) / node->wall_width);
+	else
+		pixel.x = node->texture->xpm_width * ((node->start_point.x - ray.x) / node->wall_width);
 	while (ray.y < lower_point)
 	{
+	pixel.y =
+		node->texture->xpm_height *
+		(
+		(ray.y - start_ray.y) // 진행거리
+		/
+		(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y))
+		)
+		;
+//	printf("ray.y %f | %f\n", ray.y, pixel.y);
 		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 			(ray.y > 0 && ray.y < WIN_HEIGHT))
-			put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x00ff00);
+			put_pixel_to_img(&(mlx()->background), ray.x, ray.y,
+					get_xpm_pixel_color(*(node->texture), pixel
+						)
+					);
 		ray.y++;
 	}
 	return (0);
