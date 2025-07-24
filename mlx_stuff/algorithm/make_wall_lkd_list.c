@@ -363,6 +363,9 @@ void	make_wall_linked_list(void)
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(node);
 	/*리스트를 정렬합니다.*/
+	/*!!!!정렬 이후 try_put함수의 이전 노드가 NULL인 경우를 판별하는 함수가 문제임.*/
+	/*정렬 이후 최좌측 텍스쳐, 최우측 텍스쳐를 구별할 수 없게됨.*/
+	/*방법 생각해볼 것.*/
 	sort_wall_list(node);
 	node = wall_find_first_node(node);
 	/*텍스쳐를 입혀봅니다.*/
