@@ -142,12 +142,12 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 			if (prev_info.texture != info->texture ||
 				prev_info.wall_addr != info->wall_addr)
 			{
-				printf("deg: %f\n", info->degree);
+				//printf("deg: %f\n", info->degree);
 				/*맞다면 노드를 생성한다.*/
 				/*그리고 표시되는 윈도우의 길이를 알아야 한다.*/
 				add_new_wall_node(node, info);
 				node = node->next;
-				printf("\n");
+				//printf("\n");
 			}
 		}
 		prev_info = *info;
@@ -429,7 +429,7 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray(&info);
-	printf("PRINT LIST\n");
+//	printf("PRINT LIST\n");
 //	print_list(node);
 	try_put_edge_to_map(node);
 //	try_put_vertline(node);
