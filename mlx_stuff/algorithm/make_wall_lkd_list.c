@@ -152,7 +152,6 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 /*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
 void	try_put_edge_to_map(t_wall_node *node)
 {
-//	node = wall_find_first_node(node);
 	while (node)
 	{
 		put_pixel_to_img(
@@ -178,11 +177,7 @@ static inline float	get_line_y(t_point point)
 			player()->cord,
 			rotate_point(player()->cord, player()->view_point, 90),
 			point);
-
-	/*to inverse*/
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-//	if (inverse > WIN_HEIGHT || inverse < 0)
-//		inverse = WIN_HEIGHT;
 	inverse = (float)WIN_HEIGHT/2 - inverse/2;
 	return (inverse);
 }
@@ -234,30 +229,6 @@ void	print_tex(t_img *img)
 		printf("east\n");
 }
 
-//void	try_put_vertline(t_wall_node *node)
-//{
-//	t_mlx	*mlx_ptr = mlx();
-//	t_point	tex_start;
-//	t_point	tex_end;
-//
-//	while (node)
-//	{
-//		printf("=== PUT_WALL ===\n");
-//		print_tex(node->texture);
-//		tex_start.y = get_line_y(node->wall_start);
-//		tex_start.x = get_line_x(node->start_degree);
-//		put_line(&(mlx_ptr->background), tex_start, 0x00ff00);
-//
-//		tex_end.y = get_line_y(node->wall_end);
-//		tex_end.x = get_line_x(node->end_degree);
-//		put_line(&(mlx_ptr->background), tex_end, 0xffff00);
-//
-//		shoot_ray(tex_start, tex_end, NULL, put_texture);
-//
-//		node = node->next;
-//	}
-//}
-
 void	print_list(t_wall_node *node)
 {
 	printf("====print_list====\n");
@@ -304,7 +275,6 @@ void	try_put_vert_line(t_wall_node *node)
 
 void	first_last_correction(t_wall_node *node)
 {
-	/*init_first_node_wall_location.*/
 	node->info->degree = 0;
 	node->info->ray_dest = rotate_point(
 			node->info->ray_start, node->info->end_point,
@@ -339,14 +309,6 @@ void	first_last_correction(t_wall_node *node)
 
 int	put_texture(t_point ray, t_point y, void *param)
 {
-	/* ray.x는 width - ray.x에 사용.
-	 * 폭을 구해낼 수 있다.
-	 * ray.y는 height - ray.y에 사용.
-	 * 높이를 구해낼 수 있다.
-	 * 일단 면을 채우는 것을 먼저 시도하기.
-	 * ray.y가 면 세로선의 시작점.
-	 * ray.y
-	 */
 	float	lower_point = ((float)WIN_HEIGHT / 2) + (((float)WIN_HEIGHT / 2) - ray.y);
 
 	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
@@ -392,23 +354,20 @@ void	try_put_texture(t_wall_node *node)
 	}
 }
 
-/* 이름은 나중에 draw_walls라고 하는게 좋을 듯 싶다.
- * draw_walls()
- * put_texture()
- */
-
 void	make_wall_linked_list(void)
 {
 	t_ray_info	info;
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray(&info);
-//	print_list(node);
+	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
 	try_put_edge_to_map(node);
-//	try_put_vertline(node);
+	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
+	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(node);
-//	try_put_vert_line(node);
+	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
+	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
 }
