@@ -1,9 +1,9 @@
-NO ./texture/01_mad_cat.xpm
-SO ./texture/00_Ollie.xpm
-WE ./texture/02_toungue_cat.xpm
-EA ./texture/03_hat_cat.xpm
+NO ./texture/00_white_dot.xpm
+SO ./texture/00_white_dot.xpm
+WE ./texture/00_white_dot.xpm
+EA ./texture/00_white_dot.xpm
 
-F 170,170,170
+F 150,150,150
 C 180,180,180
 
 1111111
