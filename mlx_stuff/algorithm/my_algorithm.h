@@ -31,7 +31,7 @@ typedef struct s_wall_node
 	t_ray_info	*info;
 	t_img		*texture;
 
-	/*가상 좌표상의 위치.*/
+	/*가상 좌표상의 코너 위치좌표.*/
 	t_point		wall_start_cord;
 	/*실제 표시되는 시작점의 위치.*/
 	t_point		start_point;

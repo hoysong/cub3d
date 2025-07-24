@@ -312,7 +312,7 @@ int	put_texture(t_point ray, t_point y, void *param)
 	t_wall_node	*node = param;
 	t_point		start_ray = ray;
 	t_point		pixel = ray;
-	if (node->prev == NULL)
+	if (node->start_degree <= 0)
 		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
 	else
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
