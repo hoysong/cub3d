@@ -324,7 +324,6 @@ void	try_put_vert_line(t_wall_node *node)
 
 void	first_last_correction(t_wall_node *node)
 {
-	printf("\nCORRECTION\n");
 	/*init_first_node_wall_location.*/
 	node->info->degree = 0;
 	node->info->ray_dest = rotate_point(
@@ -339,6 +338,9 @@ void	first_last_correction(t_wall_node *node)
 		}
 	}
 
+	node = wall_find_first_node(node);
+	if(wall_count_nodes(node) == 1)
+		return ;
 	node = wall_find_lst_node(node);
 
 	node->info->degree = (float)Player_FOV - RAY_RES;

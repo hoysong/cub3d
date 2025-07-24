@@ -1,7 +1,7 @@
-NO ./texture/01_hand_to_paw.xpm
-SO ./texture/00_Ollie_the_cat.xpm
-WE ./texture/01_hand_to_paw.xpm
-EA ./texture/00_Ollie_the_cat.xpm
+NO ./texture/01_mad_cat.xpm
+SO ./texture/00_Ollie.xpm
+WE ./texture/02_toungue_cat.xpm
+EA ./texture/03_hat_cat.xpm
 
 F 170,170,170
 C 180,180,180

@@ -126,3 +126,13 @@ void	wall_destroy_list(t_wall_node *node)
 	free(node);
 }
 
+int	wall_count_nodes(t_wall_node *node)
+{
+	int	i = 0;
+	while (node)
+	{
+		node = node->next;
+		i++;
+	}
+	return (i);
+}
