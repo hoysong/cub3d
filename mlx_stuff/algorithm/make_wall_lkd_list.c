@@ -5,12 +5,6 @@
 #include <stdlib.h>
 #include "./wall_lkd_list/wall_lkd_list.h"
 
-static inline float	zero_start_degree(float degree)
-{
-	degree += (float)Player_FOV / 2;
-	return (degree);
-}
-
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;

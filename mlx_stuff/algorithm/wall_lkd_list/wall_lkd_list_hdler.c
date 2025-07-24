@@ -67,6 +67,22 @@
  * 위의 점들을 플레이어로 ray를 쏠 것이다.
  */
 
+void	wall_swap_node(t_wall_node *a, t_wall_node *b)
+{
+//	t_wall_node	*a_pre = a->prev;
+//	t_wall_node	*b_nex = b->next;
+
+	if (a->prev != NULL)
+		a->prev->next = b;
+	b->prev = a->prev;
+	if (b->next != NULL)
+		b->next->prev = a;
+	a->next = b->next;
+
+	a->prev = b->prev;
+	b->next = a->next;
+}
+
 
 t_wall_node	*wall_init_node(void)
 {
@@ -136,3 +152,4 @@ int	wall_count_nodes(t_wall_node *node)
 	}
 	return (i);
 }
+

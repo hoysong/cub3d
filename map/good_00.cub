@@ -1,7 +1,7 @@
-NO ./texture/00_Ollie_the_cat.xpm
-SO ./texture/00_Ollie_the_cat.xpm
-WE ./texture/00_Ollie_the_cat.xpm
-EA ./texture/00_Ollie_the_cat.xpm
+NO ./texture/00_white_dot.xpm
+SO ./texture/00_white_dot.xpm
+WE ./texture/00_white_dot.xpm
+EA ./texture/00_white_dot.xpm
 
 F 30,30,30
 C 30,30,30
