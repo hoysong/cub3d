@@ -18,11 +18,6 @@ static inline float	get_vertlen(t_point a, t_point b, t_point c)
 
 	float result;
 	result = my_abs(m*c.x - c.y + (a.y - (m*a.x))) / sqrt(pow(m, 2) + 1);
-	//printf("GET_VERTLEN %f\n", m);
-	//printf("result: %f\n", result);
-	//printf("%f + %f\n", m*c.x - c.y, (a.y - (m*a.x)));
-	//printf("========================\n");
-	//printf("%f\n", sqrt(pow(m, 2) + 1));
 	return (result);
 }
 
@@ -108,15 +103,11 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	/*텍스쳐를 먼저 확인하기.
 	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
 	get_wall_start_end(info, &(node->wall_start_cord), &(node->wall_end_cord));
-	//printf("start ");
 	node->start_degree =
 		get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start_cord));
-	//printf("end   ");
 	node->end_degree =
 		get_degree(&(info->end_point), &(info->ray_start), &(node->wall_end_cord));
 	node->texture = info->texture;
-	//printf("start deg: %f\n", node->start_degree);
-	//printf("end   deg: %f\n", node->end_degree);
 	node->info = info;
 }
 
@@ -129,7 +120,6 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 	init_info(info);
 	prev_info = *info;
 
-	//printf("======================================================\n");
 	while (info->degree <= Player_FOV)
 	{
 		info->ray_dest = rotate_point(
@@ -142,12 +132,10 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 			if (prev_info.texture != info->texture ||
 				prev_info.wall_addr != info->wall_addr)
 			{
-				//printf("deg: %f\n", info->degree);
 				/*맞다면 노드를 생성한다.*/
 				/*그리고 표시되는 윈도우의 길이를 알아야 한다.*/
 				add_new_wall_node(node, info);
 				node = node->next;
-				//printf("\n");
 			}
 		}
 		prev_info = *info;
@@ -192,9 +180,7 @@ static inline float	get_line_y(t_point point)
 			point);
 
 	/*to inverse*/
-	//printf("vert_len %f\n", vert_len);
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	//printf("inverse: %f\n", inverse);
 //	if (inverse > WIN_HEIGHT || inverse < 0)
 //		inverse = WIN_HEIGHT;
 	inverse = (float)WIN_HEIGHT/2 - inverse/2;
@@ -205,10 +191,6 @@ static inline int	get_line_x(float degree)
 {
 	float	degree_to_percent = degree / Player_FOV * 100;
 	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
-	//printf("GET_X\n");
-	//printf("degree            : %f\n", degree);
-	//printf("degree_to_percent : %f\n", degree_to_percent);
-	//printf("line_location     : %f\n", line_location);
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
 	return (line_location);
@@ -218,7 +200,6 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 {
 	float	line_end;
 	line_end = WIN_HEIGHT - point.y;
-	//printf("on put_line %f | %f\n", point.x, point.y);
 	while (point.y < line_end)
 	{
 		if (
@@ -228,7 +209,6 @@ static void	put_line(t_img *img_ptr, t_point point, int color)
 			put_pixel_to_img(img_ptr, point.x, point.y, color);
 		++point.y;
 	}
-	//printf("\n");
 }
 
 int	put_top_line(t_point ray, t_point y, void *dummy_3)
@@ -389,12 +369,6 @@ int	put_texture(t_point ray, t_point y, void *param)
 		/
 		(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y) - start_ray.y) // 비율 구하기.
 		);
-		//printf("pixel %f | %f\n", pixel.x, pixel.y);
-		//printf("%f\n",
-		//(ray.y - start_ray.y) // 진행거리. 틀릴 일 없음.
-		///
-		//(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y)) * 100// 비율 구하기.
-		//		);
 		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 			(ray.y > 0 && ray.y < WIN_HEIGHT))
 		{
@@ -429,7 +403,6 @@ void	make_wall_linked_list(void)
 	t_wall_node	*node;
 
 	node = new_shoot_fov_ray(&info);
-//	printf("PRINT LIST\n");
 //	print_list(node);
 	try_put_edge_to_map(node);
 //	try_put_vertline(node);
