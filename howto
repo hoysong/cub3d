@@ -29,7 +29,14 @@ linked list로 가시되는 모든 벽을 리스트화 하기.
 			만약 fov보다 작은 각도거나 큰 각도는 그려지지 않게 설계하면 될 듯 하다.
 ------------------------------------------------------------------------------------------------
 ToDo.
+
 must arrangement file's first.
-make wall linked list sorting logics.
+
+DONE make wall linked list sorting logics.
+
 wall collision logics
+
 fix pars logics
+
+optimization.
+	make new variable to ray_info(like map, mlx, etc...).
