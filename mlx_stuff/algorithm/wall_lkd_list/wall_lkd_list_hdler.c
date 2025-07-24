@@ -69,18 +69,27 @@
 
 void	wall_swap_node(t_wall_node *a, t_wall_node *b)
 {
-//	t_wall_node	*a_pre = a->prev;
-//	t_wall_node	*b_nex = b->next;
+	t_wall_node *a_next = a->next;
+	t_wall_node *b_prev = b->prev;
 
 	if (a->prev != NULL)
 		a->prev->next = b;
 	b->prev = a->prev;
+
 	if (b->next != NULL)
 		b->next->prev = a;
 	a->next = b->next;
 
-	a->prev = b->prev;
-	b->next = a->next;
+	if (a_next == b && b_prev == a)
+	{
+		a->prev = b;
+		b->next = a;
+	}
+	else
+	{
+		a->prev = b_prev;
+		b->next = a_next;
+	}
 }
 
 
