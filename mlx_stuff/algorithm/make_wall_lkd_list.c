@@ -383,14 +383,19 @@ int	put_texture(t_point ray, t_point y, void *param)
 		pixel.y =
 		node->texture->xpm_height *
 		(
-		(ray.y - start_ray.y) // 진행거리.
+		(ray.y - start_ray.y) // 진행거리. 이거 틀릴 일 없음.
 		/
-		(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y)) // 비율 구하기.
+		(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y) - start_ray.y) // 비율 구하기.
 		);
+		//printf("pixel %f | %f\n", pixel.x, pixel.y);
+		//printf("%f\n",
+		//(ray.y - start_ray.y) // 진행거리. 틀릴 일 없음.
+		///
+		//(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y)) * 100// 비율 구하기.
+		//		);
 		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 			(ray.y > 0 && ray.y < WIN_HEIGHT))
 		{
-//			printf("pixel: %f | %f\n", pixel.x, pixel.y);
 			put_pixel_to_img(&(mlx()->background), ray.x, ray.y,
 					get_xpm_pixel_color(*(node->texture), pixel)
 					);
