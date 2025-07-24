@@ -34,6 +34,11 @@ inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
+		((t_ray_info *)ray_info)->wall_addr = &(get_map()
+			[(int)TO_INDEX(floor_pt.y)]
+			[(int)TO_INDEX(floor_pt.x)]);
+		(((t_ray_info *)ray_info)->wall_x) = (int)TO_INDEX(floor_pt.x);
+		(((t_ray_info *)ray_info)->wall_y) = (int)TO_INDEX(floor_pt.y);
 		((t_ray_info *)ray_info)->texture = get_player_view_texture(point, d);
 		((t_ray_info *)ray_info)->ray_hit = point;
 		return (1);

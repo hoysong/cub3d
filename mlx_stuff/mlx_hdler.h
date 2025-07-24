@@ -7,6 +7,7 @@
 
 /*mlx_get_data_addr() 함수를 위해 존재합니다.*/
 /*아래의 get_img_data() 참고.*/
+typedef struct s_point t_point;
 
 typedef struct s_img
 {
@@ -74,5 +75,8 @@ void	put_player(void);
 
 /*한 프레임을 올립니다.*/
 void	put_frame(void);
+
+/*xpm이미지의 픽셀 색상을 가져옵니다.*/
+int	get_xpm_pixel_color(t_img xpm, t_point pixel);
 
 #endif

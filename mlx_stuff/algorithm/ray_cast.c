@@ -1,6 +1,9 @@
 #include "../player.h"
 #include "../mlx_hdler.h"
 #include <math.h>
+#include <stdio.h>
+
+int	color_num = 0;
 
 static inline float	zero_start_degree(float degree)
 {
@@ -45,7 +48,8 @@ static inline int	get_line_location(float degree)
 	return (line_location);
 }
 
-void	try_put_plane(float start_y, float line_x, int degree);
+extern void	try_put_plane(float start_y, float line_x, int degree);
+extern void	try_put_plane_2(float degree, float line_len, t_ray_info *info);
 
 static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 {
@@ -59,19 +63,32 @@ static void	ray_casting(t_mlx *mlx, float degree, t_ray_info *info)
 	line_end = (float)WIN_HEIGHT/2 + line_len/2;
 	line_location = get_line_location(degree);
 	/*try_put*/
-	try_put_plane(line_start, line_location, (int)degree);
+//	try_put_plane(line_start, line_location, (int)degree);
+	try_put_plane_2(degree, line_len, info);
 	/*put_line*/
 	while (line_start < line_end)
 	{
-		put_pixel_to_img(&(mlx->background), line_location, line_start, 0xffffff);
+		printf("%d\n", line_location);
+		printf("%f\n", line_start);
+		put_pixel_to_img(&(mlx->background), line_location, line_start, color_num);
 		++line_start;
 	}
+}
+
+static inline int	is_current_longer(t_ray_info *prev_info, t_ray_info *current)
+{
+	if (get_length(player()->cord, prev_info->ray_hit) < get_length(player()->cord, current->ray_hit))
+	{
+		return (1);
+	}
+	return (0);
 }
 
 void	shoot_fov_ray(void)
 {
 	float		degree;
 	t_ray_info	info;
+	static t_ray_info	prev_info;
 
 	info.ray_start = player()->cord;
 	info.end_point = player()->view_point;
@@ -80,7 +97,28 @@ void	shoot_fov_ray(void)
 	{
 		info.ray_dest = rotate_point(info.ray_start, info.end_point, degree);
 		if (shoot_ray(info.ray_start, info.ray_dest, &(info), detect_wall_hit))
-			ray_casting(mlx(), degree, &(info));
+		{
+			if (prev_info.wall_addr != info.wall_addr ||
+					prev_info.texture != info.texture)
+			{
+				color_num = 0x00ff00;
+//				if (is_current_longer(&prev_info, &info))
+//				{
+//					/*fixed line.*/
+//					color_num = 0xff0000;
+//					degree -= RAY_RES;
+//					info.ray_dest = rotate_point(info.ray_start, info.end_point, degree);
+//					shoot_ray(info.ray_start, info.ray_dest, &(info), detect_wall_hit);
+//					ray_casting(mlx(), degree, &(info));
+//					degree += RAY_RES;
+//					info.ray_dest = rotate_point(info.ray_start, info.end_point, degree);
+//					shoot_ray(info.ray_start, info.ray_dest, &(info), detect_wall_hit);
+//				}
+//				else
+					ray_casting(mlx(), degree, &(info));
+			}
+			prev_info = info;
+		}
 		degree += RAY_RES;
 	}
 }
