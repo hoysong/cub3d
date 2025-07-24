@@ -1,0 +1,15 @@
+NO ./texture/01_hand_to_paw.xpm
+SO ./texture/00_Ollie_the_cat.xpm
+WE ./texture/01_hand_to_paw.xpm
+EA ./texture/00_Ollie_the_cat.xpm
+
+F 170,170,170
+C 180,180,180
+
+111111111
+100000001
+100101001
+100000001
+1000N0001
+100000001
+111111111
