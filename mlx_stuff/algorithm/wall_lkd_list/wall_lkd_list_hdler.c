@@ -89,6 +89,8 @@ void	wall_swap_node(t_wall_node *a, t_wall_node *b)
 	{
 		a->prev = b_prev;
 		b->next = a_next;
+		a_next->prev = b;
+		b_prev->next = a;
 	}
 }
 

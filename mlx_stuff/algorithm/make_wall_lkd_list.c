@@ -348,6 +348,8 @@ void	try_put_texture(t_wall_node *node)
 	}
 }
 
+void	sort_wall_list(t_wall_node *node);
+
 void	make_wall_linked_list(void)
 {
 	t_ray_info	info;
@@ -360,6 +362,9 @@ void	make_wall_linked_list(void)
 	calculate_point_location(node);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(node);
+	/*리스트를 정렬합니다.*/
+	sort_wall_list(node);
+	node = wall_find_first_node(node);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
 	/*linked_list를 삭제합니다.*/
