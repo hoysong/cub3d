@@ -75,22 +75,22 @@ static void	get_start_location(float *fx, float *fy)
 	get_player_view_degree(x, y);
 }
 
-void	draw_player(float sq_len)
+void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
 {
-	float	ratio = player()->ratio;
-	int		x = (MINI_RES(player()->cord.x) * sq_len) - ratio;
-	int		y = (MINI_RES(player()->cord.y) * sq_len) - ratio;
-	int		x_end = (MINI_RES(player()->cord.x) * sq_len) + ratio;
-	int		y_end = (MINI_RES(player()->cord.y) * sq_len) + ratio;
+	float	ratio = player->ratio;
+	int		x = (MINI_RES(player->cord.x) * sq_len) - ratio;
+	int		y = (MINI_RES(player->cord.y) * sq_len) - ratio;
+	int		x_end = (MINI_RES(player->cord.x) * sq_len) + ratio;
+	int		y_end = (MINI_RES(player->cord.y) * sq_len) + ratio;
 
 	while (y <= y_end)
 	{
 		while (x <= x_end)
 		{
-			put_pixel_to_img(&(mlx()->minimap), x, y, 0xff0000);
+			put_pixel_to_img(&(mlx_strc->minimap), x, y, 0xff0000);
 			x++;
 		}
-		x = ((player()->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
+		x = ((player->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
 		y++;
 	}
 }

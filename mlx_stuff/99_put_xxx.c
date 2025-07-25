@@ -8,7 +8,7 @@ inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 
 	location_to_put = img->data_addr;
 	*(unsigned int *)
-		(location_to_put + ((img->bits_per_pixel / 8) * horiz) + img->size_line * vert) = color;
+		(location_to_put + ((img->bits_per_pixel >> 3) * horiz) + img->size_line * vert) = color;
 }
 
 inline void	put_background(t_mlx *mlx_strc)
@@ -24,8 +24,8 @@ inline void	put_minimap(t_mlx *mlx_strc)
 inline int	get_xpm_pixel_color(t_img xpm, t_point pixel)
 {
 	return(((int *)xpm.data_addr)
-			[ (((int)pixel.y * xpm.size_line)/4) +
-			(((int)pixel.x * xpm.bits_per_pixel)/32) ]);
+			[ (((int)pixel.y * xpm.size_line)>>2) +
+			(((int)pixel.x * xpm.bits_per_pixel)>>5) ]);
 }
 
 /*xpm 이미지 올리기 테스트 함수.*/

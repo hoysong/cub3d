@@ -68,13 +68,11 @@ t_point	rotate_point(t_point center, t_point pt, float degree);
 void	shoot_fov_ray(void);
 
 /*가상의 맵을 위해 게산되던 포인트를 minimap의 좌표 비율로 변환합니다.*/
-t_point	to_minimap_ratio(t_point point);
+t_point	to_minimap_ratio(t_point point, t_mlx *mlx_strc);
 
 float	my_abs(float num);
 
 float	get_length(t_point p1, t_point p2);
-
-t_point	to_minimap_ratio(t_point point);
 
 /*실험적.*/
 // 벽 linked list를 만듭니다.

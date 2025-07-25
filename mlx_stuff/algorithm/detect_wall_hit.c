@@ -27,8 +27,8 @@ inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 	floor_pt.y = (int)floor(point.y);
 	put_pixel_to_img(
 			&(((t_ray_info *)ray_info)->mlx->minimap),
-			to_minimap_ratio(point).x,
-			to_minimap_ratio(point).y,
+			to_minimap_ratio(point, ((t_ray_info *)ray_info)->mlx).x,
+			to_minimap_ratio(point, ((t_ray_info *)ray_info)->mlx).y,
 			FOV_COLOR);
 	
 	if (((t_ray_info *)ray_info)->map

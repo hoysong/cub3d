@@ -153,13 +153,13 @@ void	try_put_edge_to_map(t_wall_node *node)
 	{
 		put_pixel_to_img(
 				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_start_cord).x,
-				to_minimap_ratio(node->wall_start_cord).y,
+				to_minimap_ratio(node->wall_start_cord, node->info->mlx).x,
+				to_minimap_ratio(node->wall_start_cord, node->info->mlx).y,
 				0x00ffff);
 		put_pixel_to_img(
 				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_end_cord).x,
-				to_minimap_ratio(node->wall_end_cord).y,
+				to_minimap_ratio(node->wall_end_cord, node->info->mlx).x,
+				to_minimap_ratio(node->wall_end_cord, node->info->mlx).y,
 				0x00ffff);
 		node = node->next;
 	}
@@ -312,6 +312,8 @@ int	put_texture(t_point ray, t_point y, void *param)
 	t_point		start_ray = ray;
 	t_point		pixel = ray;
 
+	if (ray.x < 0 || ray.x > WIN_WIDTH)
+		return (0);
 	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 		(ray.y > 0 && ray.y < WIN_HEIGHT))
 		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y, 0x00ff00);
@@ -319,14 +321,14 @@ int	put_texture(t_point ray, t_point y, void *param)
 		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
 	else
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
-	while (ray.y < lower_point)
+	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
 	{
 		pixel.y =
 		node->texture->xpm_height *
 		(
 		(ray.y - start_ray.y) // 진행거리. 이거 틀릴 일 없음.
 		/
-		(((float)WIN_HEIGHT / 2) + ((float)WIN_HEIGHT / 2 - start_ray.y) - start_ray.y) // 비율 구하기.
+		((WIN_HEIGHT >> 1) + ((WIN_HEIGHT >> 1) - start_ray.y) - start_ray.y) // 비율 구하기.
 		);
 		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 			(ray.y > 0 && ray.y < WIN_HEIGHT))

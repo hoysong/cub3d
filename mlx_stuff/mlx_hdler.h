@@ -38,6 +38,7 @@ typedef struct s_mlx
 	int		toggle_minimap;
 	/*다른 파라미터용.*/
 	t_pars	*pars;
+	size_t	minimap_square;
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/

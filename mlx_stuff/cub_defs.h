@@ -4,6 +4,8 @@
 /*Window size.*/
 # define WIN_WIDTH	750
 # define WIN_HEIGHT	600
+//# define WIN_WIDTH	1920
+//# define WIN_HEIGHT	1080
 
 /*mouse*/
 # define MOUSE_MIDDLE_X (WIN_WIDTH / 2)
@@ -29,9 +31,9 @@
 /*레이캐스팅 광선 투사 각도간격(해상도).*/
 # define RAY_RES		0.2
 /*키보드 인풋을 받는 간격.*/
-# define MOVE_TICK		1
+# define MOVE_TICK		0
 /*마우스 인풋을 받는 간격.*/
-# define MOUSE_TICK		3
+# define MOUSE_TICK		0
 /*Player FOV.*/
 # define Player_FOV		65
 /*Player Angle per tick.*/
