@@ -54,6 +54,7 @@ int	setup_mlx(void)
 	mlx->toggle_minimap = 1;
 	mlx->toggle_mouse = 0;
 	mlx->mlx_ptr = mlx_init();
+	mlx->pars = get_pars();
 	player_init();
 	make_background_image();
 	get_textures();

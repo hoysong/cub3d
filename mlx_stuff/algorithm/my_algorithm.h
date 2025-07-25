@@ -12,6 +12,8 @@ typedef struct s_point
 
 typedef struct s_ray_info
 {
+	char	**map;
+	t_mlx	*mlx;
 	float	degree;
 	int	wall_x;
 	int	wall_y;

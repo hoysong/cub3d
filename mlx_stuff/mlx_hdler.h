@@ -3,6 +3,7 @@
 # include "./cub_defs.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include "../parser/pars_priv.h"
 # include <stddef.h>
 
 /*mlx_get_data_addr() 함수를 위해 존재합니다.*/
@@ -35,6 +36,8 @@ typedef struct s_mlx
 	t_img	minimap; // 미니맵 이미지 정보를 저장합니다.
 	int		toggle_mouse;
 	int		toggle_minimap;
+	/*다른 파라미터용.*/
+	t_pars	*pars;
 }t_mlx;
 
 /*mlx 구조체를 구성합니다.*/
@@ -59,7 +62,7 @@ void	put_pixel_to_img(t_img *img, int horiz, int vert, int color);
 
 /*준비된 배경이미지를 윈도우에 바로 올립니다.*/
 /*deploy prepared image to window.*/
-void	put_background(void);
+void	put_background(t_mlx *mlx_strc);
 
 /*미니맵의 그리드 비율을 구합니다.*/
 /*reutrns minimap's ratio.*/
@@ -67,7 +70,7 @@ size_t	get_minimap_ratio(void);
 
 /*미니맵을 윈도우에 올립니다.*/
 /*put_minimap to window.*/
-void	put_minimap(void);
+void	put_minimap(t_mlx *mlx_strc);
 
 /*플레이어를 윈도우에 올립니다.*/
 /*put_player to window.*/

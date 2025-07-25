@@ -1,4 +1,5 @@
 #include "./my_algorithm.h"
+#include "../../parser/pars_pub.h"
 #include "../player.h"
 #include <math.h>
 #include <stdio.h>
@@ -17,6 +18,8 @@ static inline float	get_vertlen(t_point a, t_point b, t_point c)
 
 void	init_info(t_ray_info *info)
 {
+	info->map = get_map();
+	info->mlx = mlx();
 	info->degree = 0;
 	info->wall_x = 0;
 	info->wall_y = 0;
@@ -304,14 +307,14 @@ void	first_last_correction(t_wall_node *node)
 int	put_texture(t_point ray, t_point y, void *param)
 {
 	float	lower_point = ((float)WIN_HEIGHT / 2) + (((float)WIN_HEIGHT / 2) - ray.y);
-
-	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
-		(ray.y > 0 && ray.y < WIN_HEIGHT))
-		put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x00ff00);
 	/*세로 채우기.*/
 	t_wall_node	*node = param;
 	t_point		start_ray = ray;
 	t_point		pixel = ray;
+
+	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
+		(ray.y > 0 && ray.y < WIN_HEIGHT))
+		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y, 0x00ff00);
 	if (node->start_degree <= 0)
 		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
 	else
@@ -328,7 +331,7 @@ int	put_texture(t_point ray, t_point y, void *param)
 		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
 			(ray.y > 0 && ray.y < WIN_HEIGHT))
 		{
-			put_pixel_to_img(&(mlx()->background), ray.x, ray.y,
+			put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
 					get_xpm_pixel_color(*(node->texture), pixel)
 					);
 		}

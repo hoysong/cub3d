@@ -11,17 +11,17 @@ inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 		(location_to_put + ((img->bits_per_pixel / 8) * horiz) + img->size_line * vert) = color;
 }
 
-inline void	put_background(void)
+inline void	put_background(t_mlx *mlx_strc)
 {
-	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->background.img_ptr, 0, 0);
+	mlx_put_image_to_window(mlx_strc->mlx_ptr, mlx_strc->mlx_window, mlx_strc->background.img_ptr, 0, 0);
 }
 
-inline void	put_minimap(void)
+inline void	put_minimap(t_mlx *mlx_strc)
 {
-	mlx_put_image_to_window(mlx()->mlx_ptr, mlx()->mlx_window, mlx()->minimap.img_ptr, 0, 0);
+	mlx_put_image_to_window(mlx_strc->mlx_ptr, mlx_strc->mlx_window, mlx_strc->minimap.img_ptr, 0, 0);
 }
 
-int	get_xpm_pixel_color(t_img xpm, t_point pixel)
+inline int	get_xpm_pixel_color(t_img xpm, t_point pixel)
 {
 	return(((int *)xpm.data_addr)
 			[ (((int)pixel.y * xpm.size_line)/4) +
@@ -54,23 +54,24 @@ void	try_put_xpm(void)
 }
 
 extern void	fill_background_color(t_mlx *mlx);
-extern void	draw_minimap();
+extern void	draw_minimap(t_mlx *mlx_strc);
 
 void	put_frame(void)
 {
+	t_mlx	*mlx_strc = mlx();
 	/*화면 배경 채우기.*/
-	fill_background_color(mlx());
+	fill_background_color(mlx_strc);
 	/*미니맵 뼈대 그리기.*/
-	if (mlx()->toggle_minimap)
-		draw_minimap();
+	if (mlx_strc->toggle_minimap)
+		draw_minimap(mlx_strc);
 	/*그림들 위에 Ray결과 덮어쓰기.*/
 //	shoot_fov_ray();
 	make_wall_linked_list();
 	/*try put xpm*/
 //	try_put_xpm();
 	/*화면 올리기.*/
-	put_background();
+	put_background(mlx_strc);
 	/*미니맵 올리기.*/
-	if (mlx()->toggle_minimap)
-		put_minimap();
+	if (mlx_strc->toggle_minimap)
+		put_minimap(mlx_strc);
 }

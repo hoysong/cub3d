@@ -1,22 +1,22 @@
 #include "./my_algorithm.h"
 #include "../mlx_hdler.h"
-#include "../../parser/pars_pub.h"
+//#include "../../parser/pars_pub.h"
 #include <math.h>
 
-static inline t_img *get_player_view_texture(t_point point, t_point d)
+static inline t_img *get_player_view_texture(t_point point, t_point d, t_ray_info *info)
 {
 	d.x *= -1;
 	d.y *= -1;
 	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
-		return (&(mlx()->xpm_west));
+		return (&(info->mlx->xpm_west));
 	else if ((int)floor(TO_INDEX(point.x + d.x)) > (int)floor(TO_INDEX(point.x)))
-		return (&(mlx()->xpm_east));
+		return (&(info->mlx->xpm_east));
 	else if ((int)floor(TO_INDEX(point.y + d.y)) < (int)floor(TO_INDEX(point.y)))
-		return (&(mlx()->xpm_north));
+		return (&(info->mlx->xpm_north));
 	else if ((int)floor(TO_INDEX(point.y + d.y)) > (int)floor(TO_INDEX(point.y)))
-		return (&(mlx()->xpm_south));
+		return (&(info->mlx->xpm_south));
 	else
-		return (&(mlx()->xpm_west));
+		return (&(info->mlx->xpm_west));
 }
 
 inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
@@ -30,16 +30,17 @@ inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 			to_minimap_ratio(point).x,
 			to_minimap_ratio(point).y,
 			FOV_COLOR);
-	if (get_map()
+	
+	if (((t_ray_info *)ray_info)->map
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)] == '1')
 	{
-		((t_ray_info *)ray_info)->wall_addr = &(get_map()
+		((t_ray_info *)ray_info)->wall_addr = &(((t_ray_info *)ray_info)->map
 			[(int)TO_INDEX(floor_pt.y)]
 			[(int)TO_INDEX(floor_pt.x)]);
 		(((t_ray_info *)ray_info)->wall_x) = (int)TO_INDEX(floor_pt.x);
 		(((t_ray_info *)ray_info)->wall_y) = (int)TO_INDEX(floor_pt.y);
-		((t_ray_info *)ray_info)->texture = get_player_view_texture(point, d);
+		((t_ray_info *)ray_info)->texture = get_player_view_texture(point, d, ((t_ray_info *)ray_info));
 		((t_ray_info *)ray_info)->ray_hit = point;
 		return (1);
 	}

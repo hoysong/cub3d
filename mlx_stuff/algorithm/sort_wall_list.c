@@ -36,7 +36,7 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 			//printf("swap!\n");
 			wall_swap_node(a, b);
 			print_list(wall_find_first_node(node));
-			printf("=======deeper!=======\n");
+			//printf("=======deeper!=======\n");
 			a = go_deeper(b, depth + 1);
 			b = a;
 			//printf("out to depth: %d\n", depth);
@@ -60,5 +60,5 @@ void	sort_wall_list(t_wall_node *node)
 	//printf("SORTED!\n");
 	node = wall_find_first_node(node);
 	print_list(node);
-	printf("\n");
+	//printf("\n");
 }

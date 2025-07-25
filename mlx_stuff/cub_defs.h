@@ -38,7 +38,7 @@
 # define CAM_ROTATE_ANGLE	2
 /*Player's move distance.*/
 /*1ray만큼의.. 이동거리입니다.*/
-# define STEP_PER_PIXEL	3
+# define STEP_PER_PIXEL	6
 /*Convert Player cordinate to minimap_res*/
 # define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
 # define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)

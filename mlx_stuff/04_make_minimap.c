@@ -5,7 +5,7 @@
 
 extern int	rgb_to_int(t_rgb rgb);
 
-static void	fill_minimap_bg()
+static void	fill_minimap_bg(t_mlx *mlx_strc)
 {
 	int	i;
 	int	j;
@@ -16,7 +16,7 @@ static void	fill_minimap_bg()
 	{
 		while (j < MINISIZE)
 		{
-			put_pixel_to_img(&(mlx()->minimap), j, i, BG_Color);
+			put_pixel_to_img(&(mlx_strc->minimap), j, i, BG_Color);
 			j++;
 		}
 		j = 0;
@@ -30,7 +30,7 @@ void	make_minimap_img(void)
 	get_img_data(&(mlx()->minimap));
 }
 
-static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length)
+static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length, t_mlx *mlx_strc)
 {
 	size_t i = 0;
 	size_t j = 0;
@@ -39,7 +39,7 @@ static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length)
 	{
 		while ((j < (sq_len * max_length)))
 		{
-			put_pixel_to_img(&(mlx()->minimap), j, i, GridColor);
+			put_pixel_to_img(&(mlx_strc->minimap), j, i, GridColor);
 			j++;
 		}
 		j = 0;
@@ -51,7 +51,7 @@ static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length)
 	{
 		while ((i < (sq_len * max_height)) && i < MINISIZE)
 		{
-			put_pixel_to_img(&(mlx()->minimap), j, i, GridColor);
+			put_pixel_to_img(&(mlx_strc->minimap), j, i, GridColor);
 			i++;
 		}
 		i = 0;
@@ -59,7 +59,7 @@ static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length)
 	}
 }
 
-static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len)
+static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len, t_mlx *mlx_strc)
 {
 	int	i = 0;
 	int	j = 0;
@@ -68,7 +68,7 @@ static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len)
 	{
 		while (j < sq_len)
 		{
-			put_pixel_to_img(&(mlx()->minimap), start_width + j, start_height + i, WallColor);
+			put_pixel_to_img(&(mlx_strc->minimap), start_width + j, start_height + i, WallColor);
 			j++;
 		}
 		j = 0;
@@ -76,7 +76,7 @@ static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len)
 	}
 }
 
-static void	fill_minimap_grid(size_t sq_len)
+static void	fill_minimap_grid(size_t sq_len, t_mlx *mlx_strc)
 {
 	char	**map = get_map();
 	size_t	width = 0;
@@ -87,7 +87,7 @@ static void	fill_minimap_grid(size_t sq_len)
 		while (map[height][width])
 		{
 			if (map[height][width] == '1')
-				fill_grid(height * sq_len, width * sq_len, sq_len);
+				fill_grid(height * sq_len, width * sq_len, sq_len, mlx_strc);
 			width++;
 		}
 		width = 0;
@@ -97,13 +97,13 @@ static void	fill_minimap_grid(size_t sq_len)
 
 extern void	draw_player(float sq_len);
 
-void	draw_minimap()
+void	draw_minimap(t_mlx *mlx_strc)
 {
 	size_t	square_len = get_minimap_ratio();
 
-	fill_minimap_bg();
-	fill_minimap_grid(square_len);
-	draw_grid_line(square_len, get_pars()->map_max_height, get_pars()->map_max_length);
+	fill_minimap_bg(mlx_strc);
+	fill_minimap_grid(square_len, mlx_strc);
+	draw_grid_line(square_len, mlx_strc->pars->map_max_height, mlx_strc->pars->map_max_length, mlx_strc);
 	draw_player(square_len);
 }
 
