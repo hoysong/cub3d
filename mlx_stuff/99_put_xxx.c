@@ -1,6 +1,8 @@
 #include "./mlx_hdler.h"
 #include "./algorithm/my_algorithm.h"
 #include "../minilibx-linux/mlx.h"
+#include "./player.h"
+#include <stdio.h>
 
 inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 {
@@ -71,6 +73,7 @@ void	put_frame(void)
 //	try_put_xpm();
 	/*화면 올리기.*/
 	put_background(mlx_strc);
+//	printf("%f\n", player()->view_degree);
 	/*미니맵 올리기.*/
 	if (mlx_strc->toggle_minimap)
 		put_minimap(mlx_strc);
