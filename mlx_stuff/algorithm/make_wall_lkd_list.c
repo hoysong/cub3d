@@ -312,15 +312,16 @@ int	put_texture(t_point ray, t_point y, void *param)
 	t_point		start_ray = ray;
 	t_point		pixel = ray;
 
-	if (ray.x < 0 || ray.x > WIN_WIDTH)
+	if (ray.x < 0)
 		return (0);
-	if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
-		(ray.y > 0 && ray.y < WIN_HEIGHT))
-		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y, 0x00ff00);
+	else if (ray.x >= WIN_WIDTH)
+		return (1);
 	if (node->start_degree <= 0)
 		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
 	else
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
+	if (ray.y < 0)
+		ray.y = 0;
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
 	{
 		pixel.y =
@@ -330,13 +331,9 @@ int	put_texture(t_point ray, t_point y, void *param)
 		/
 		((WIN_HEIGHT >> 1) + ((WIN_HEIGHT >> 1) - start_ray.y) - start_ray.y) // 비율 구하기.
 		);
-		if ((ray.x > 0 && ray.x < WIN_WIDTH) &&
-			(ray.y > 0 && ray.y < WIN_HEIGHT))
-		{
-			put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
-					get_xpm_pixel_color(*(node->texture), pixel)
-					);
-		}
+		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
+				get_xpm_pixel_color(*(node->texture), pixel)
+				);
 		ray.y++;
 	}
 	return (0);

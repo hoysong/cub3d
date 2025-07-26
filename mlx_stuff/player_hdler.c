@@ -32,30 +32,44 @@ void	player_rotate(t_player *player, float degree)
 
 static int	collision_check(t_point *dest, char **map)
 {
-	if (map
-			[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-			[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
+	if (
+		map [(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1' ||
+		map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1' ||
+		map [(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1' ||
+		map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1'
+		) 
 	{
 		return (1);
 	}
-	else if (map
-			[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-			[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
-	{
-		return (1);
-	}
-	else if (map
-			[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
-			[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
-	{
-		return (1);
-	}
-	else if (map
-			[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
-			[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
-	{
-		return (1);
-	}
+
+	//if (map
+	//		[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
+	//		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
+	//{
+	//	return (1);
+	//}
+	//else if (map
+	//		[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
+	//		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
+	//{
+	//	return (1);
+	//}
+	//else if (map
+	//		[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+	//		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
+	//{
+	//	return (1);
+	//}
+	//else if (map
+	//		[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+	//		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
+	//{
+	//	return (1);
+	//}
 	return (0);
 }
 
