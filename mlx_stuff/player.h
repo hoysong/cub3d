@@ -8,8 +8,9 @@ typedef struct s_player
 	t_point	cord;
 	t_point	step_point;
 	t_point	view_point;
-	float	view_degree;
+//	float	view_degree;
 	float	ratio;
+	char	**map;
 }t_player;
 
 void		player_init(void);

@@ -19,22 +19,22 @@ inline t_player	*player(void)
 }
 extern int	is_player(char c);
 
-static void	get_player_view_degree(int x, int y)
-{
-	char **map = get_map();
-	if (map[y][x] == 'N')
-		player()->view_degree = 0;
-	else if (map[y][x] == 'S')
-		player()->view_degree = 180;
-	else
-		player()->view_degree = 0;
-	if (map[y][x] == 'W')
-		player()->view_degree = 0;
-	else if (map[y][x] == 'E')
-		player()->view_degree = 0;
-	else
-		player()->view_degree = 0;
-}
+//static void	get_player_view_degree(int x, int y)
+//{
+//	char **map = get_map();
+//	if (map[y][x] == 'N')
+//		player()->view_degree = 0;
+//	else if (map[y][x] == 'S')
+//		player()->view_degree = 180;
+//	else
+//		player()->view_degree = 0;
+//	if (map[y][x] == 'W')
+//		player()->view_degree = 0;
+//	else if (map[y][x] == 'E')
+//		player()->view_degree = 0;
+//	else
+//		player()->view_degree = 0;
+//}
 
 static void	get_player_view_point(int x, int y)
 {
@@ -72,7 +72,7 @@ static void	get_start_location(float *fx, float *fy)
 	*fx = ((float)x) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	*fy = ((float)y) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	get_player_view_point(x, y);
-	get_player_view_degree(x, y);
+//	get_player_view_degree(x, y);
 }
 
 void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
@@ -88,10 +88,10 @@ void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
 		while (x <= x_end)
 		{
 			put_pixel_to_img(&(mlx_strc->minimap), x, y, 0xff0000);
-			x++;
+			++x;
 		}
 		x = ((player->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
-		y++;
+		++y;
 	}
 }
 
@@ -104,6 +104,7 @@ void	player_init(void)
 	player->ratio = ((float)get_minimap_ratio() / 3) / 3;
 	player->view_point.x = 0;
 	player->view_point.y = 0;
+	player->map = get_map();
 	get_start_location(&(player->cord.x), &(player->cord.y));
 	player_get_step_point(player);
 	printf("player info\n");
