@@ -1,7 +1,7 @@
-NO ./texture/00_white_dot.xpm
-SO ./texture/00_white_dot.xpm
-WE ./texture/00_white_dot.xpm
-EA ./texture/00_white_dot.xpm
+NO ./texture/cat/00_Ollie.xpm
+SO ./texture/cat/01_mad_cat.xpm
+WE ./texture/cat/02_toungue_cat.xpm
+EA ./texture/cat/03_hat_cat.xpm
 
 F 150,150,150
 C 180,180,180

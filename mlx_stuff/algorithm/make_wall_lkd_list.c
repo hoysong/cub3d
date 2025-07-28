@@ -278,42 +278,40 @@ static void	set_vars(t_wall_node *node, t_wall_node **low_deg, t_wall_node **hig
 	{
 		if ((*low_deg)->start_degree > node->start_degree)
 			(*low_deg) = node;
-		else if ((*high_deg)->end_degree < node->end_degree)
+		if ((*high_deg)->end_degree < node->end_degree)
 			(*high_deg) = node;
 		node = node->next;
 	}
 }
 
-void	first_last_correction(t_wall_node *node)
+void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 {
-	t_wall_node *low_deg;
-	t_wall_node *high_deg;
-
-	set_vars(node, &low_deg, &high_deg);
-	low_deg->info->degree = 0;
-	low_deg->info->ray_dest = rotate_point(
-			low_deg->info->ray_start, low_deg->info->end_point,
-			low_deg->info->degree
+	left_wall->info->degree = 0;
+	left_wall->info->ray_dest = rotate_point(
+			left_wall->info->ray_start, left_wall->info->end_point,
+			left_wall->info->degree
 			);
-	if (shoot_ray(low_deg->info->ray_start, low_deg->info->ray_dest, low_deg->info, detect_wall_hit))
+	if (shoot_ray(left_wall->info->ray_start, left_wall->info->ray_dest, left_wall->info, detect_wall_hit))
 	{
 		{
-			low_deg->start_point.y = get_line_y(low_deg->info->ray_hit);
-			low_deg->start_point.x = get_line_x(0);
+			left_wall->start_point.y = get_line_y(left_wall->info->ray_hit);
+			left_wall->start_point.x = get_line_x(0);
 		}
 	}
-	if(wall_count_nodes(node) == 1)
+//	if(wall_count_nodes(node) == 1)
+//		return ;
+	if (left_wall == right_wall)
 		return ;
-	high_deg->info->degree = (float)Player_FOV - RAY_RES;
-	high_deg->info->ray_dest = rotate_point(
-			high_deg->info->ray_start, high_deg->info->end_point,
-			high_deg->info->degree
+	right_wall->info->degree = (float)Player_FOV - RAY_RES;
+	right_wall->info->ray_dest = rotate_point(
+			right_wall->info->ray_start, right_wall->info->end_point,
+			right_wall->info->degree
 			);
-	if (shoot_ray(high_deg->info->ray_start, high_deg->info->ray_dest, high_deg->info, detect_wall_hit))
+	if (shoot_ray(right_wall->info->ray_start, right_wall->info->ray_dest, right_wall->info, detect_wall_hit))
 	{
 		{
-			high_deg->end_point.y = get_line_y(high_deg->info->ray_hit);
-			high_deg->end_point.x = get_line_x(Player_FOV);
+			right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
+			right_wall->end_point.x = get_line_x(Player_FOV);
 		}
 	}
 }
@@ -370,18 +368,22 @@ void	make_wall_linked_list(void)
 {
 	t_ray_info	info;
 	t_wall_node	*node;
+	t_wall_node	*start_node;
+	t_wall_node	*end_node;
 
 	node = new_shoot_fov_ray(&info);
 	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
 	try_put_edge_to_map(node);
 	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
+	start_node = wall_find_first_node(node);
+	end_node = wall_find_lst_node(node);
 	/*리스트를 정렬합니다.*/
 	sort_wall_list(node);
 	/*정렬 이후 헤드노드를 찾습니다.*/
 	node = wall_find_first_node(node);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
-	first_last_correction(node);
+	first_last_correction(start_node, end_node);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
 	/*linked_list를 삭제합니다.*/
