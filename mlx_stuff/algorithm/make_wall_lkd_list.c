@@ -1,10 +1,10 @@
 #include "./my_algorithm.h"
-#include "../../parser/pars_pub.h"
+#include "./wall_lkd_list/wall_lkd_list.h"
 #include "../player.h"
+#include "../../parser/pars_pub.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "./wall_lkd_list/wall_lkd_list.h"
 
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
@@ -175,7 +175,7 @@ static inline float	get_line_y(t_point point)
 			rotate_point(player()->cord, player()->view_point, 90),
 			point);
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	inverse = (float)WIN_HEIGHT/2 - inverse/2;
+	inverse = (float)((WIN_HEIGHT >> 1) - (inverse / 2));
 	return (inverse);
 }
 
@@ -318,7 +318,7 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 
 int	put_texture(t_point ray, t_point y, void *param)
 {
-	float	lower_point = ((float)WIN_HEIGHT / 2) + (((float)WIN_HEIGHT / 2) - ray.y);
+	float	lower_point = ((float)(WIN_HEIGHT >> 1)) + (((float)(WIN_HEIGHT >> 1)) - ray.y);
 	/*세로 채우기.*/
 	t_wall_node	*node = param;
 	t_point		start_ray = ray;
@@ -380,10 +380,10 @@ void	make_wall_linked_list(void)
 	end_node = wall_find_lst_node(node);
 	/*리스트를 정렬합니다.*/
 	sort_wall_list(node);
-	/*정렬 이후 헤드노드를 찾습니다.*/
-	node = wall_find_first_node(node);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(start_node, end_node);
+	/*정렬 이후 헤드노드를 찾습니다.*/
+	node = wall_find_first_node(node);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
 	/*linked_list를 삭제합니다.*/
