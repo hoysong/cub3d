@@ -1,13 +1,53 @@
 #include "./wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
 
+static void	print_tex(t_img *img)
+{
+	printf("Texture: ");
+	if (&(mlx()->xpm_north) == img)
+		printf("NORTH\n");
+	else if (&(mlx()->xpm_south) == img)
+		printf("SOUTH\n");
+	else if (&(mlx()->xpm_west) == img)
+		printf("WEST\n");
+	else if (&(mlx()->xpm_east) == img)
+		printf("east\n");
+}
+
 static void	print_list(t_wall_node *node)
 {
 	while (node)
 	{
 		//printf("%p: %f | %f\n", node, node->start_point.y, node->end_point.y);
+		//print_tex(node->texture);
 		node = node->next;
 	}
+}
+
+static inline void	init_vars(t_wall_node *a, t_wall_node *b, float	*a_val, float *b_val)
+{
+		if (a->start_point.y > a->end_point.y)
+			*a_val = a->start_point.y;
+		else
+			*a_val = a->end_point.y;
+
+		if (b->start_point.y > b->end_point.y)
+			*b_val = b->start_point.y;
+		else
+			*b_val = b->end_point.y;
+
+		if (*a_val == *b_val)
+		{
+			if (a->start_point.y > a->end_point.y)
+				*a_val = a->end_point.y;
+			else
+				*a_val = a->start_point.y;
+
+			if (b->start_point.y > b->end_point.y)
+				*b_val = b->end_point.y;
+			else
+				*b_val = b->start_point.y;
+		}
 }
 
 t_wall_node	*go_deeper(t_wall_node *node, int depth)
@@ -20,16 +60,8 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 	//printf("depth: %d\n", depth);
 	while (b)
 	{
-		if (a->start_point.y > a->end_point.y)
-			a_val = a->start_point.y;
-		else
-			a_val = a->end_point.y;
 
-		if (b->start_point.y > b->end_point.y)
-			b_val = b->start_point.y;
-		else
-			b_val = b->end_point.y;
-
+		init_vars(a, b, &a_val, &b_val);
 		//printf("diff: %p: %f | %p: %f\n", a, a_val, b, b_val);
 		if (a_val < b_val)
 		{
