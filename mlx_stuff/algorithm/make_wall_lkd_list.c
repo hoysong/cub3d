@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+t_wall_node *my_last_node;
+
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
@@ -130,7 +132,6 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 				prev_info.wall_addr != info->wall_addr)
 			{
 				/*맞다면 노드를 생성한다.*/
-				/*그리고 표시되는 윈도우의 길이를 알아야 한다.*/
 				add_new_wall_node(node, info);
 				node = node->next;
 			}
@@ -252,6 +253,11 @@ void	calculate_point_location(t_wall_node *node)
 		node->end_point.x = get_line_x(node->end_degree);
 
 		node->wall_width = node->end_point.x - node->start_point.x;
+		if (node == my_last_node)
+		{
+			printf("  LAST_NODE end: %f\n", node->end_point.x);
+			printf("LAST_NODE start: %f\n", node->start_point.x);
+		}
 
 		node = node->next;
 	}
@@ -329,9 +335,23 @@ int	put_texture(t_point ray, t_point y, void *param)
 	else if (ray.x >= WIN_WIDTH)
 		return (1);
 	if (node->start_degree <= 0)
+	{
 		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
+	}
 	else
+	{
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
+	}
+	if (my_last_node == node)
+	{
+		printf("==UNDER DEGREE\nnode->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);\n= %f\n", node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width));
+		printf("==OVER DEGREE\nnode->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width)\n= %f\n", node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width));
+		printf("      wall_width: %f\n", node->wall_width);
+		printf("           pix.x: %f\n", pixel.x);
+		printf("           ray.x: %f\n", ray.x);
+		printf("     end_point.x: %f\n", node->end_point.x);
+		printf("   start_point.x: %f\n", node->start_point.x);
+	}
 	if (ray.y < 0)
 		ray.y = 0;
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
@@ -378,14 +398,16 @@ void	make_wall_linked_list(void)
 	calculate_point_location(node);
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
+	my_last_node = end_node;
 	/*리스트를 정렬합니다.*/
 	sort_wall_list(node);
-	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
-	first_last_correction(start_node, end_node);
 	/*정렬 이후 헤드노드를 찾습니다.*/
 	node = wall_find_first_node(node);
+	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
+	first_last_correction(start_node, end_node);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
+	printf("\n");
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
 }
