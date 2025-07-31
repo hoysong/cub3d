@@ -48,10 +48,10 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	int	over_180_flag;
 
 	over_180_flag = 0;
-	printf("==GET_DEGREE==\n");
-	printf("end_point: %f | %f\n", a->x, a->y);
-	printf("ray_start: %f | %f\n", b->x, b->y);
-	printf("wall_cord: %f | %f\n", c->x, c->y);
+	//printf("==GET_DEGREE==\n");
+	//printf("end_point: %f | %f\n", a->x, a->y);
+	//printf("ray_start: %f | %f\n", b->x, b->y);
+	//printf("wall_cord: %f | %f\n", c->x, c->y);
 	a_b_vect.x = a->x - b->x;
 	a_b_vect.y = a->y - b->y;
 	c_b_vect.x = c->x - b->x;
@@ -63,20 +63,20 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	if (result_atan > Pie)
 	{
 		result_atan -= 2*Pie;
-		printf("BIG!!!!!!!!!!1\n");
+	//	printf("BIG!!!!!!!!!!1\n");
 		++over_180_flag;
 	}
 	else if (result_atan < -Pie)
 	{
 		result_atan += 2*Pie;
-		printf("LOW!!!!!!!!!!1\n");
+	//	printf("LOW!!!!!!!!!!1\n");
 	}
-	printf("result_atan: %f\n", result_atan);
+	//printf("result_atan: %f\n", result_atan);
 	degree = result_atan * (180 / Pie);
 	if (over_180_flag)
 		degree+= 360;
-	printf("degree: %f\n", degree);
-	printf("\n");
+	//printf("degree: %f\n", degree);
+	//printf("\n");
 	return (degree);
 }
 
@@ -271,17 +271,17 @@ void	calculate_point_location(t_wall_node *node)
 		node->end_point.x = get_line_x(node->end_degree);
 
 		node->wall_width = node->end_point.x - node->start_point.x;
-		if (node == my_last_node)
-		{
-			printf("==CALC_WIDTH==\n");
-			printf("node->end_point.x - node->start_point.x = %f\n",
-					node->end_point.x - node->start_point.x
-					);
-			printf("%f - %f\n", node->end_point.x, node->start_point.x);
-			printf("degree : %f\n", node->end_degree);
+//		if (node == my_last_node)
+//		{
+//			printf("==CALC_WIDTH==\n");
+//			printf("node->end_point.x - node->start_point.x = %f\n",
+//					node->end_point.x - node->start_point.x
+//					);
+//			printf("%f - %f\n", node->end_point.x, node->start_point.x);
+//			printf("degree : %f\n", node->end_degree);
 //			if (node->prev != NULL)
 //				printf("%f\n", node->prev->end_degree);
-		}
+//		}
 		node = node->next;
 	}
 }
@@ -363,18 +363,18 @@ int	put_texture(t_point ray, t_point y, void *param)
 	{
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
 	}
-	if (my_last_node == node)
-	{
-		print_tex(node->texture);
-		printf("last_width: %f\n", node->wall_width);
-		printf("==UNDER DEGREE\nnode->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);\n= %f\n", node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width));
-		printf("==OVER DEGREE\nnode->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width)\n= %f\n", node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width));
-		printf("      wall_width: %f\n", node->wall_width);
-		printf("           pix.x: %f\n", pixel.x);
-		printf("           ray.x: %f\n", ray.x);
-		printf("     end_point.x: %f\n", node->end_point.x);
-		printf("   start_point.x: %f\n", node->start_point.x);
-	}
+//	if (my_last_node == node)
+//	{
+//		print_tex(node->texture);
+//		printf("last_width: %f\n", node->wall_width);
+//		printf("==UNDER DEGREE\nnode->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);\n= %f\n", node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width));
+//		printf("==OVER DEGREE\nnode->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width)\n= %f\n", node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width));
+//		printf("      wall_width: %f\n", node->wall_width);
+//		printf("           pix.x: %f\n", pixel.x);
+//		printf("           ray.x: %f\n", ray.x);
+//		printf("     end_point.x: %f\n", node->end_point.x);
+//		printf("   start_point.x: %f\n", node->start_point.x);
+//	}
 	if (ray.y < 0)
 		ray.y = 0;
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
@@ -398,12 +398,12 @@ void	try_put_texture(t_wall_node *node)
 {
 	t_mlx	*mlx_ptr = mlx();
 
-	printf("4 : last_width: %f\n", my_last_node->wall_width);
+	//printf("4 : last_width: %f\n", my_last_node->wall_width);
 	while (node)
 	{
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
-		if (node == my_last_node)
-			printf("5 : last_width: %f\n", node->wall_width);
+	//	if (node == my_last_node)
+	//		printf("5 : last_width: %f\n", node->wall_width);
 		node = node->next;
 	}
 }
@@ -428,21 +428,21 @@ void	make_wall_linked_list(void)
 
 	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
-	printf("0 : last_width: %f\n", my_last_node->wall_width);
+	//printf("0 : last_width: %f\n", my_last_node->wall_width);
 
-	/*리스트를 정렬합니다.*/
-	sort_wall_list(node);
-	printf("1 : last_width: %f\n", my_last_node->wall_width);
-	/*정렬 이후 헤드노드를 찾습니다.*/
-	node = wall_find_first_node(node);
-	printf("2 : last_width: %f\n", my_last_node->wall_width);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(start_node, end_node);
-	printf("3 : last_width: %f\n", my_last_node->wall_width);
+	/*리스트를 정렬합니다.*/
+	sort_wall_list(node);
+	//printf("1 : last_width: %f\n", my_last_node->wall_width);
+	/*정렬 이후 헤드노드를 찾습니다.*/
+	node = wall_find_first_node(node);
+	//printf("2 : last_width: %f\n", my_last_node->wall_width);
+	//printf("3 : last_width: %f\n", my_last_node->wall_width);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
-	printf("6: last_width: %f\n", my_last_node->wall_width);
-	printf("\n");
+	//printf("6: last_width: %f\n", my_last_node->wall_width);
+	//printf("\n");
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
 }
