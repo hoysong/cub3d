@@ -45,7 +45,13 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	float	c_b_atan;
 	float	result_atan;
 	float	degree;
+	int	over_180_flag;
 
+	over_180_flag = 0;
+	printf("==GET_DEGREE==\n");
+	printf("end_point: %f | %f\n", a->x, a->y);
+	printf("ray_start: %f | %f\n", b->x, b->y);
+	printf("wall_cord: %f | %f\n", c->x, c->y);
 	a_b_vect.x = a->x - b->x;
 	a_b_vect.y = a->y - b->y;
 	c_b_vect.x = c->x - b->x;
@@ -55,10 +61,22 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	c_b_atan = atan2(c_b_vect.y, c_b_vect.x);
 	result_atan = c_b_atan - a_b_atan;
 	if (result_atan > Pie)
+	{
 		result_atan -= 2*Pie;
+		printf("BIG!!!!!!!!!!1\n");
+		++over_180_flag;
+	}
 	else if (result_atan < -Pie)
+	{
 		result_atan += 2*Pie;
+		printf("LOW!!!!!!!!!!1\n");
+	}
+	printf("result_atan: %f\n", result_atan);
 	degree = result_atan * (180 / Pie);
+	if (over_180_flag)
+		degree+= 360;
+	printf("degree: %f\n", degree);
+	printf("\n");
 	return (degree);
 }
 
@@ -255,10 +273,15 @@ void	calculate_point_location(t_wall_node *node)
 		node->wall_width = node->end_point.x - node->start_point.x;
 		if (node == my_last_node)
 		{
-			printf("  LAST_NODE end: %f\n", node->end_point.x);
-			printf("LAST_NODE start: %f\n", node->start_point.x);
+			printf("==CALC_WIDTH==\n");
+			printf("node->end_point.x - node->start_point.x = %f\n",
+					node->end_point.x - node->start_point.x
+					);
+			printf("%f - %f\n", node->end_point.x, node->start_point.x);
+			printf("degree : %f\n", node->end_degree);
+//			if (node->prev != NULL)
+//				printf("%f\n", node->prev->end_degree);
 		}
-
 		node = node->next;
 	}
 }
@@ -304,8 +327,6 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			left_wall->start_point.x = get_line_x(0);
 		}
 	}
-//	if(wall_count_nodes(node) == 1)
-//		return ;
 	if (left_wall == right_wall)
 		return ;
 	right_wall->info->degree = (float)Player_FOV - RAY_RES;
@@ -322,10 +343,10 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 	}
 }
 
+/*ray를 가로 대각선으로 조사하며 세로축의 선을 그려내는 로직이다.*/
 int	put_texture(t_point ray, t_point y, void *param)
 {
 	float	lower_point = ((float)(WIN_HEIGHT >> 1)) + (((float)(WIN_HEIGHT >> 1)) - ray.y);
-	/*세로 채우기.*/
 	t_wall_node	*node = param;
 	t_point		start_ray = ray;
 	t_point		pixel = ray;
@@ -344,6 +365,8 @@ int	put_texture(t_point ray, t_point y, void *param)
 	}
 	if (my_last_node == node)
 	{
+		print_tex(node->texture);
+		printf("last_width: %f\n", node->wall_width);
 		printf("==UNDER DEGREE\nnode->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);\n= %f\n", node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width));
 		printf("==OVER DEGREE\nnode->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width)\n= %f\n", node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width));
 		printf("      wall_width: %f\n", node->wall_width);
@@ -375,9 +398,12 @@ void	try_put_texture(t_wall_node *node)
 {
 	t_mlx	*mlx_ptr = mlx();
 
+	printf("4 : last_width: %f\n", my_last_node->wall_width);
 	while (node)
 	{
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
+		if (node == my_last_node)
+			printf("5 : last_width: %f\n", node->wall_width);
 		node = node->next;
 	}
 }
@@ -392,21 +418,30 @@ void	make_wall_linked_list(void)
 	t_wall_node	*end_node;
 
 	node = new_shoot_fov_ray(&info);
-	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
-	try_put_edge_to_map(node);
-	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
-	calculate_point_location(node);
+
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
 	my_last_node = end_node;
+
+	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
+	try_put_edge_to_map(node);
+
+	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
+	calculate_point_location(node);
+	printf("0 : last_width: %f\n", my_last_node->wall_width);
+
 	/*리스트를 정렬합니다.*/
 	sort_wall_list(node);
+	printf("1 : last_width: %f\n", my_last_node->wall_width);
 	/*정렬 이후 헤드노드를 찾습니다.*/
 	node = wall_find_first_node(node);
+	printf("2 : last_width: %f\n", my_last_node->wall_width);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(start_node, end_node);
+	printf("3 : last_width: %f\n", my_last_node->wall_width);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
+	printf("6: last_width: %f\n", my_last_node->wall_width);
 	printf("\n");
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
