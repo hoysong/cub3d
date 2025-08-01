@@ -8,6 +8,15 @@
 
 t_wall_node *my_last_node;
 
+static void	print_minus(t_wall_node *node)
+{
+	printf("==========MINUS==========\n");
+	printf("wall_width  : %f\n", node->wall_width);
+	printf("end.x       : %f\n", node->end_point.x);
+	printf("start.x     : %f\n", node->start_point.x);
+	printf("start_degree: %f\n", node->start_degree);
+}
+
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
@@ -63,18 +72,25 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	if (result_atan > Pie)
 	{
 		result_atan -= 2*Pie;
-	//	printf("BIG!!!!!!!!!!1\n");
+		printf("status: BIG\n");
 		++over_180_flag;
 	}
 	else if (result_atan < -Pie)
 	{
 		result_atan += 2*Pie;
-	//	printf("LOW!!!!!!!!!!1\n");
+		printf("status: LOW\n");
 	}
 	//printf("result_atan: %f\n", result_atan);
 	degree = result_atan * (180 / Pie);
 	if (over_180_flag)
 		degree+= 360;
+	/*SEGV 해결용.*/
+	if (degree > 220)
+	{
+		printf("deg convert: %f\n", degree);
+		degree -= 360;
+		printf("convert_to: %f\n", degree);
+	}
 	//printf("degree: %f\n", degree);
 	//printf("\n");
 	return (degree);
@@ -271,17 +287,10 @@ void	calculate_point_location(t_wall_node *node)
 		node->end_point.x = get_line_x(node->end_degree);
 
 		node->wall_width = node->end_point.x - node->start_point.x;
-//		if (node == my_last_node)
-//		{
-//			printf("==CALC_WIDTH==\n");
-//			printf("node->end_point.x - node->start_point.x = %f\n",
-//					node->end_point.x - node->start_point.x
-//					);
-//			printf("%f - %f\n", node->end_point.x, node->start_point.x);
-//			printf("degree : %f\n", node->end_degree);
-//			if (node->prev != NULL)
-//				printf("%f\n", node->prev->end_degree);
-//		}
+		if (node->wall_width < 0)
+		{
+			print_minus(node);
+		}
 		node = node->next;
 	}
 }
@@ -340,6 +349,8 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
 			right_wall->end_point.x = get_line_x(Player_FOV);
 		}
+		printf("RIGHT_WALL\n");
+		print_minus(right_wall);
 	}
 }
 
@@ -417,6 +428,7 @@ void	make_wall_linked_list(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
+	printf("=========NEW_FRAME!!!=========\n");
 	node = new_shoot_fov_ray(&info);
 
 	start_node = wall_find_first_node(node);
@@ -428,21 +440,16 @@ void	make_wall_linked_list(void)
 
 	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
-	//printf("0 : last_width: %f\n", my_last_node->wall_width);
 
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(start_node, end_node);
 	/*리스트를 정렬합니다.*/
 	sort_wall_list(node);
-	//printf("1 : last_width: %f\n", my_last_node->wall_width);
 	/*정렬 이후 헤드노드를 찾습니다.*/
 	node = wall_find_first_node(node);
-	//printf("2 : last_width: %f\n", my_last_node->wall_width);
-	//printf("3 : last_width: %f\n", my_last_node->wall_width);
 	/*텍스쳐를 입혀봅니다.*/
 	try_put_texture(node);
-	//printf("6: last_width: %f\n", my_last_node->wall_width);
-	//printf("\n");
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
+	printf("\n");
 }
