@@ -72,13 +72,13 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	if (result_atan > Pie)
 	{
 		result_atan -= 2*Pie;
-		printf("status: BIG\n");
+//		printf("status: BIG\n");
 		++over_180_flag;
 	}
 	else if (result_atan < -Pie)
 	{
 		result_atan += 2*Pie;
-		printf("status: LOW\n");
+//		printf("status: LOW\n");
 	}
 	//printf("result_atan: %f\n", result_atan);
 	degree = result_atan * (180 / Pie);
@@ -87,9 +87,9 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	/*SEGV 해결용.*/
 	if (degree > 220)
 	{
-		printf("deg convert: %f\n", degree);
+//		printf("deg convert: %f\n", degree);
 		degree -= 360;
-		printf("convert_to: %f\n", degree);
+//		printf("convert_to: %f\n", degree);
 	}
 	//printf("degree: %f\n", degree);
 	//printf("\n");
@@ -289,7 +289,7 @@ void	calculate_point_location(t_wall_node *node)
 		node->wall_width = node->end_point.x - node->start_point.x;
 		if (node->wall_width < 0)
 		{
-			print_minus(node);
+		//	print_minus(node);
 		}
 		node = node->next;
 	}
@@ -349,8 +349,8 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
 			right_wall->end_point.x = get_line_x(Player_FOV);
 		}
-		printf("RIGHT_WALL\n");
-		print_minus(right_wall);
+		//printf("RIGHT_WALL\n");
+		//print_minus(right_wall);
 	}
 }
 
@@ -428,7 +428,7 @@ void	make_wall_linked_list(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
-	printf("=========NEW_FRAME!!!=========\n");
+//	printf("=========NEW_FRAME!!!=========\n");
 	node = new_shoot_fov_ray(&info);
 
 	start_node = wall_find_first_node(node);
@@ -451,5 +451,5 @@ void	make_wall_linked_list(void)
 	try_put_texture(node);
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
-	printf("\n");
+//	printf("\n");
 }
