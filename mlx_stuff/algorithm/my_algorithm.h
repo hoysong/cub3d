@@ -49,7 +49,7 @@ typedef struct s_wall_node
 }t_wall_node;
 
 /*ray를 투사합니다.*/
-/*리턴타입 t_point는 ray충돌지점을 나타내기 위해 존재합니다.*/
+/*0이 아닌 수를 리턴합니다.*/
 int	shoot_ray(
 		t_point start,
 		t_point end,

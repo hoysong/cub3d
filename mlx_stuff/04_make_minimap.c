@@ -4,8 +4,6 @@
 #include "../minilibx-linux/mlx.h"
 #include "./player.h"
 
-extern int	rgb_to_int(t_rgb rgb);
-
 static void	fill_minimap_bg(t_mlx *mlx_strc)
 {
 	int	i;
@@ -23,12 +21,6 @@ static void	fill_minimap_bg(t_mlx *mlx_strc)
 		j = 0;
 		++i;
 	}
-}
-
-void	make_minimap_img(void)
-{
-	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
-	get_img_data(&(mlx()->minimap));
 }
 
 static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length, t_mlx *mlx_strc)
@@ -109,9 +101,11 @@ void	draw_minimap(t_mlx *mlx_strc)
 }
 
 /*test functions.*/
-extern void	draw_test_line(void);
+//extern void	draw_test_line(void);
 
 void	make_minimap(void)
 {
-	make_minimap_img();
+	//make_minimap_img();
+	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
+	get_img_data(&(mlx()->minimap));
 }

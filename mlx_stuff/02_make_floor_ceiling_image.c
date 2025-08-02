@@ -2,7 +2,7 @@
 #include "../minilibx-linux/mlx.h"
 #include "../parser/pars_priv.h"
 
-int	rgb_to_int(t_rgb rgb)
+static int	rgb_to_int(t_rgb rgb)
 {
 	unsigned int	int_rgb;
 	unsigned char	*bit_ptr;
@@ -24,7 +24,7 @@ void	fill_background_color(t_mlx *mlx)
 
 	i = 0;
 	j = 0;
-	while (i < WIN_HEIGHT / 2)
+	while (i < WIN_HEIGHT >> 1)
 	{
 		while (j < WIN_WIDTH)
 		{

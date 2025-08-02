@@ -16,7 +16,7 @@ typedef struct s_player
 void		player_init(void);
 t_player	*player(void);
 void		player_rotate(t_player *player, float degree);
-void	player_move(t_player *player, float degree);
-void	player_get_step_point(t_player *player);
+void		player_move(t_player *player, float degree);
+void		player_get_step_point(t_player *player);
 
 #endif

@@ -1,6 +1,5 @@
 #include "./my_algorithm.h"
 #include "../mlx_hdler.h"
-//#include "../../parser/pars_pub.h"
 #include <math.h>
 
 static inline t_img *get_player_view_texture(t_point point, t_point d, t_ray_info *info)

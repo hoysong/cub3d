@@ -1,8 +1,6 @@
 #include "./mlx_hdler.h"
 #include "./algorithm/my_algorithm.h"
 #include "../minilibx-linux/mlx.h"
-#include "./player.h"
-#include <stdio.h>
 
 inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 {

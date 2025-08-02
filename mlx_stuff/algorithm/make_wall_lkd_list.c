@@ -6,17 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-t_wall_node *my_last_node;
-
-static void	print_minus(t_wall_node *node)
-{
-	printf("==========MINUS==========\n");
-	printf("wall_width  : %f\n", node->wall_width);
-	printf("end.x       : %f\n", node->end_point.x);
-	printf("start.x     : %f\n", node->start_point.x);
-	printf("start_degree: %f\n", node->start_degree);
-}
-
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
@@ -57,10 +46,6 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	int	over_180_flag;
 
 	over_180_flag = 0;
-	//printf("==GET_DEGREE==\n");
-	//printf("end_point: %f | %f\n", a->x, a->y);
-	//printf("ray_start: %f | %f\n", b->x, b->y);
-	//printf("wall_cord: %f | %f\n", c->x, c->y);
 	a_b_vect.x = a->x - b->x;
 	a_b_vect.y = a->y - b->y;
 	c_b_vect.x = c->x - b->x;
@@ -69,33 +54,30 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	a_b_atan = atan2(a_b_vect.y, a_b_vect.x);
 	c_b_atan = atan2(c_b_vect.y, c_b_vect.x);
 	result_atan = c_b_atan - a_b_atan;
+	/*정규화 if문.*/
 	if (result_atan > Pie)
 	{
 		result_atan -= 2*Pie;
-//		printf("status: BIG\n");
 		++over_180_flag;
 	}
 	else if (result_atan < -Pie)
 	{
 		result_atan += 2*Pie;
-//		printf("status: LOW\n");
 	}
-	//printf("result_atan: %f\n", result_atan);
+	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
+	/*특정 상황에서는 각도를 360도로 계산하도록 변환.*/
 	if (over_180_flag)
 		degree+= 360;
 	/*SEGV 해결용.*/
 	if (degree > 220)
 	{
-//		printf("deg convert: %f\n", degree);
 		degree -= 360;
-//		printf("convert_to: %f\n", degree);
 	}
-	//printf("degree: %f\n", degree);
-	//printf("\n");
 	return (degree);
 }
 
+/*텍스쳐가 입혀질 면의 시작좌표와 끝좌표를 구하는 과정.*/
 void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 {
 	t_mlx	*mlx_ptr = mlx();
@@ -130,11 +112,10 @@ void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 	}
 }
 
+/*새로운 면 노드에 대한 정보를 담은 노드를 생성합니다.*/
 void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 {
 	node = wall_init_last_node(node);
-	/*텍스쳐를 먼저 확인하기.
-	 * 텍스쳐에 따른 좌표값을 넣어줘야 함.*/
 	get_wall_start_end(info, &(node->wall_start_cord), &(node->wall_end_cord));
 	node->start_degree =
 		get_degree(&(info->end_point), &(info->ray_start), &(node->wall_start_cord));
@@ -200,6 +181,7 @@ void	try_put_edge_to_map(t_wall_node *node)
 	}
 }
 
+/*화면상 위치할 좌표를 지정합니다.*/
 static inline float	get_line_y(t_point point)
 {
 	float	vert_len;
@@ -214,6 +196,7 @@ static inline float	get_line_y(t_point point)
 	return (inverse);
 }
 
+/*화면상 위치할 좌표를 지정합니다.*/
 static inline int	get_line_x(float degree)
 {
 	float	degree_to_percent = degree / Player_FOV * 100;
@@ -221,59 +204,6 @@ static inline int	get_line_x(float degree)
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
 	return (line_location);
-}
-
-static void	put_line(t_img *img_ptr, t_point point, int color)
-{
-	float	line_end;
-	line_end = WIN_HEIGHT - point.y;
-	while (point.y < line_end)
-	{
-		if (
-				(point.x > 0 && point.x < WIN_WIDTH) &&
-				(point.y > 0 && point.y < WIN_HEIGHT)
-				)
-			put_pixel_to_img(img_ptr, point.x, point.y, color);
-		++point.y;
-	}
-}
-
-int	put_top_line(t_point ray, t_point y, void *dummy_3)
-{
-		if (
-				(ray.x > 0 && ray.x < WIN_WIDTH) &&
-				(ray.y > 0 && ray.y < WIN_HEIGHT)
-				)
-			put_pixel_to_img(&(mlx()->background), ray.x, ray.y, 0x0);
-		return (0);
-}
-
-void	print_tex(t_img *img)
-{
-	printf("Texture: ");
-	if (&(mlx()->xpm_north) == img)
-		printf("NORTH\n");
-	else if (&(mlx()->xpm_south) == img)
-		printf("SOUTH\n");
-	else if (&(mlx()->xpm_west) == img)
-		printf("WEST\n");
-	else if (&(mlx()->xpm_east) == img)
-		printf("east\n");
-}
-
-void	print_list(t_wall_node *node)
-{
-	printf("====print_list====\n");
-	while (node)
-	{
-		printf("ray_info: %p\n",node->info);
-		printf("wall_start  : %f | %f\n", node->wall_start_cord.x, node->wall_start_cord.y);
-		printf("start_degree: %f\n", node->start_degree);
-		printf("wall_end  : %f | %f\n", node->wall_end_cord.x, node->wall_end_cord.y);
-		printf("end_degree: %f\n", node->end_degree);
-		printf("\n");
-		node = node->next;
-	}
 }
 
 void	calculate_point_location(t_wall_node *node)
@@ -287,37 +217,6 @@ void	calculate_point_location(t_wall_node *node)
 		node->end_point.x = get_line_x(node->end_degree);
 
 		node->wall_width = node->end_point.x - node->start_point.x;
-		if (node->wall_width < 0)
-		{
-		//	print_minus(node);
-		}
-		node = node->next;
-	}
-}
-
-void	try_put_vert_line(t_wall_node *node)
-{
-	t_mlx	*mlx_ptr = mlx();
-
-	while (node)
-	{
-		put_line(&(mlx_ptr->background), node->start_point, 0x00ff00);
-		put_line(&(mlx_ptr->background), node->end_point, 0xffff00);
-		shoot_ray(node->start_point, node->end_point, NULL, put_top_line);
-		node = node->next;
-	}
-}
-
-static void	set_vars(t_wall_node *node, t_wall_node **low_deg, t_wall_node **high_deg)
-{
-	(*low_deg) = node;
-	(*high_deg) = node;
-	while (node)
-	{
-		if ((*low_deg)->start_degree > node->start_degree)
-			(*low_deg) = node;
-		if ((*high_deg)->end_degree < node->end_degree)
-			(*high_deg) = node;
 		node = node->next;
 	}
 }
@@ -349,8 +248,6 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
 			right_wall->end_point.x = get_line_x(Player_FOV);
 		}
-		//printf("RIGHT_WALL\n");
-		//print_minus(right_wall);
 	}
 }
 
@@ -374,18 +271,6 @@ int	put_texture(t_point ray, t_point y, void *param)
 	{
 		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
 	}
-//	if (my_last_node == node)
-//	{
-//		print_tex(node->texture);
-//		printf("last_width: %f\n", node->wall_width);
-//		printf("==UNDER DEGREE\nnode->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);\n= %f\n", node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width));
-//		printf("==OVER DEGREE\nnode->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width)\n= %f\n", node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width));
-//		printf("      wall_width: %f\n", node->wall_width);
-//		printf("           pix.x: %f\n", pixel.x);
-//		printf("           ray.x: %f\n", ray.x);
-//		printf("     end_point.x: %f\n", node->end_point.x);
-//		printf("   start_point.x: %f\n", node->start_point.x);
-//	}
 	if (ray.y < 0)
 		ray.y = 0;
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
@@ -393,9 +278,9 @@ int	put_texture(t_point ray, t_point y, void *param)
 		pixel.y =
 		node->texture->xpm_height *
 		(
-		(ray.y - start_ray.y) // 진행거리. 이거 틀릴 일 없음.
+		(ray.y - start_ray.y)
 		/
-		((WIN_HEIGHT >> 1) + ((WIN_HEIGHT >> 1) - start_ray.y) - start_ray.y) // 비율 구하기.
+		((WIN_HEIGHT >> 1) + ((WIN_HEIGHT >> 1) - start_ray.y) - start_ray.y)
 		);
 		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
 				get_xpm_pixel_color(*(node->texture), pixel)
@@ -409,12 +294,9 @@ void	try_put_texture(t_wall_node *node)
 {
 	t_mlx	*mlx_ptr = mlx();
 
-	//printf("4 : last_width: %f\n", my_last_node->wall_width);
 	while (node)
 	{
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
-	//	if (node == my_last_node)
-	//		printf("5 : last_width: %f\n", node->wall_width);
 		node = node->next;
 	}
 }
@@ -428,19 +310,13 @@ void	make_wall_linked_list(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
-//	printf("=========NEW_FRAME!!!=========\n");
 	node = new_shoot_fov_ray(&info);
-
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
-	my_last_node = end_node;
-
 	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
 	try_put_edge_to_map(node);
-
 	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
-
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
 	first_last_correction(start_node, end_node);
 	/*리스트를 정렬합니다.*/
@@ -451,5 +327,4 @@ void	make_wall_linked_list(void)
 	try_put_texture(node);
 	/*linked_list를 삭제합니다.*/
 	wall_destroy_list(node);
-//	printf("\n");
 }
