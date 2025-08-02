@@ -254,6 +254,8 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 /*ray를 가로 대각선으로 조사하며 세로축의 선을 그려내는 로직이다.*/
 int	put_texture(t_point ray, t_point y, void *param)
 {
+	ray.y = (int)ray.y;
+
 	float	lower_point = ((float)(WIN_HEIGHT >> 1)) + (((float)(WIN_HEIGHT >> 1)) - ray.y);
 	t_wall_node	*node = param;
 	t_point		start_ray = ray;
@@ -285,7 +287,7 @@ int	put_texture(t_point ray, t_point y, void *param)
 		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
 				get_xpm_pixel_color(*(node->texture), pixel)
 				);
-		ray.y++;
+		ray.y += 1;
 	}
 	return (0);
 }
@@ -296,6 +298,7 @@ void	try_put_texture(t_wall_node *node)
 
 	while (node)
 	{
+		printf("=======================================================new!!!\n");
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
 		node = node->next;
 	}
@@ -310,6 +313,7 @@ void	ray_casting(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
+	printf("NEW_FRAME\n");
 	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
