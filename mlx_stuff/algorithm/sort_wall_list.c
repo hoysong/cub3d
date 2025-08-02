@@ -16,11 +16,14 @@ static void	print_tex(t_img *img)
 
 static void	print_list(t_wall_node *node)
 {
+	int	node_num = 0;
 	while (node)
 	{
+		//printf("%d: ", node_num);
 		//printf("%p: %f | %f\n", node, node->start_point.y, node->end_point.y);
 		//print_tex(node->texture);
 		node = node->next;
+		node_num++;
 	}
 }
 
@@ -67,7 +70,7 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 		{
 			//printf("swap!\n");
 			wall_swap_node(a, b);
-			print_list(wall_find_first_node(node));
+			//print_list(wall_find_first_node(node));
 			//printf("=======deeper!=======\n");
 			a = go_deeper(b, depth + 1);
 			b = a;
@@ -87,6 +90,7 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 
 void	sort_wall_list(t_wall_node *node)
 {
+	//printf("====SORT_START====\n");
 	print_list(node);
 	go_deeper(node, 0);
 	//printf("SORTED!\n");
