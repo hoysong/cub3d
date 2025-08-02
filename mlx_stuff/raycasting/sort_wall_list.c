@@ -1,4 +1,4 @@
-#include "./wall_lkd_list/wall_lkd_list.h"
+#include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
 
 static inline void	init_vars(t_wall_node *a, t_wall_node *b, float	*a_val, float *b_val)

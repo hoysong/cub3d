@@ -3,7 +3,7 @@
 #include "../parser/pars_priv.h"
 #include "../parser/pars_pub.h"
 
-static void	fill_minimap_bg(t_mlx *mlx_strc)
+static void	minimap_fill_bg(t_mlx *mlx_strc)
 {
 	int	i;
 	int	j;
@@ -22,7 +22,7 @@ static void	fill_minimap_bg(t_mlx *mlx_strc)
 	}
 }
 
-static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length, t_mlx *mlx_strc)
+static void	minimap_draw_grid_line(size_t sq_len, size_t max_height, size_t max_length, t_mlx *mlx_strc)
 {
 	size_t i = 0;
 	size_t j = 0;
@@ -68,7 +68,7 @@ static void	fill_wall_color(size_t start_height, size_t start_width, size_t sq_l
 	}
 }
 
-static void	draw_minimap_walls(size_t sq_len, t_mlx *mlx_strc)
+static void	minimap_draw_walls(size_t sq_len, t_mlx *mlx_strc)
 {
 	char	**map = get_map();
 	size_t	width = 0;
@@ -112,8 +112,8 @@ void	draw_minimap(t_mlx *mlx_strc)
 {
 	size_t	square_len = mlx_strc->minimap_square;
 
-	fill_minimap_bg(mlx_strc);
-	draw_minimap_walls(square_len, mlx_strc);
-	draw_grid_line(square_len, mlx_strc->pars->map_max_height, mlx_strc->pars->map_max_length, mlx_strc);
+	minimap_fill_bg(mlx_strc);
+	minimap_draw_walls(square_len, mlx_strc);
+	minimap_draw_grid_line(square_len, mlx_strc->pars->map_max_height, mlx_strc->pars->map_max_length, mlx_strc);
 	draw_player(square_len, mlx_strc, player());
 }
