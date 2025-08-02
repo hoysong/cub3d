@@ -6,6 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void	print_minus(t_wall_node *node)
+{
+	printf("width: %f\n", node->wall_width);
+}
+
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
@@ -57,6 +62,7 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	/*정규화 if문.*/
 	if (result_atan > Pie)
 	{
+//		printf("OVER Pi\n");
 		result_atan -= 2*Pie;
 		++over_180_flag;
 	}
@@ -67,13 +73,14 @@ float	get_degree(t_point *a, t_point *b, t_point *c)
 	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
 	/*특정 상황에서는 각도를 360도로 계산하도록 변환.*/
-	if (over_180_flag)
+//	if (over_180_flag)
 		degree+= 360;
 	/*SEGV 해결용.*/
 	if (degree > 220)
 	{
 		degree -= 360;
 	}
+//	printf("degree: %f\n", degree);
 	return (degree);
 }
 
@@ -298,7 +305,8 @@ void	try_put_texture(t_wall_node *node)
 
 	while (node)
 	{
-		printf("=======================================================new!!!\n");
+//		if (node->wall_width < 0)
+//			print_minus(node);
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
 		node = node->next;
 	}
@@ -313,7 +321,7 @@ void	ray_casting(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
-	printf("NEW_FRAME\n");
+//	printf("======================\n");
 	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
