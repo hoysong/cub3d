@@ -1,8 +1,7 @@
+#include "./player.h"
 #include "./mlx_hdler.h"
 #include "../parser/pars_priv.h"
 #include "../parser/pars_pub.h"
-#include "../minilibx-linux/mlx.h"
-#include "./player.h"
 
 static void	fill_minimap_bg(t_mlx *mlx_strc)
 {
@@ -52,7 +51,7 @@ static void	draw_grid_line(size_t sq_len, size_t max_height, size_t max_length, 
 	}
 }
 
-static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len, t_mlx *mlx_strc)
+static void	fill_wall_color(size_t start_height, size_t start_width, size_t sq_len, t_mlx *mlx_strc)
 {
 	int	i = 0;
 	int	j = 0;
@@ -69,7 +68,7 @@ static void	fill_grid(size_t start_height, size_t start_width, size_t sq_len, t_
 	}
 }
 
-static void	fill_minimap_grid(size_t sq_len, t_mlx *mlx_strc)
+static void	draw_minimap_walls(size_t sq_len, t_mlx *mlx_strc)
 {
 	char	**map = get_map();
 	size_t	width = 0;
@@ -80,7 +79,7 @@ static void	fill_minimap_grid(size_t sq_len, t_mlx *mlx_strc)
 		while (map[height][width])
 		{
 			if (map[height][width] == '1')
-				fill_grid(height * sq_len, width * sq_len, sq_len, mlx_strc);
+				fill_wall_color(height * sq_len, width * sq_len, sq_len, mlx_strc);
 			++width;
 		}
 		width = 0;
@@ -88,24 +87,33 @@ static void	fill_minimap_grid(size_t sq_len, t_mlx *mlx_strc)
 	}
 }
 
-extern void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player);
+static void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
+{
+	float	ratio = player->ratio;
+	int		x = (MINI_RES(player->cord.x) * sq_len) - ratio;
+	int		y = (MINI_RES(player->cord.y) * sq_len) - ratio;
+	int		x_end = (MINI_RES(player->cord.x) * sq_len) + ratio;
+	int		y_end = (MINI_RES(player->cord.y) * sq_len) + ratio;
+
+	while (y <= y_end)
+	{
+		while (x <= x_end)
+		{
+			put_pixel_to_img(&(mlx_strc->minimap), x, y, 0xff0000);
+			++x;
+		}
+		x = ((player->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
+		++y;
+	}
+}
+
 
 void	draw_minimap(t_mlx *mlx_strc)
 {
 	size_t	square_len = mlx_strc->minimap_square;
 
 	fill_minimap_bg(mlx_strc);
-	fill_minimap_grid(square_len, mlx_strc);
+	draw_minimap_walls(square_len, mlx_strc);
 	draw_grid_line(square_len, mlx_strc->pars->map_max_height, mlx_strc->pars->map_max_length, mlx_strc);
 	draw_player(square_len, mlx_strc, player());
-}
-
-/*test functions.*/
-//extern void	draw_test_line(void);
-
-void	make_minimap(void)
-{
-	//make_minimap_img();
-	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
-	get_img_data(&(mlx()->minimap));
 }

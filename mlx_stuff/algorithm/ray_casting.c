@@ -125,7 +125,7 @@ void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 	node->info = info;
 }
 
-t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
+t_wall_node	*shoot_fov_ray(t_ray_info *info)
 {
 	t_ray_info	prev_info;
 	t_wall_node	*node;
@@ -163,7 +163,7 @@ t_wall_node	*new_shoot_fov_ray(t_ray_info *info)
 }
 
 /*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
-void	try_put_edge_to_map(t_wall_node *node)
+void	try_put_edge_to_minimap(t_wall_node *node)
 {
 	while (node)
 	{
@@ -301,20 +301,20 @@ void	try_put_texture(t_wall_node *node)
 	}
 }
 
-void	sort_wall_list(t_wall_node *node);
+extern void	sort_wall_list(t_wall_node *node);
 
-void	make_wall_linked_list(void)
+void	ray_casting(void)
 {
 	t_ray_info	info;
 	t_wall_node	*node;
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
-	node = new_shoot_fov_ray(&info);
+	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
 	/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
-	try_put_edge_to_map(node);
+	try_put_edge_to_minimap(node);
 	/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
 	calculate_point_location(node);
 	/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/

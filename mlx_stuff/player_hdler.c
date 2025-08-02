@@ -46,17 +46,6 @@ static int	collision_check(t_point *dest, char **map)
 	return (0);
 }
 
-//int	collision_hdler(t_point *dest, char **map)
-//{
-//	/*collision_check*/
-//	if (collision_check(dest, map))
-//	{
-//		return (1);
-//	}
-//	/*collision_correction*/
-//	return (0);
-//}
-
 void	player_move(t_player *player, float degree)
 {
 	t_point	dest;

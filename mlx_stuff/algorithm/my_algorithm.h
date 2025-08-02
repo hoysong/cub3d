@@ -65,7 +65,7 @@ int	detect_wall_hit(t_point point, t_point d, void *ray_info);
 t_point	rotate_point(t_point center, t_point pt, float degree);
 
 /*플레이어의 FOV 각도만큼 부채꼴로 ray를 방사합니다.*/
-void	shoot_fov_ray(void);
+//void	shoot_fov_ray(void);
 
 /*가상의 맵을 위해 게산되던 포인트를 minimap의 좌표 비율로 변환합니다.*/
 t_point	to_minimap_ratio(t_point point, t_mlx *mlx_strc);
@@ -76,5 +76,5 @@ float	get_length(t_point p1, t_point p2);
 
 /*실험적.*/
 // 벽 linked list를 만듭니다.
-void	make_wall_linked_list(void);
+//void	make_wall_linked_list(void);
 #endif

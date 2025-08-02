@@ -1,22 +1,8 @@
-#include "../parser/pars_pub.h"
 #include "./player.h"
 #include "./mlx_hdler.h"
+#include "../parser/pars_pub.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-t_player	*set_player(t_player *player)
-{
-	static t_player	*static_player;
-
-	if (static_player == NULL)
-		static_player = player;
-	return (static_player);
-}
-
-inline t_player	*player(void)
-{
-	return (set_player(NULL));
-}
 
 static void	get_player_view_point(int x, int y)
 {
@@ -57,25 +43,7 @@ static void	get_start_location(float *fx, float *fy)
 	get_player_view_point(x, y);
 }
 
-void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
-{
-	float	ratio = player->ratio;
-	int		x = (MINI_RES(player->cord.x) * sq_len) - ratio;
-	int		y = (MINI_RES(player->cord.y) * sq_len) - ratio;
-	int		x_end = (MINI_RES(player->cord.x) * sq_len) + ratio;
-	int		y_end = (MINI_RES(player->cord.y) * sq_len) + ratio;
-
-	while (y <= y_end)
-	{
-		while (x <= x_end)
-		{
-			put_pixel_to_img(&(mlx_strc->minimap), x, y, 0xff0000);
-			++x;
-		}
-		x = ((player->cord.x / SIZE_OF_BLOCK) * sq_len) - ratio;
-		++y;
-	}
-}
+extern t_player	*set_player(t_player *player);
 
 void	player_init(void)
 {
