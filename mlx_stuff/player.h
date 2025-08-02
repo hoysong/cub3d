@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 # define PLAYER_H
-# include "./algorithm/my_algorithm.h"
 # include "./cub_defs.h"
+# include "./algorithm/my_algorithm.h"
 
 typedef struct s_player
 {

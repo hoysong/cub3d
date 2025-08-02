@@ -67,10 +67,8 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			);
 	if (shoot_ray(left_wall->info->ray_start, left_wall->info->ray_dest, left_wall->info, detect_wall_hit))
 	{
-		{
-			left_wall->start_point.y = get_line_y(left_wall->info->ray_hit);
-			left_wall->start_point.x = get_line_x(0);
-		}
+		left_wall->start_point.y = get_line_y(left_wall->info->ray_hit);
+		left_wall->start_point.x = get_line_x(0);
 	}
 	if (left_wall == right_wall)
 		return ;
@@ -81,9 +79,7 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 			);
 	if (shoot_ray(right_wall->info->ray_start, right_wall->info->ray_dest, right_wall->info, detect_wall_hit))
 	{
-		{
-			right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
-			right_wall->end_point.x = get_line_x(Player_FOV);
-		}
+		right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
+		right_wall->end_point.x = get_line_x(Player_FOV);
 	}
 }
