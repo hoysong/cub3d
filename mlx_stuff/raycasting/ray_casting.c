@@ -50,7 +50,8 @@ static void	left_wall_to_last(t_wall_node *node, t_wall_node *lst_node)
 {
 	if (node->start_degree < -100)
 		wall_to_last(node);
-	wall_to_last(lst_node);
+	if (lst_node->end_degree > 100)
+		wall_to_last(lst_node);
 }
 
 void	ray_casting(void)
