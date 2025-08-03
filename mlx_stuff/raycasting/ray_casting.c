@@ -46,10 +46,11 @@ static void	degree_correction(t_wall_node *left, t_wall_node *right)
 		right->end_degree += 360;
 }
 
-static void	left_wall_to_last(t_wall_node *node)
+static void	left_wall_to_last(t_wall_node *node, t_wall_node *lst_node)
 {
 	if (node->start_degree < -100)
 		wall_to_last(node);
+	wall_to_last(lst_node);
 }
 
 void	ray_casting(void)
@@ -76,7 +77,7 @@ void	ray_casting(void)
 	sort_wall_list(node);
 	first_last_correction(start_node, end_node);
 	/*만약 좌측면의 노드가 -각도로 나가있다면 마지막에 그려지도록 만듦.*/
-	left_wall_to_last(start_node);
+	left_wall_to_last(start_node, end_node);
 	node = wall_find_first_node(node);
 	draw_wall_lkd_list(node);
 	wall_destroy_list(node);
