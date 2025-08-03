@@ -1,9 +1,10 @@
+#include "../player.h"
 #include "../cub_defs.h"
 #include "../algorithm/my_algorithm.h"
-#include "../algorithm/wall_lkd_list//wall_lkd_list.h"
-#include <math.h>
-#include "../player.h"
+#include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include "../../parser//pars_pub.h"
+#include <math.h>
+#include <stdio.h>
 
 static float	get_degree(t_point *a, t_point *b, t_point *c)
 {
@@ -36,13 +37,19 @@ static float	get_degree(t_point *a, t_point *b, t_point *c)
 	}
 	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
-	/*특정 상황에서는 각도를 360도로 계산하도록 변환.*/
-		degree+= 360;
-	/*SEGV 해결용.*/
-	if (degree > 220)
-	{
-		degree -= 360;
-	}
+	printf("deg_1: %f\n", degree);
+//	if (degree < 0)
+//		degree += 360;
+//	printf("deg_2: %f\n", degree);
+	//printf("before: %f\n", degree);
+	///*특정 상황에서는 각도를 360도로 계산하도록 변환.*/
+	//	degree+= 360;
+	//printf("after: %f\n", degree);
+	///*SEGV 해결용.*/
+	//if (degree > 220)
+	//{
+	//	degree -= 360;
+	//}
 	return (degree);
 }
 
@@ -84,6 +91,7 @@ static void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 /*새로운 면 노드에 대한 정보를 담은 노드를 생성합니다.*/
 static void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 {
+	printf("NEW_NODE\n");
 	node = wall_init_last_node(node);
 	get_wall_start_end(info, &(node->wall_start_cord), &(node->wall_end_cord));
 	node->start_degree =

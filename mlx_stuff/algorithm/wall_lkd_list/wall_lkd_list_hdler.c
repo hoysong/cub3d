@@ -99,3 +99,17 @@ int	wall_count_nodes(t_wall_node *node)
 	return (i);
 }
 
+void	wall_to_last(t_wall_node *node)
+{
+	t_wall_node	*lst_node;
+
+	lst_node = wall_find_lst_node(node);
+	if (node == lst_node)
+		return ;
+	node->next->prev = node->prev;
+	if (node->prev != NULL)
+		node->prev->next = node->next;
+	lst_node->next = node;
+	node->prev = lst_node;
+	node->next = NULL;
+}
