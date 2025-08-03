@@ -2,7 +2,7 @@
 #include <math.h>
 
 /*center is such as player.*/
-/*pt(point) is view_point from player.*/
+/*at this point, pt can be view_point from player.*/
 inline t_point	rotate_point(t_point center, t_point pt, float degree)
 {
 	t_point	new;

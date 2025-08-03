@@ -1,6 +1,7 @@
-#include "../minilibx-linux/mlx.h"
 #include "./mlx_hdler.h"
+#include "./algorithm/my_algorithm.h"
 #include "../parser/pars_priv.h"
+#include "../minilibx-linux/mlx.h"
 
 void	get_img_data(t_img *img)
 {
@@ -22,4 +23,11 @@ size_t	get_minimap_ratio(void)
 	else
 		square_len = MINISIZE/length;
 	return (square_len);
+}
+
+inline int	get_xpm_pixel_color(t_img xpm, t_point pixel)
+{
+	return(((int *)xpm.data_addr)
+			[ (((int)pixel.y * xpm.size_line)>>2) +
+			(((int)pixel.x * xpm.bits_per_pixel)>>5) ]);
 }

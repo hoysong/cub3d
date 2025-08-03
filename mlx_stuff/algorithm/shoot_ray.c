@@ -1,6 +1,4 @@
 #include "./my_algorithm.h"
-//#include "../mlx_hdler.h"
-//#include "../mlx_hdler.h"
 
 int	shoot_ray(t_point start, t_point end,
 		void *call_by_ref,

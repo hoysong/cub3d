@@ -30,7 +30,7 @@ static void	get_xpm_data(t_img *xpm, char *filename)
 	get_img_data(xpm);
 }
 
-void	get_textures(void)
+static void	get_textures(void)
 {
 	get_xpm_data(&(mlx()->xpm_north), get_pars()->north_texture);
 	get_xpm_data(&(mlx()->xpm_south), get_pars()->south_texture);
@@ -40,8 +40,13 @@ void	get_textures(void)
 
 extern t_mlx	*set_mlx(t_mlx *mlx);
 extern void		make_background_image(void);
-extern void		make_minimap(void);
 extern void		setup_hooks(t_mlx *mlx);
+
+void	make_minimap_image(void)
+{
+	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
+	get_img_data(&(mlx()->minimap));
+}
 
 int	setup_mlx(void)
 {
@@ -59,7 +64,7 @@ int	setup_mlx(void)
 	player_init();
 	make_background_image();
 	get_textures();
-	make_minimap();
+	make_minimap_image();
 	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
 	setup_hooks(mlx);
 	return (1);

@@ -42,45 +42,7 @@ static int	collision_check(t_point *dest, char **map)
 		map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
 		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1'
 		) 
-	{
 		return (1);
-	}
-
-	//if (map
-	//		[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-	//		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
-	//{
-	//	return (1);
-	//}
-	//else if (map
-	//		[(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-	//		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
-	//{
-	//	return (1);
-	//}
-	//else if (map
-	//		[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
-	//		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1')
-	//{
-	//	return (1);
-	//}
-	//else if (map
-	//		[(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
-	//		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
-	//{
-	//	return (1);
-	//}
-	return (0);
-}
-
-int	collision_hdler(t_point *dest, char **map)
-{
-	/*collision_check*/
-	if (collision_check(dest, map))
-	{
-		return (1);
-	}
-	/*collision_correction*/
 	return (0);
 }
 
@@ -90,7 +52,7 @@ void	player_move(t_player *player, float degree)
 
 	player_get_step_point(player);
 	dest = rotate_point(player->cord, player->step_point, degree);
-	if (collision_hdler(&dest, player->map))
+	if (collision_check(&dest, player->map))
 	{
 		return ;
 	}
