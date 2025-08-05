@@ -8,7 +8,6 @@ int	try_open(char *file_name)
 	int	fd;
 
 	fd = open(file_name, O_RDONLY);
-
 	if (fd < 0)
 		return (0);
 	close(fd);
@@ -69,7 +68,7 @@ static char	*get_textrue_name(char *texture_line)
 
 	splits = ft_split(texture_line, ' ');
 	texture_name = ft_strdup(splits[1]);
-	free_splits(splits); printf("	texture_name: %s\n", texture_name);
+	free_splits(splits);
 	return (texture_name);
 }
 
@@ -194,12 +193,7 @@ int	pars_file_vld_chk( void )
 	//3. wall texture check.
 	gnl_cub_file();
 	pars_tex_bg(get_pars()->cub_file_list);
-//	printf("FLOOT TEXTURE DONE!\n");
-//	printf("%s\n", (char *)get_pars()->cub_file_list->data);
-//	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
-//	background_vld_chk();
 	map_vld_chk();
-//	printf("ERRNO: %d\n", get_pars()->pars_errno);
 	return (get_pars()->pars_errno);
 }
