@@ -24,8 +24,6 @@ void	pars_init(int argc, char **argv)
 	pars = malloc(sizeof(t_pars));
 	pars->argc = argc;
 	pars->argv = argv;
-	pars->map_max_length = 0;
-	pars->map_max_height = 0;
 	pars->pars_errno = 0;
 	pars->cub_file_list = NULL;
 	pars->north_texture = NULL;
@@ -33,6 +31,8 @@ void	pars_init(int argc, char **argv)
 	pars->west_texture = NULL;
 	pars->east_texture = NULL;
 	pars->map = NULL;
+	pars->map_max_length = 0;
+	pars->map_max_height = 0;
 	set_pars(pars);
 }
 
@@ -54,7 +54,7 @@ void	pars_destroy( void )
 	t_pars	*pars;
 
 	pars = get_pars();
-	if (pars->pars_errno > CUB_OPEN_ERR || pars->pars_errno == 0)
+	if (pars->pars_errno || pars->pars_errno == 0)
 	{
 		destroy_gnl_list(pars->cub_file_list);
 		free(pars->north_texture);

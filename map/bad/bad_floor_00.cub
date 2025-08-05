@@ -1,10 +1,15 @@
-NO ./texture/00_Ollie_the_cat.xpm
-SO ./texture/00_Ollie_the_cat.xpm
-WE ./texture/00_Ollie_the_cat.xpm
-EA ./texture/00_Ollie_the_cat.xpm
 
-FX 220,100,0
+SO ./texture/cat/01_mad_cat.xpm
+
 C 225,30,0
+
+WE ./texture/cat/02_toungue_cat.xpm
+
+EA ./texture/cat/03_hat_cat.xpm
+
+F 220,100,0
+
+NO ./texture/cat/00_Ollie.xpm
 
         1111111111111111111111111
         1000000000110000000000001

@@ -12,7 +12,7 @@
 //# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
 
 /*Minimap size.*/
-# define MINISIZE	350
+# define MINISIZE	200
 /*Minimap BG_color.*/
 # define BG_Color	0x666666
 /*Minimap GridColor.*/
@@ -27,7 +27,7 @@
 
 /*가상 좌표상의 플레이어 사이즈입니다.*/
 /*벽충돌 판정에 사용됩니다.*/
-# define PLAYER_SIZE	18
+# define PLAYER_SIZE	20
 /*플레이어의 가시반경.*/
 /*블록의 크기 * n 만큼이 지정되도록 함.*/
 # define VIEW_DIST		(SIZE_OF_BLOCK * 30)

@@ -27,16 +27,16 @@ static void	print_map_info()
 
 void	pars_cub_file(void)
 {
-	// linked list 다시 원점으로.
-	get_pars()->cub_file_list = find_head_dubly(get_pars()->cub_file_list);
-	// 텍스쳐 파싱하기.
-	pars_texture();
-	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
-	// 바닥/천장 색상 파싱하기.
-	pars_floor_ceiling();
-	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
-	// 맵 파싱하기.
-	printf("get map from cubfile.\n");
+//	// linked list 다시 원점으로.
+//	get_pars()->cub_file_list = find_head_dubly(get_pars()->cub_file_list);
+//	// 텍스쳐 파싱하기.
+//	pars_texture();
+//	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+//	// 바닥/천장 색상 파싱하기.
+//	pars_floor_ceiling();
+//	get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+//	// 맵 파싱하기.
+//	printf("get map from cubfile.\n");
 	get_pars()->map_max_length = get_max_length();
 	get_pars()->map_max_height = get_max_height();
 	get_pars()->map = gen_map(get_max_length(), get_max_height());
