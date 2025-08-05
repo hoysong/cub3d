@@ -25,6 +25,8 @@ typedef struct	s_pars
 	char	**map;
 	size_t	map_max_length;
 	size_t	map_max_height;
+	int		floor_parsed_flag;
+	int		ceiil_parsed_flag;
 }	t_pars;
 
 t_pars	*get_pars( void );
