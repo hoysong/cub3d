@@ -71,8 +71,7 @@ static char	*get_textrue_name(char *texture_line)
 
 	splits = ft_split(texture_line, ' ');
 	texture_name = ft_strdup(splits[1]);
-	free_splits(splits);
-	printf("	texture_name: %s\n", texture_name);
+	free_splits(splits); printf("	texture_name: %s\n", texture_name);
 	return (texture_name);
 }
 
@@ -201,6 +200,8 @@ int	pars_file_vld_chk( void )
 	//2. .cub open check.
 	if (!try_open(get_pars()->argv[1]))
 		get_pars()->pars_errno = 3;
+	if (get_pars()->pars_errno)
+		return (get_pars()->pars_errno);
 	//3. wall texture check.
 	gnl_cub_file();
 	pars_tex_bg(get_pars()->cub_file_list);
