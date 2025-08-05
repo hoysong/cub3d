@@ -36,7 +36,6 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 
 	while (b)
 	{
-
 		init_vars(a, b, &a_val, &b_val);
 		if (a_val < b_val)
 		{
@@ -45,9 +44,9 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 			b = a;
 		}
 		b = b->next;
-		if (depth == 0 &&
-				(a->next != NULL && b == NULL)
-				)
+		if (depth == 0
+			&&
+			(a->next != NULL && b == NULL))
 		{
 			a = a->next;
 			b = a;
