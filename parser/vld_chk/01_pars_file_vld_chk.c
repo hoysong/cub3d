@@ -54,9 +54,7 @@ static int texture_vld_chk(char *direction, char *texture_line)
 		|| ft_strncmp(buf[0], direction, 3)
 		|| !file_format_chk(".xpm", buf[1])
 		|| !try_open(buf[1]))
-//		|| get_pars()->pars_errno)
 	{
-//		get_pars()->pars_errno = 4;
 		free_splits(buf);
 		return (0);
 	}
@@ -96,20 +94,15 @@ static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 	splits = ft_split(bg_line, ' ');
 	if (count_splits(splits) != 2
 		|| ft_strncmp(splits[0], floor_or_ceiling, 2))
-//		|| get_pars()->pars_errno)
 	{
-//		get_pars()->pars_errno = 5;
 		free_splits(splits);
 		return (0);
 	}
-
 	rgb = ft_split(splits[1], ',');
 	free_splits(splits);
 	if (count_splits(rgb) != 3
 		|| !color_vld_chk(rgb))
-//		|| get_pars()->pars_errno)
 	{
-//		get_pars()->pars_errno = 5;
 		free_splits(rgb);
 		return (0);
 	}
@@ -117,7 +110,7 @@ static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 	return (1);
 }
 
-static t_rgb	get_rgb(char *str)
+static t_rgb	get_rgb(char *str, char type)
 {
 	char	**splits;
 	char	**rgb_splits;
@@ -130,54 +123,50 @@ static t_rgb	get_rgb(char *str)
 	rgb.blue = ft_atoi(rgb_splits[2]);
 	free_splits(splits);
 	free_splits(rgb_splits);
+	if (type == 'F')
+		get_pars()->floor_parsed_flag++;
+	else if (type == 'C')
+		get_pars()->ceiil_parsed_flag++;
 	return (rgb);
+}
+
+static int	is_data_filled(void)
+{
+	if (!get_pars()->north_texture
+		|| !get_pars()->south_texture
+		|| !get_pars()->west_texture
+		|| !get_pars()->east_texture
+		|| !(get_pars()->floor_parsed_flag < 2)
+		|| !(get_pars()->ceiil_parsed_flag < 2)
+		)
+		return (0);
+	return (1);
 }
 
 static void	pars_tex_bg(t_dnode *node)
 {
-	int	floor_parsed_flag = 0;
-	int	ceeil_parser_flag = 0;
 	while (node)
 	{
-		printf("node->str: %s\n", (char *)node->data);
-		if (texture_vld_chk("NO", node->data))
+		if (texture_vld_chk("NO", node->data) && !get_pars()->north_texture)
 			get_pars()->north_texture = get_textrue_name(node->data);
-		else if (texture_vld_chk("SO", node->data))
+		else if (texture_vld_chk("SO", node->data) && !get_pars()->south_texture)
 			get_pars()->south_texture = get_textrue_name(node->data);
-		else if (texture_vld_chk("WE", node->data))
+		else if (texture_vld_chk("WE", node->data) && !get_pars()->west_texture)
 			get_pars()->west_texture = get_textrue_name(node->data);
-		else if (texture_vld_chk("EA", node->data))
+		else if (texture_vld_chk("EA", node->data) && !get_pars()->east_texture)
 			get_pars()->east_texture = get_textrue_name(node->data);
 		else if (bg_color_vld_chk("F", node->data))
-		{
-			get_pars()->floor = get_rgb(node->data);
-			floor_parsed_flag++;
-		}
+			get_pars()->floor = get_rgb(node->data, 'F');
 		else if (bg_color_vld_chk("C", node->data))
-		{
-			get_pars()->ceiling = get_rgb(node->data);
-			ceeil_parser_flag++;
-		}
+			get_pars()->ceiling = get_rgb(node->data, 'C');
 		else if (*(char *)(node->data) != '\0')
 		{
-			printf("	done!\n");
-			if (!get_pars()->north_texture
-			|| !get_pars()->south_texture
-			|| !get_pars()->west_texture
-			|| !get_pars()->east_texture
-			|| !floor_parsed_flag
-			|| !ceeil_parser_flag)
+			if (!is_data_filled())
 				get_pars()->pars_errno = 1;
 			break ;
 		}
-		else
-			printf("	skip!\n");
 		node = node->next_node;
 	}
-	printf("%s\n", get_pars()->north_texture);
-	printf("%s\n", get_pars()->south_texture);
-	printf("%s\n", get_pars()->west_texture);
-	printf("%s\n", get_pars()->east_texture);
 	while (get_pars()->cub_file_list != node)
 		get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 }
@@ -205,12 +194,12 @@ int	pars_file_vld_chk( void )
 	//3. wall texture check.
 	gnl_cub_file();
 	pars_tex_bg(get_pars()->cub_file_list);
-	printf("FLOOT TEXTURE DONE!\n");
-	printf("%s\n", (char *)get_pars()->cub_file_list->data);
+//	printf("FLOOT TEXTURE DONE!\n");
+//	printf("%s\n", (char *)get_pars()->cub_file_list->data);
 //	check_xpm_texture_line();
 	//4. floor/ceiling RGB check.
 //	background_vld_chk();
 	map_vld_chk();
-	printf("ERRNO: %d\n", get_pars()->pars_errno);
+//	printf("ERRNO: %d\n", get_pars()->pars_errno);
 	return (get_pars()->pars_errno);
 }

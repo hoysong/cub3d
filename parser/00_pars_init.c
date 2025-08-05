@@ -33,6 +33,8 @@ void	pars_init(int argc, char **argv)
 	pars->map = NULL;
 	pars->map_max_length = 0;
 	pars->map_max_height = 0;
+	pars->floor_parsed_flag = 0;
+	pars->ceiil_parsed_flag = 0;
 	set_pars(pars);
 }
 

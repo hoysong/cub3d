@@ -2,6 +2,8 @@
 SO ./texture/cat/01_mad_cat.xpm
 
 EA ./texture/cat/03_hat_cat.xpm
+EA ./texture/cat/03_hat_cat.xpm
+
 C 225,30,0
 
 
