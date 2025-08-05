@@ -2,15 +2,15 @@
 #include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
 
-static void	print_node(t_wall_node *node)
-{
-	if (node != NULL)
-	{
-		printf("width: %f\n", node->wall_width);
-	}
-	else
-		printf("NULL node..\n");
-}
+//static void	print_node(t_wall_node *node)
+//{
+//	if (node != NULL)
+//	{
+//		printf("width: %f\n", node->wall_width);
+//	}
+//	else
+//		printf("NULL node..\n");
+//}
 
 /*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
 /*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
@@ -63,7 +63,7 @@ void	ray_casting(void)
 
 	t_wall_node	*start_next;
 
-	printf("NEW_FRAME=================================\n");
+//	printf("NEW_FRAME=================================\n");
 	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
 		start_next = start_node->next;
@@ -73,8 +73,8 @@ void	ray_casting(void)
 //		print_node(start_node);
 //		print_node(start_next);
 	calculate_point_location(node);
-		print_node(start_node);
-		print_node(start_next);
+//		print_node(start_node);
+//		print_node(start_next);
 	sort_wall_list(node);
 	first_last_correction(start_node, end_node);
 	/*만약 좌측면의 노드가 -각도로 나가있다면 마지막에 그려지도록 만듦.*/
