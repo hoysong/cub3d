@@ -1,5 +1,6 @@
 #include "../pars_priv.h"
 
+
 inline int	is_player(char c)
 {
 	if (c == 'N'
@@ -17,12 +18,33 @@ static inline int	is_wall_floor(char c)
 	return (0);
 }
 
-static inline int	is_map_char(char c)
+/*check diagonal spaces.*/
+/*map must be rectangle.*/
+static int	diagonal_vld_check(char **map, int i, int j)
 {
-	if (is_player(c) &&
-		is_wall_floor(c) &&
-		c == ' ')
+	if (
+		map[i - 1][j - 1] == ' ' ||
+		map[i - 1][j + 1] == ' ' ||
+		map[i + 1][j - 1] == ' ' ||
+		map[i + 1][j + 1] == ' '
+		)
+	{
+		return (0);
+	}
+	return (1);
+}
+
+static int	is_surrounded_by_wall_floor(char **map, int i, int j)
+{
+	if (
+		is_wall_floor(map[i - 1][j]) &&
+		is_wall_floor(map[i + 1][j]) &&
+		is_wall_floor(map[i][j - 1]) &&
+		is_wall_floor(map[i][j + 1])
+		)
+	{
 		return (1);
+	}
 	return (0);
 }
 
@@ -31,10 +53,9 @@ static int	surround_chk(char **map, int i, int j)
 	if (map[i][j] == ' ' || map[i][j] == '1')
 		return (1);
 	if (is_player(map[i][j]) &&
-		is_wall_floor(map[i - 1][j]) &&
-		is_wall_floor(map[i + 1][j]) &&
-		is_wall_floor(map[i][j - 1]) &&
-		is_wall_floor(map[i][j + 1]))
+		is_surrounded_by_wall_floor(map, i, j) &&
+		diagonal_vld_check(map, i, j)
+		)
 	{
 		return (1);
 	}
@@ -42,7 +63,9 @@ static int	surround_chk(char **map, int i, int j)
 			(is_player(map[i - 1][j]) || is_wall_floor(map[i - 1][j])) &&
 			(is_player(map[i + 1][j]) || is_wall_floor(map[i + 1][j])) &&
 			(is_player(map[i][j - 1]) || is_wall_floor(map[i][j - 1])) &&
-			(is_player(map[i][j + 1]) || is_wall_floor(map[i][j + 1])))
+			(is_player(map[i][j + 1]) || is_wall_floor(map[i][j + 1])) &&
+			diagonal_vld_check(map, i, j)
+			)
 	{
 		return (1);
 	}
