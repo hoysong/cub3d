@@ -1,15 +1,24 @@
 NO ./texture/cat/00_Ollie.xpm
-SO ./texture/cat/01_mad_cat.xpm
-WE ./texture/cat/02_toungue_cat.xpm
-EA ./texture/cat/03_hat_cat.xpm
 
 F 170,170,170
+
+EA ./texture/cat/03_hat_cat.xpm
+
 C 180,00,00
+
+WE ./texture/cat/02_toungue_cat.xpm
+
+SO ./texture/cat/01_mad_cat.xpm
 
 1111111
 1000001
 1000001
 1000001
-1000001
+100N001
 1000001
 1111111
+
+
+
+
+

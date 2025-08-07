@@ -2,9 +2,6 @@
 #include "./algorithm/my_algorithm.h"
 #include "../minilibx-linux/mlx.h"
 
-//	atomic_t num;
-//	시퀀스가 5개?
-
 inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 {
 	char	*location_to_put;
@@ -12,8 +9,10 @@ inline void	put_pixel_to_img(t_img *img, int horiz, int vert, int color)
 	location_to_put = img->data_addr;
 	*(unsigned int *)
 		(
-		 location_to_put + ((img->bits_per_pixel >> 3) * horiz) + img->size_line * vert
-		 ) = color;
+		location_to_put +
+		((img->bits_per_pixel >> 3) * horiz) +
+		img->size_line * vert
+		) = color;
 }
 
 inline void	put_background(t_mlx *mlx_strc)

@@ -2,6 +2,20 @@
 #include "../pars_priv.h"
 #include <fcntl.h>
 
+#include <stdio.h>
+
+static int	count_nodes(t_dnode *node)
+{
+	int	i = 0;
+
+	while (node)
+	{
+		i++;
+		node = node->next_node;
+	}
+	return (i);
+}
+
 static void	del_null_data(void)
 {
 	t_dnode	*node;
@@ -18,17 +32,43 @@ static void	del_null_data(void)
 		destroy_doubly_node(find_tail_dubly(node));
 }
 
+//static void	try_print_list(t_dnode *node)
+//{
+//	int	i = 1;
+//	while (node)
+//	{
+//		printf("node-%d,  %s\n", i++, (char *)node->data);
+//		node = node->next_node;
+//	}
+//}
+
+static void	del_lst_newline_nodes(t_dnode *node)
+{
+	node = find_tail_dubly(node);
+	while (node->prev_node != NULL)
+	{
+		node = node->prev_node;
+		if (*(char *)node->next_node->data == '\n')
+			destroy_doubly_node(node->next_node);
+	}
+}
+
 void	gnl_cub_file( void )
 {
 	t_dnode	*gnl_node;
-	int	fd;
+	int		fd;
 
 	if (get_pars()->pars_errno)
 		return ;
 	fd = open(get_pars()->argv[1], O_RDONLY);
 	get_pars()->cub_file_list = get_gnl_node(fd);
+//	try_print_list(get_pars()->cub_file_list);
 	del_null_data();
-	gnl_node = get_pars()->cub_file_list;
+//	try_print_list(get_pars()->cub_file_list);
+	if (count_nodes(get_pars()->cub_file_list) <= 6) /*too low infos..*/
+		get_pars()->pars_errno = 1;
+	del_lst_newline_nodes(get_pars()->cub_file_list); /**/
+	gnl_node = get_pars()->cub_file_list; /**/
 	while (gnl_node)
 	{
 		*ft_strchr((char *)gnl_node->data, '\n') = '\0';

@@ -1,7 +1,7 @@
 #include "../pars_priv.h"
 #include "../../my_libft/libft.h"
 #include <fcntl.h>
-#include <stdio.h>
+//#include <stdio.h>
 
 int	try_open(char *file_name)
 {
@@ -135,8 +135,8 @@ static int	is_data_filled(void)
 		|| !get_pars()->south_texture
 		|| !get_pars()->west_texture
 		|| !get_pars()->east_texture
-		|| !(get_pars()->floor_parsed_flag < 2)
-		|| !(get_pars()->ceiil_parsed_flag < 2)
+		|| !(get_pars()->floor_parsed_flag <= 1)
+		|| !(get_pars()->ceiil_parsed_flag <= 1)
 		)
 		return (0);
 	return (1);
@@ -166,8 +166,14 @@ static void	pars_tex_bg(t_dnode *node)
 		}
 		node = node->next_node;
 	}
+	/*파싱이 진행된 위치까지 이동하기.*/
 	while (get_pars()->cub_file_list != node)
 		get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+	/*이후의 개행들을 스킵하기.*/
+	/*newline들은 \0로 치환되어있다.*/
+	while (*(char *)(get_pars()->cub_file_list->data) == '\0')
+		get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+//	printf("pars tex/BG: %s\n", (char *)(get_pars()->cub_file_list->data));
 }
 
 extern void	gnl_cub_file( void );

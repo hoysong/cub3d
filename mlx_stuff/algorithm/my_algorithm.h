@@ -57,6 +57,14 @@ int	shoot_ray(
 		int(*func_ptr)(t_point, t_point, void *)
 		);
 
+/*shoot infinite ray.*/
+int	shoot_inf_ray(
+		t_point start,
+		t_point end,
+		void *call_by_ref,
+		int(*func_ptr)(t_point, t_point, void *)
+		);
+
 /*충돌지점이 감지되면 -1,-1이 아닌 t_point값을 리턴합니다.*/
 /*ray가 투사되며 step당 실행할 루틴입니다.*/
 int	detect_wall_hit(t_point point, t_point d, void *ray_info);

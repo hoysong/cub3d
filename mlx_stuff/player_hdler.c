@@ -53,9 +53,7 @@ void	player_move(t_player *player, float degree)
 	player_get_step_point(player);
 	dest = rotate_point(player->cord, player->step_point, degree);
 	if (collision_check(&dest, player->map))
-	{
 		return ;
-	}
 	player->view_point.x += -(player->cord.x - dest.x);
 	player->view_point.y += -(player->cord.y - dest.y);
 	player->cord.x = dest.x;

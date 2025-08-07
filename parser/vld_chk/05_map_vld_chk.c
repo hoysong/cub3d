@@ -32,6 +32,18 @@ static char	**gen_outline_map(size_t max_length, size_t max_height)
 	return (map);
 }
 
+/*map must not seperated my newline.*/
+static int	map_newline_check(t_dnode *node)
+{
+	while (node)
+	{
+		if (*(char *)node->data == '\0')
+			return (1);
+		node = node->next_node;
+	}
+	return (0);
+}
+
 void	map_vld_chk(void)
 {
 	char	**map;
@@ -39,6 +51,10 @@ void	map_vld_chk(void)
 	if (get_pars()->pars_errno)
 		return ;
 	//get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
+	if (map_newline_check(get_pars()->cub_file_list))
+	{
+		get_pars()->pars_errno = 1;
+	}
 	map = gen_outline_map(get_max_length(), get_max_height());
 	print_splits(map);
 	good_map_chk(map);

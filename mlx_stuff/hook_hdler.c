@@ -84,7 +84,6 @@ static int	my_loop_hook(void *mlx)
 void	setup_hooks(t_mlx *mlx)
 {
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
-	//mlx_hook(mlx->mlx_window, KeyRelease, KeyReleaseMask, hook_func, mlx);
 	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
 	mlx_loop_hook(mlx->mlx_ptr, my_loop_hook, mlx);
 }

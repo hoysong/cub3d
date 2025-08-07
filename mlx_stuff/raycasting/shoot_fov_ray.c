@@ -37,19 +37,6 @@ static float	get_degree(t_point *a, t_point *b, t_point *c)
 	}
 	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
-//	printf("deg_1: %f\n", degree);
-//	if (degree < 0)
-//		degree += 360;
-//	printf("deg_2: %f\n", degree);
-	//printf("before: %f\n", degree);
-	///*특정 상황에서는 각도를 360도로 계산하도록 변환.*/
-	//	degree+= 360;
-	//printf("after: %f\n", degree);
-	///*SEGV 해결용.*/
-	//if (degree > 220)
-	//{
-	//	degree -= 360;
-	//}
 	return (degree);
 }
 
@@ -136,7 +123,7 @@ t_wall_node	*shoot_fov_ray(t_ray_info *info)
 				info->ray_start, info->end_point,
 				info->degree
 				);
-		if (shoot_ray(info->ray_start, info->ray_dest, info, detect_wall_hit))
+		if (shoot_inf_ray(info->ray_start, info->ray_dest, info, detect_wall_hit))
 		{
 			/*새로운 벽이나 새로운 텍스쳐에 도달했는가?*/
 			if (prev_info.texture != info->texture ||

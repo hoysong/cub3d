@@ -1,11 +1,11 @@
-#include "../pars_priv.h"
-#include "../../my_libft/libft.h"
-#include <fcntl.h>
-#include <stdio.h>
-
-extern int	count_splits(char **splits);
-extern int	file_format_chk(char *format, char *file_name);
-extern int	try_open(char *file_name);
+//#include "../pars_priv.h"
+//#include "../../my_libft/libft.h"
+//#include <fcntl.h>
+//#include <stdio.h>
+//
+//extern int	count_splits(char **splits);
+//extern int	file_format_chk(char *format, char *file_name);
+//extern int	try_open(char *file_name);
 
 //static void texture_vld_chk(char *direction, char *texture_line)
 //{

@@ -1,7 +1,7 @@
-#include "../pars_priv.h"
-#include "../../my_libft/libft.h"
-#include <fcntl.h>
-#include <stdio.h>
+//#include "../pars_priv.h"
+//#include "../../my_libft/libft.h"
+//#include <fcntl.h>
+//#include <stdio.h>
 
 //extern int	count_splits(char **splits);
 //
