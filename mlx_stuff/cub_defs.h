@@ -6,8 +6,8 @@
 # define WIN_HEIGHT	600
 //# define WIN_WIDTH	1920
 //# define WIN_HEIGHT	1080
-# define HALF_WIN_WIDTH
-# define HALF_WIN_HEIGHT
+# define HALF_WIN_WIDTH 
+# define HALF_WIN_HEIGHT 300
 
 /*mouse*/
 # define MOUSE_MIDDLE_X (WIN_WIDTH / 2)

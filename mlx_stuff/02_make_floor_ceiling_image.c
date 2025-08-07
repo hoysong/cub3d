@@ -29,7 +29,7 @@ void	fill_background_color(t_mlx *mlx)
 		while (j < WIN_WIDTH)
 		{
 			put_pixel_to_img(&(mlx->background), j, i, mlx->ceiling_color);
-			put_pixel_to_img(&(mlx->background), j, i + (WIN_HEIGHT >> 1), mlx->floor_color);
+			put_pixel_to_img(&(mlx->background), j, i + HALF_WIN_HEIGHT, mlx->floor_color);
 			++j;
 		}
 		j = 0;

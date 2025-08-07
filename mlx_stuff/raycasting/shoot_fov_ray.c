@@ -10,13 +10,12 @@ static float	get_degree(t_point *a, t_point *b, t_point *c)
 {
 	t_point	a_b_vect;
 	t_point	c_b_vect;
+
 	float	a_b_atan;
 	float	c_b_atan;
 	float	result_atan;
 	float	degree;
-	int	over_180_flag;
 
-	over_180_flag = 0;
 	a_b_vect.x = a->x - b->x;
 	a_b_vect.y = a->y - b->y;
 	c_b_vect.x = c->x - b->x;
@@ -27,14 +26,9 @@ static float	get_degree(t_point *a, t_point *b, t_point *c)
 	result_atan = c_b_atan - a_b_atan;
 	/*정규화 if문.*/
 	if (result_atan > Pie)
-	{
 		result_atan -= 2*Pie;
-		++over_180_flag;
-	}
 	else if (result_atan < -Pie)
-	{
 		result_atan += 2*Pie;
-	}
 	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
 	return (degree);
@@ -45,34 +39,50 @@ static void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 {
 	t_mlx	*mlx_ptr = mlx();
 
-	if (&(mlx_ptr->xpm_north) == info->texture)
-	{
+//	if (&(mlx_ptr->xpm_north) == info->texture)
+//	{
+//		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		start->y = info->wall_y * SIZE_OF_BLOCK;
+//		end->x = info->wall_x * SIZE_OF_BLOCK;
+//		end->y = info->wall_y * SIZE_OF_BLOCK;
+//	}
+//	else if (&(mlx_ptr->xpm_south) == info->texture)
+//	{
+//		start->x = info->wall_x * SIZE_OF_BLOCK;
+//		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//	}
+//	else if (&(mlx_ptr->xpm_west) == info->texture)
+//	{
+//		start->x = info->wall_x * SIZE_OF_BLOCK;
+//		start->y = info->wall_y * SIZE_OF_BLOCK;
+//		end->x = info->wall_x * SIZE_OF_BLOCK;
+//		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//	}
+//	else if (&(mlx_ptr->xpm_east) == info->texture)
+//	{
+//		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+//		end->y = info->wall_y * SIZE_OF_BLOCK;
+//	}
+
+	/*code from above is too long.
+	 * So, replaced by below.
+	 */
+	start->x = info->wall_x * SIZE_OF_BLOCK;
+	start->y = info->wall_y * SIZE_OF_BLOCK;
+	end->x = info->wall_x * SIZE_OF_BLOCK;
+	end->y = info->wall_y * SIZE_OF_BLOCK;
+	if (&(mlx_ptr->xpm_north) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
 		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		start->y = info->wall_y * SIZE_OF_BLOCK;
-		end->x = info->wall_x * SIZE_OF_BLOCK;
-		end->y = info->wall_y * SIZE_OF_BLOCK;
-	}
-	else if (&(mlx_ptr->xpm_south) == info->texture)
-	{
-		start->x = info->wall_x * SIZE_OF_BLOCK;
+	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
 		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
 		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_west) == info->texture)
 		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-	}
-	else if (&(mlx_ptr->xpm_west) == info->texture)
-	{
-		start->x = info->wall_x * SIZE_OF_BLOCK;
-		start->y = info->wall_y * SIZE_OF_BLOCK;
-		end->x = info->wall_x * SIZE_OF_BLOCK;
-		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-	}
-	else if (&(mlx_ptr->xpm_east) == info->texture)
-	{
-		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-		end->y = info->wall_y * SIZE_OF_BLOCK;
-	}
 }
 
 /*새로운 면 노드에 대한 정보를 담은 노드를 생성합니다.*/
@@ -112,17 +122,13 @@ t_wall_node	*shoot_fov_ray(t_ray_info *info)
 {
 	t_ray_info	prev_info;
 	t_wall_node	*node;
-	node = wall_init_node();
 
+	node = wall_init_node();
 	init_info(info);
 	prev_info = *info;
-
 	while (info->degree <= Player_FOV)
 	{
-		info->ray_dest = rotate_point(
-				info->ray_start, info->end_point,
-				info->degree
-				);
+		info->ray_dest = rotate_point(info->ray_start, info->end_point, info->degree);
 		if (shoot_inf_ray(info->ray_start, info->ray_dest, info, detect_wall_hit))
 		{
 			/*새로운 벽이나 새로운 텍스쳐에 도달했는가?*/

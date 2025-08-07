@@ -85,6 +85,21 @@ static int	color_vld_chk(char **rgb)
 	return (1);
 }
 
+/* RGB formap similer like.. '123,123,123'.
+ * So, counting comma's result must be 2.
+ */
+static int	count_comma(char *str)
+{
+	int	i = 0;
+	while (*str)
+	{
+		if (*str == ',')
+			i++;
+		str++;
+	}
+	return (i);
+}
+
 static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 {
 	char	**splits;
@@ -92,6 +107,7 @@ static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 
 	splits = ft_split(bg_line, ' ');
 	if (count_splits(splits) != 2
+		|| count_comma(splits[1]) != 2
 		|| ft_strncmp(splits[0], floor_or_ceiling, 2))
 	{
 		free_splits(splits);

@@ -2,8 +2,6 @@
 #include "../pars_priv.h"
 #include <fcntl.h>
 
-#include <stdio.h>
-
 static int	count_nodes(t_dnode *node)
 {
 	int	i = 0;
@@ -32,16 +30,6 @@ static void	del_null_data(void)
 		destroy_doubly_node(find_tail_dubly(node));
 }
 
-//static void	try_print_list(t_dnode *node)
-//{
-//	int	i = 1;
-//	while (node)
-//	{
-//		printf("node-%d,  %s\n", i++, (char *)node->data);
-//		node = node->next_node;
-//	}
-//}
-
 static void	del_lst_newline_nodes(t_dnode *node)
 {
 	node = find_tail_dubly(node);
@@ -62,9 +50,7 @@ void	gnl_cub_file( void )
 		return ;
 	fd = open(get_pars()->argv[1], O_RDONLY);
 	get_pars()->cub_file_list = get_gnl_node(fd);
-//	try_print_list(get_pars()->cub_file_list);
 	del_null_data();
-//	try_print_list(get_pars()->cub_file_list);
 	if (count_nodes(get_pars()->cub_file_list) <= 6) /*too low infos..*/
 		get_pars()->pars_errno = 1;
 	del_lst_newline_nodes(get_pars()->cub_file_list); /**/
