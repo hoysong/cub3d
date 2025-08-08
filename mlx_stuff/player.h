@@ -12,9 +12,13 @@ typedef struct s_player
 	char	**map;
 }t_player;
 
+/*init player struct.*/
 void		player_init(void);
+/*returns player struct.*/
 t_player	*player(void);
+/*rotate players view point.*/
 void		player_rotate(t_player *player, float degree);
+/*change player's location.*/
 void		player_move(t_player *player, float degree);
 void		player_get_step_point(t_player *player);
 

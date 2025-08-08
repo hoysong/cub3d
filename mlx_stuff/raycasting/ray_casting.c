@@ -1,5 +1,6 @@
 #include "../algorithm/my_algorithm.h"
 #include "../algorithm/wall_lkd_list/wall_lkd_list.h"
+#include <stdio.h>
 
 /*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
 /*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/

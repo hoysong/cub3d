@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* Set_player's view_point.
+ * 'view point' variable will be player's direction of where lookin at.
+ */
 static void	get_player_view_point(int x, int y)
 {
 	char **map = get_map();
@@ -22,6 +25,9 @@ static void	get_player_view_point(int x, int y)
 		player()->view_point.x = player()->cord.x;
 }
 
+/* This function find player's location from '(char **)map'.
+ * and set player's location on center of indexes of block.
+ */
 static void	get_start_location(float *fx, float *fy)
 {
 	char	**map = get_map();
@@ -37,7 +43,6 @@ static void	get_start_location(float *fx, float *fy)
 		x = 0;
 		y++;
 	}
-	/*만약 인덱스가 2,2 라 나온다면, 25,25로 블록의 중앙에 놓아준다.*/
 	*fx = ((float)x) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	*fy = ((float)y) * SIZE_OF_BLOCK + (float)SIZE_OF_BLOCK / 2;
 	get_player_view_point(x, y);

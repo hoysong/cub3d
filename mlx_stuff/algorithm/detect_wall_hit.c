@@ -18,6 +18,9 @@ static inline t_img *get_player_view_texture(t_point point, t_point d, t_ray_inf
 		return (&(info->mlx->xpm_west));
 }
 
+/*
+ * Judge ray's wall hit.
+ */
 inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 {
 	t_point	floor_pt;
