@@ -41,3 +41,5 @@ fix pars logics
 
 optimization.
 	make new variable to ray_info(like map, mlx, etc...).
+
+
