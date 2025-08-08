@@ -2,9 +2,7 @@
 #include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
 
-/*미니맵에 ray의 충돌판정이 된 면을 표시합니다.*/
-/*찍혀야 하는 면의 모서리에 점을 찍어봅니다.*/
-/*ray_casting함수에서만 사용합니다.*/
+/*put point of wall's start and end point to minimap.*/
 static void	put_edge_to_minimap(t_wall_node *node)
 {
 	while (node)
@@ -36,6 +34,7 @@ static void	degree_correction(t_wall_node *left, t_wall_node *right)
 		right->end_degree += 360;
 }
 
+/*Send left wall from player's view to linked list's tail.*/
 static void	left_wall_to_last(t_wall_node *node, t_wall_node *lst_node)
 {
 	if (node->start_degree < -100)
@@ -55,14 +54,13 @@ void	ray_casting(void)
 
 	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
-		start_next = start_node->next;
+	start_next = start_node->next;
 	end_node = wall_find_lst_node(node);
 	put_edge_to_minimap(node);
 	degree_correction(start_node, end_node);
 	calculate_point_location(node);
 	sort_wall_list(node);
 	first_last_correction(start_node, end_node);
-	/*만약 좌측면의 노드가 -각도로 나가있다면 마지막에 그려지도록 만듦.*/
 	left_wall_to_last(start_node, end_node);
 	node = wall_find_first_node(node);
 	draw_wall_lkd_list(node);

@@ -6,89 +6,58 @@
 #include <math.h>
 #include <stdio.h>
 
+/*
+ * start of FOV is 0 degree.
+ * this function returns degree of points.
+ */
+
 static float	get_degree(t_point *a, t_point *b, t_point *c)
 {
-	t_point	a_b_vect;
-	t_point	c_b_vect;
-
 	float	a_b_atan;
 	float	c_b_atan;
 	float	result_atan;
 	float	degree;
 
-	a_b_vect.x = a->x - b->x;
-	a_b_vect.y = a->y - b->y;
-	c_b_vect.x = c->x - b->x;
-	c_b_vect.y = c->y - b->y;
-
-	a_b_atan = atan2(a_b_vect.y, a_b_vect.x);
-	c_b_atan = atan2(c_b_vect.y, c_b_vect.x);
+	a_b_atan = atan2(a->y - b->y, a->x - b->x);
+	c_b_atan = atan2(c->y - b->y, c->x - b->x);
 	result_atan = c_b_atan - a_b_atan;
-	/*정규화 if문.*/
 	if (result_atan > Pie)
 		result_atan -= 2*Pie;
 	else if (result_atan < -Pie)
 		result_atan += 2*Pie;
-	/*계산된 atan 값을 각도로 변환.*/
 	degree = result_atan * (180 / Pie);
 	return (degree);
 }
 
-/*텍스쳐가 입혀질 면의 시작좌표와 끝좌표를 구하는 과정.*/
+/*
+ * this calculate texture's virtual coordinate based start point and end point.
+ */
 static void	get_wall_start_end(t_ray_info *info, t_point *start, t_point *end)
 {
 	t_mlx	*mlx_ptr = mlx();
 
-//	if (&(mlx_ptr->xpm_north) == info->texture)
-//	{
-//		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		start->y = info->wall_y * SIZE_OF_BLOCK;
-//		end->x = info->wall_x * SIZE_OF_BLOCK;
-//		end->y = info->wall_y * SIZE_OF_BLOCK;
-//	}
-//	else if (&(mlx_ptr->xpm_south) == info->texture)
-//	{
-//		start->x = info->wall_x * SIZE_OF_BLOCK;
-//		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//	}
-//	else if (&(mlx_ptr->xpm_west) == info->texture)
-//	{
-//		start->x = info->wall_x * SIZE_OF_BLOCK;
-//		start->y = info->wall_y * SIZE_OF_BLOCK;
-//		end->x = info->wall_x * SIZE_OF_BLOCK;
-//		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//	}
-//	else if (&(mlx_ptr->xpm_east) == info->texture)
-//	{
-//		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-//		end->y = info->wall_y * SIZE_OF_BLOCK;
-//	}
-
-	/*code from above is too long.
-	 * So, replaced by below.
-	 */
 	start->x = info->wall_x * SIZE_OF_BLOCK;
 	start->y = info->wall_y * SIZE_OF_BLOCK;
 	end->x = info->wall_x * SIZE_OF_BLOCK;
 	end->y = info->wall_y * SIZE_OF_BLOCK;
 	if (&(mlx_ptr->xpm_north) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
 		start->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
-		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
-	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
-		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
 	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_west) == info->texture)
 		end->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	if (&(mlx_ptr->xpm_south) == info->texture || &(mlx_ptr->xpm_east) == info->texture)
+	{
+		start->y = info->wall_y * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+		end->x = info->wall_x * SIZE_OF_BLOCK + SIZE_OF_BLOCK;
+	}
 }
 
-/*새로운 면 노드에 대한 정보를 담은 노드를 생성합니다.*/
+/*
+ * This function will..
+ * Get texture's start point and end point.
+ * Get degree of texture start/end point that start from Fov point
+ */
 static void	add_new_wall_node(t_wall_node *node, t_ray_info *info)
 {
-//	printf("NEW_NODE\n");
 	node = wall_init_last_node(node);
 	get_wall_start_end(info, &(node->wall_start_cord), &(node->wall_end_cord));
 	node->start_degree =
@@ -118,6 +87,38 @@ static void	init_info(t_ray_info *info)
 	info->ray_dest = info->end_point;
 }
 
+/*
+ * Wrap function.
+ * Rotate end_point based on ray_start point.
+ * return's next_ray_point.
+ */
+static inline t_point	next_ray_point(t_ray_info *info)
+{
+	return (rotate_point(info->ray_start, info->end_point, info->degree));
+}
+
+/*
+ * Wrap function.
+ * Shoot infinite ray to detect wall hit.
+ * Shoot from: ray_start.
+ * Shoot to  : ray_dest.
+ */
+static inline int	shoot_ray_until_hit(t_ray_info *info)
+{
+	return (shoot_inf_ray(info->ray_start, info->ray_dest, info, detect_wall_hit));
+}
+
+/*
+ * Wrap function.
+ * check prev ray info and current ray info.
+ * compare prev's texture and current texture.
+ * compare prev's wall and current wall.
+ */
+static inline int	new_texture_or_wall(t_ray_info *prev, t_ray_info *current)
+{
+	return (prev->texture != current->texture || prev->wall_addr != current->wall_addr);
+}
+
 t_wall_node	*shoot_fov_ray(t_ray_info *info)
 {
 	t_ray_info	prev_info;
@@ -128,14 +129,11 @@ t_wall_node	*shoot_fov_ray(t_ray_info *info)
 	prev_info = *info;
 	while (info->degree <= Player_FOV)
 	{
-		info->ray_dest = rotate_point(info->ray_start, info->end_point, info->degree);
-		if (shoot_inf_ray(info->ray_start, info->ray_dest, info, detect_wall_hit))
+		info->ray_dest = next_ray_point(info);
+		if (shoot_ray_until_hit(info))
 		{
-			/*새로운 벽이나 새로운 텍스쳐에 도달했는가?*/
-			if (prev_info.texture != info->texture ||
-				prev_info.wall_addr != info->wall_addr)
+			if (new_texture_or_wall(&prev_info, info))
 			{
-				/*맞다면 노드를 생성한다.*/
 				add_new_wall_node(node, info);
 				node = node->next;
 			}
@@ -143,7 +141,6 @@ t_wall_node	*shoot_fov_ray(t_ray_info *info)
 		prev_info = *info;
 		info->degree += RAY_RES;
 	}
-	/*처음 노드가 비어있어서 첫 노드만 없애는 작업*/
 	node = wall_find_first_node(node);
 	node = node->next;
 	free(node->prev);

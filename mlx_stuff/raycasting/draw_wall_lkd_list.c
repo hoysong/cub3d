@@ -29,10 +29,12 @@ static inline int	put_texture(t_point ray, t_point y, void *param)
 				);
 		ray.y += 1;
 	}
+//	put_background(mlx());
+//	usleep(6000);
 	return (0);
 }
 
-/*텍스쳐를 입혀봅니다.*/
+/*This function will put textures.*/
 void	draw_wall_lkd_list(t_wall_node *node)
 {
 	t_mlx	*mlx_ptr = mlx();

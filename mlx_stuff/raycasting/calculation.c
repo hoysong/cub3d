@@ -1,10 +1,6 @@
-#include "../algorithm/my_algorithm.h"
-//#include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include "../player.h"
-//#include "../../parser/pars_pub.h"
+#include "../algorithm/my_algorithm.h"
 #include <math.h>
-#include <stdio.h>
-//#include <stdlib.h>
 
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
