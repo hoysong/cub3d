@@ -1,9 +1,9 @@
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
 # include "./cub_defs.h"
+# include "../parser/pars_priv.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "../parser/pars_priv.h"
 # include <stddef.h>
 
 /*mlx_get_data_addr() 함수를 위해 존재합니다.*/

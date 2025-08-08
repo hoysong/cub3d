@@ -1,15 +1,14 @@
-#include "../algorithm/my_algorithm.h"
-//#include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include "../player.h"
-//#include "../../parser/pars_pub.h"
+#include "../algorithm/my_algorithm.h"
 #include <math.h>
-//#include <stdio.h>
-//#include <stdlib.h>
 
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
-	m = (b.y - a.y) / (b.x - a.x);
+	if (b.x - a.x == 0)
+		m = (b.y - a.y) / ((b.x + 0.01) - a.x);
+	else
+		m = (b.y - a.y) / (b.x - a.x);
 
 	float result;
 	result = my_abs(m*c.x - c.y + (a.y - (m*a.x))) / sqrt(pow(m, 2) + 1);

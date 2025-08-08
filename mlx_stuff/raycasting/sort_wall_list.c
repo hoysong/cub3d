@@ -27,7 +27,7 @@ static inline void	init_vars(t_wall_node *a, t_wall_node *b, float	*a_val, float
 	}
 }
 
-t_wall_node	*go_deeper(t_wall_node *node, int depth)
+static t_wall_node	*go_deeper(t_wall_node *node, int depth)
 {
 	t_wall_node	*a = node;
 	t_wall_node	*b = node->next;
@@ -55,8 +55,13 @@ t_wall_node	*go_deeper(t_wall_node *node, int depth)
 	return (a);
 }
 
+/*
+ * This function exists for wrapping function named 'go_deeper'.
+ * go_deeper() function will sort wall list.
+ * (cuz the nodes getting closer must be drawn later).
+ * go_depper() function will compare two nodes and keep swap until end.
+ */
 void	sort_wall_list(t_wall_node *node)
 {
 	go_deeper(node, 0);
-	node = wall_find_first_node(node);
 }

@@ -7,13 +7,10 @@ static int destroy_notify_hook(void *hi)
 	return (0);
 }
 
-static int	hook_func(int key_input)
+/*To toggle mouse mode or minimap.*/
+static void	map_mouse_hdler(int key_input)
 {
-	static int	move_tick;
-
-	if (key_input == XK_Escape)
-		mlx_loop_end(mlx()->mlx_ptr);
-	else if (key_input == XK_p)
+	if (key_input == XK_p)
 	{
 		if (mlx()->toggle_mouse)
 			mlx()->toggle_mouse = 0;
@@ -27,34 +24,36 @@ static int	hook_func(int key_input)
 		else
 			mlx()->toggle_minimap = 1;
 	}
-	else
-	{
-		if (move_tick < MOVE_TICK)
-		{
-			move_tick++;
-			return (0);
-		}
-		if (key_input == XK_w)
-			player_move(player(), 0);
-		else if (key_input == XK_a)
-			player_move(player(), -90);
-		else if (key_input == XK_d)
-			player_move(player(), 90);
-		else if (key_input == XK_s)
-			player_move(player(), 180);
-		else if (key_input == XK_Left)
-			player_rotate(player(), -CAM_ROTATE_ANGLE);
-		else if (key_input == XK_Right)
-			player_rotate(player(), CAM_ROTATE_ANGLE);
-		put_frame();
-		move_tick = 0;
-	}
+}
+
+static void	player_hdler(int key_input)
+{
+	if (key_input == XK_w)
+		player_move(player(), 0);
+	else if (key_input == XK_a)
+		player_move(player(), -90);
+	else if (key_input == XK_d)
+		player_move(player(), 90);
+	else if (key_input == XK_s)
+		player_move(player(), 180);
+	else if (key_input == XK_Left)
+		player_rotate(player(), -CAM_ROTATE_ANGLE);
+	else if (key_input == XK_Right)
+		player_rotate(player(), CAM_ROTATE_ANGLE);
+}
+
+static int	hook_func(int key_input)
+{
+	if (key_input == XK_Escape)
+		mlx_loop_end(mlx()->mlx_ptr);
+	map_mouse_hdler(key_input);
+	player_hdler(key_input);
+	put_frame();
 	return (0);
 }
 
 static int	my_loop_hook(void *mlx)
 {
-	static int	mouse_tick;
 	int	x;
 	int	y;
 
@@ -63,20 +62,14 @@ static int	my_loop_hook(void *mlx)
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
 	if (x != MOUSE_MIDDLE_X)
 	{
-		if (mouse_tick < MOVE_TICK)
-		{
-			mouse_tick++;
-			return (0);
-		}
 		if (x < MOUSE_MIDDLE_X)
 			player_rotate(player(), -CAM_ROTATE_ANGLE);
 		else if (x > MOUSE_MIDDLE_X)
 			player_rotate(player(), CAM_ROTATE_ANGLE);
 		mlx_mouse_move(
 				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
-				WIN_WIDTH / 2, WIN_HEIGHT / 2);
+				HALF_WIN_WIDTH, HALF_WIN_HEIGHT);
 		put_frame();
-		mouse_tick = 0;
 	}
 	return (0);
 }

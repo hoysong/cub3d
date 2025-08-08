@@ -4,9 +4,7 @@
 /*Window size.*/
 # define WIN_WIDTH	750
 # define WIN_HEIGHT	600
-//# define WIN_WIDTH	1920
-//# define WIN_HEIGHT	1080
-# define HALF_WIN_WIDTH 
+# define HALF_WIN_WIDTH 375
 # define HALF_WIN_HEIGHT 300
 
 /*mouse*/
@@ -35,10 +33,6 @@
 # define VIEW_DIST		(SIZE_OF_BLOCK * 3)
 /*레이캐스팅 광선 투사 각도간격(해상도).*/
 # define RAY_RES		0.5
-/*keyboard input tick.*/
-# define MOVE_TICK		0
-/*mouse input tick.*/
-# define MOUSE_TICK		0
 /*Player FOV.*/
 # define Player_FOV		65
 /*Player Angle per tick.*/
