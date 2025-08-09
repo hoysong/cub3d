@@ -29,11 +29,13 @@ static inline void	init_vars(t_wall_node *a, t_wall_node *b, float	*a_val, float
 
 static t_wall_node	*go_deeper(t_wall_node *node, int depth)
 {
-	t_wall_node	*a = node;
-	t_wall_node	*b = node->next;
+	t_wall_node	*a;
+	t_wall_node	*b;
 	float		a_val;
 	float		b_val;
 
+	a = node;
+	b = node->next;
 	while (b)
 	{
 		init_vars(a, b, &a_val, &b_val);
@@ -44,8 +46,7 @@ static t_wall_node	*go_deeper(t_wall_node *node, int depth)
 			b = a;
 		}
 		b = b->next;
-		if (depth == 0
-			&&
+		if (depth == 0 &&
 			(a->next != NULL && b == NULL))
 		{
 			a = a->next;

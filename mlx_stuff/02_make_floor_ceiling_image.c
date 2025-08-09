@@ -24,27 +24,19 @@ void	fill_background_color(t_mlx *mlx)
 
 	i = 0;
 	j = 0;
-	while (i < WIN_HEIGHT >> 1)
+	while (i < HALF_WIN_HEIGHT)
 	{
-		while (j < WIN_WIDTH)
+		while (j < HALF_WIN_WIDTH)
 		{
 			put_pixel_to_img(&(mlx->background), j, i, mlx->ceiling_color);
+			put_pixel_to_img(&(mlx->background), j + HALF_WIN_WIDTH, i, mlx->ceiling_color);
 			put_pixel_to_img(&(mlx->background), j, i + HALF_WIN_HEIGHT, mlx->floor_color);
+			put_pixel_to_img(&(mlx->background), j + HALF_WIN_WIDTH, i + HALF_WIN_HEIGHT, mlx->floor_color);
 			++j;
 		}
 		j = 0;
 		++i;
 	}
-//	while (i < WIN_HEIGHT)
-//	{
-//		while (j < WIN_WIDTH)
-//		{
-//			put_pixel_to_img(&(mlx->background), j, i, mlx->floor_color);
-//			++j;
-//		}
-//		j = 0;
-//		++i;
-//	}
 }
 
 void	make_background_image(void)

@@ -21,7 +21,6 @@ static void	put_edge_to_minimap(t_wall_node *node)
 	}
 }
 
-/*리스트를 정렬합니다.*/
 extern void			sort_wall_list(t_wall_node *node);
 extern void			draw_wall_lkd_list(t_wall_node *node);
 extern t_wall_node	*shoot_fov_ray(t_ray_info *info);
@@ -43,6 +42,7 @@ static void	left_wall_to_last(t_wall_node *node, t_wall_node *lst_node)
 		wall_to_last(lst_node);
 }
 
+/*raycasting logics.*/
 void	ray_casting(void)
 {
 	t_ray_info	info;
@@ -50,11 +50,8 @@ void	ray_casting(void)
 	t_wall_node	*start_node;
 	t_wall_node	*end_node;
 
-	t_wall_node	*start_next;
-
 	node = shoot_fov_ray(&info);
 	start_node = wall_find_first_node(node);
-	start_next = start_node->next;
 	end_node = wall_find_lst_node(node);
 	put_edge_to_minimap(node);
 	degree_correction(start_node, end_node);

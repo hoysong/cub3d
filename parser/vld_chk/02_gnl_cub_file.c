@@ -38,6 +38,8 @@ static void	del_lst_newline_nodes(t_dnode *node)
 		node = node->prev_node;
 		if (*(char *)node->next_node->data == '\n')
 			destroy_doubly_node(node->next_node);
+		else
+			break ;
 	}
 }
 

@@ -16,7 +16,6 @@ void	mlx_destroy(void)
 	mlx_destroy_display(mlx()->mlx_ptr);
 	free(mlx()->mlx_ptr);
 	free(mlx());
-	/*free_player*/
 	free(player());
 }
 
@@ -65,7 +64,10 @@ int	setup_mlx(void)
 	make_background_image();
 	get_textures();
 	make_minimap_image();
-	mlx->mlx_window = mlx_new_window(mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, get_pars()->argv[1]);
+	mlx->mlx_window = mlx_new_window(
+			mlx->mlx_ptr,
+			WIN_WIDTH, WIN_HEIGHT,
+			get_pars()->argv[1]);
 	setup_hooks(mlx);
 	return (1);
 }

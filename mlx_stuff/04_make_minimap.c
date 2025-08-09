@@ -114,6 +114,10 @@ void	draw_minimap(t_mlx *mlx_strc)
 
 	minimap_fill_bg(mlx_strc);
 	minimap_draw_walls(square_len, mlx_strc);
-	minimap_draw_grid_line(square_len, mlx_strc->pars->map_max_height, mlx_strc->pars->map_max_length, mlx_strc);
+	minimap_draw_grid_line(
+			square_len,
+			mlx_strc->pars->map_max_height,
+			mlx_strc->pars->map_max_length,
+			mlx_strc);
 	draw_player(square_len, mlx_strc, player());
 }

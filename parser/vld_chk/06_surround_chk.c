@@ -1,4 +1,5 @@
 #include "../pars_priv.h"
+#include <stdio.h>
 
 
 inline int	is_player(char c)
@@ -62,6 +63,27 @@ static int	surround_chk(char **map, int i, int j)
 	return (0);
 }
 
+static int	is_both_same(char *tex_1, char *tex_2)
+{
+	return (!ft_strncmp(tex_1, tex_2, ft_strlen(tex_1) + 1));
+}
+
+static int	is_same_files(t_pars *pars)
+{
+	if (
+		is_both_same(pars->north_texture, pars->south_texture)
+		|| is_both_same(pars->north_texture, pars->west_texture)
+		|| is_both_same(pars->north_texture, pars->east_texture)
+		|| is_both_same(pars->south_texture, pars->west_texture)
+		|| is_both_same(pars->south_texture, pars->east_texture)
+		|| is_both_same(pars->west_texture, pars->east_texture)
+		)
+	{
+		return (1);
+	}
+	return (0);
+}
+
 void	good_map_chk(char **map)
 {
 	int	i;
@@ -86,4 +108,6 @@ void	good_map_chk(char **map)
 	}
 	if (player_count != 1)
 		get_pars()->pars_errno = MULTIPLE_PLAYER;
+	if (is_same_files(get_pars()))
+		get_pars()->pars_errno = SAME_TEXTURE;
 }

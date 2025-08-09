@@ -60,11 +60,11 @@ static int	my_loop_hook(void *mlx)
 	if (!((t_mlx *)mlx)->toggle_mouse)
 		return (0);
 	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
-	if (x != MOUSE_MIDDLE_X)
+	if (x != HALF_WIN_WIDTH)
 	{
-		if (x < MOUSE_MIDDLE_X)
+		if (x < HALF_WIN_WIDTH)
 			player_rotate(player(), -CAM_ROTATE_ANGLE);
-		else if (x > MOUSE_MIDDLE_X)
+		else if (x > HALF_WIN_WIDTH)
 			player_rotate(player(), CAM_ROTATE_ANGLE);
 		mlx_mouse_move(
 				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,

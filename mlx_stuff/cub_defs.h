@@ -1,15 +1,9 @@
 #ifndef CUB_DEFS_H
 # define CUB_DEFS_H
 
-/*Window size.*/
-# define WIN_WIDTH	750
-# define WIN_HEIGHT	600
-# define HALF_WIN_WIDTH 375
-# define HALF_WIN_HEIGHT 300
-
-/*mouse*/
-# define MOUSE_MIDDLE_X (WIN_WIDTH / 2)
-//# define MOUSE_MIDDLE_Y (WIN_HEIGHT / 2)
+/********************/
+/* Minimap handler. */
+/********************/
 
 /*Minimap size.*/
 # define MINISIZE	200
@@ -22,25 +16,43 @@
 /*FOV_COLOR*/
 # define FOV_COLOR	0x990000
 
-/*size of block.*/
-# define SIZE_OF_BLOCK	100
+/*
+ * size of block.
+ * This can adjust virtual map's size.
+ * So, if SIZE_OF_BLOCK adjusted, some defines must be adjusted too.
+ */
+# define SIZE_OF_BLOCK	50
 
-/*가상 좌표상의 플레이어 사이즈입니다.*/
-/*벽충돌 판정에 사용됩니다.*/
-# define PLAYER_SIZE	20
+/*Virtual coordinate based player size.*/
+# define PLAYER_SIZE	10
 
 /*Player's view distance.*/
 # define VIEW_DIST		(SIZE_OF_BLOCK * 3)
-/*레이캐스팅 광선 투사 각도간격(해상도).*/
-# define RAY_RES		0.5
+
 /*Player FOV.*/
 # define Player_FOV		65
+
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	2
+
 /*Player's move distance.*/
 # define STEP_PER_PIXEL	5
-/*Convert Player cordinate to minimap_res*/
+
+/*Set interval of ray.*/
+# define RAY_RES		0.5
+
+/******************/
+/* Do not adjust. */
+/******************/
+
+/*Convert Player cordinate to minimap_res.*/
 # define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
 # define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
+
+/*Window size.*/
+# define WIN_WIDTH	750
+# define WIN_HEIGHT	600
+# define HALF_WIN_WIDTH		375
+# define HALF_WIN_HEIGHT	300
 
 #endif

@@ -27,7 +27,9 @@ size_t	get_minimap_ratio(void)
 
 inline int	get_xpm_pixel_color(t_img xpm, t_point pixel)
 {
-	return(((int *)xpm.data_addr)
-			[ (((int)pixel.y * xpm.size_line)>>2) +
-			(((int)pixel.x * xpm.bits_per_pixel)>>5) ]);
+	return(
+			((int *)xpm.data_addr)
+			[(((int)pixel.y * xpm.size_line) >> 2) +
+			(((int)pixel.x * xpm.bits_per_pixel) >> 5)]
+			);
 }

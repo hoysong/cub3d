@@ -2,20 +2,25 @@
 #include "../algorithm/my_algorithm.h"
 #include <math.h>
 
+/*
+ * get vertial length of ray's hit point from player's plain.
+ * if b.x - a.x is zero, the nan or inf problem can be happend.
+ * So, added some exception. 
+ */
 static inline float	get_vertlen(t_point a, t_point b, t_point c)
 {
 	float	m;
+	float result;
+
 	if (b.x - a.x == 0)
 		m = (b.y - a.y) / ((b.x + 0.01) - a.x);
 	else
 		m = (b.y - a.y) / (b.x - a.x);
-
-	float result;
 	result = my_abs(m*c.x - c.y + (a.y - (m*a.x))) / sqrt(pow(m, 2) + 1);
 	return (result);
 }
 
-/*화면상 위치할 좌표를 지정합니다.*/
+/*convert texture point.y coordinate to screen coordinate.*/
 static inline float	get_line_y(t_point point)
 {
 	float	vert_len;
@@ -26,11 +31,11 @@ static inline float	get_line_y(t_point point)
 			rotate_point(player()->cord, player()->view_point, 90),
 			point);
 	inverse = (SIZE_OF_BLOCK * WIN_HEIGHT) / vert_len;
-	inverse = (float)((WIN_HEIGHT >> 1) - (inverse / 2));
+	inverse = (float)(HALF_WIN_HEIGHT - (inverse / 2));
 	return (inverse);
 }
 
-/*화면상 위치할 좌표를 지정합니다.*/
+/*convert texture point.x coordinate to screen coordinate.*/
 static inline int	get_line_x(float degree)
 {
 	float	degree_to_percent = degree / Player_FOV * 100;
@@ -56,8 +61,7 @@ void	calculate_point_location(t_wall_node *node)
 	}
 }
 
-/*화면상 잘리는 처음 노드와 마지막 노드를 보정합니다.*/
-void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
+static void	correction_left(t_wall_node *left_wall)
 {
 	left_wall->info->degree = 0;
 	left_wall->info->ray_dest = rotate_point(
@@ -74,8 +78,10 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 		left_wall->start_point.y = get_line_y(left_wall->info->ray_hit);
 		left_wall->start_point.x = get_line_x(0);
 	}
-	if (left_wall == right_wall)
-		return ;
+}
+
+static void	correction_right(t_wall_node *right_wall)
+{
 	right_wall->info->degree = (float)Player_FOV - RAY_RES;
 	right_wall->info->ray_dest = rotate_point(
 			right_wall->info->ray_start, right_wall->info->end_point,
@@ -91,4 +97,14 @@ void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 		right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
 		right_wall->end_point.x = get_line_x(Player_FOV);
 	}
+}
+
+/*Correction head and last node.*/
+/*From player's view, left_wall can be first node and right wall can be last node.*/
+void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
+{
+	correction_left(left_wall);
+	if (left_wall == right_wall)
+		return ;
+	correction_right(right_wall);
 }

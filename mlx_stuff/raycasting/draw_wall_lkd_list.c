@@ -1,40 +1,70 @@
 #include "../cub_defs.h"
 #include "../algorithm/my_algorithm.h"
 
-/*ray를 가로 대각선으로 조사하며 세로축의 선을 그려내는 로직이다.*/
+static inline float	get_left_walls_pixel_x(t_wall_node *node, t_point *ray)
+{
+	return (node->texture->xpm_width *
+			((ray->x - (node->end_point.x - node->wall_width)) / node->wall_width)
+			);
+}
+
+static inline float	get_other_walls_pixel_x(t_wall_node *node, t_point *ray)
+{
+	return (node->texture->xpm_width *
+			((ray->x - node->start_point.x) / node->wall_width)
+			);
+}
+
+static inline float	get_pixel_x(t_wall_node *node, t_point *ray)
+{
+	if (node->start_degree <= 0)
+		return (get_left_walls_pixel_x(node, ray));
+	return (get_other_walls_pixel_x(node, ray));
+}
+
+static inline float	get_pixel_y(t_wall_node *node, t_point *ray, t_point *start_ray, float lower_point)
+{
+	return (node->texture->xpm_height * ((ray->y - start_ray->y) / (lower_point - start_ray->y)));
+}
+
+/*
+ * From screen, draw a vertical line
+ * Calculate pixel's location and convert it to img's pixel location.
+ */
 static inline int	put_texture(t_point ray, t_point y, void *param)
 {
-	ray.y = (int)ray.y;
-	float		lower_point = ((float)(WIN_HEIGHT >> 1)) + (((float)(WIN_HEIGHT >> 1)) - ray.y);
-	t_wall_node	*node = param;
-	t_point		start_ray = ray;
-	t_point		pixel = ray;
+	float		lower_point;
+	t_wall_node	*node;
+	t_point		start_ray;
+	t_point		pixel;
 
+	node = param;
+	ray.y = (int)ray.y;
+	start_ray = ray;
+	lower_point = ((float)(HALF_WIN_HEIGHT)) + (((float)(HALF_WIN_HEIGHT)) - ray.y);
 	if (ray.x < 0)
 		return (0);
 	else if (ray.x >= WIN_WIDTH)
 		return (1);
-	if (node->start_degree <= 0)
-		pixel.x = node->texture->xpm_width * ((ray.x - (node->end_point.x - node->wall_width)) / node->wall_width);
-	else
-		pixel.x = node->texture->xpm_width * ((ray.x - node->start_point.x) / node->wall_width);
+	pixel.x = get_pixel_x(node, &ray);
 	if (ray.y < 0)
 		ray.y = 0;
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
 	{
-		//pixel.y = node->texture->xpm_height * ((ray.y - start_ray.y) / ((WIN_HEIGHT >> 1) + ((WIN_HEIGHT >> 1) - start_ray.y) - start_ray.y));
-		pixel.y = node->texture->xpm_height * ((ray.y - start_ray.y) / (HALF_WIN_HEIGHT + (HALF_WIN_HEIGHT - start_ray.y) - start_ray.y));
+		pixel.y = get_pixel_y(node, &ray, &start_ray, lower_point);
 		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
 				get_xpm_pixel_color(*(node->texture), pixel)
 				);
 		ray.y += 1;
 	}
-//	put_background(mlx());
-//	usleep(6000);
 	return (0);
 }
 
-/*This function will put textures.*/
+/*
+ * This function will put textures.
+ * Draw a line that start from start_point to end_point.
+ * start_point can be texture's start and end_point can be texture's last.
+ */
 void	draw_wall_lkd_list(t_wall_node *node)
 {
 	t_mlx	*mlx_ptr = mlx();
