@@ -49,6 +49,8 @@ static int texture_vld_chk(char *direction, char *texture_line)
 	char	**buf;
 
 	buf = ft_split(texture_line, ' ');
+	if (buf == NULL)
+		malloc_fail_perror();
 	if (count_splits(buf) != 2
 		|| ft_strncmp(buf[0], direction, 3)
 		|| !file_format_chk(".xpm", buf[1])
@@ -67,7 +69,11 @@ static char	*get_textrue_name(char *texture_line)
 	char	*texture_name;
 
 	splits = ft_split(texture_line, ' ');
+	if (splits == NULL)
+		malloc_fail_perror();
 	texture_name = ft_strdup(splits[1]);
+	if (texture_name == NULL)
+		malloc_fail_perror();
 	free_splits(splits);
 	return (texture_name);
 }
@@ -106,6 +112,8 @@ static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 	char	**rgb;
 
 	splits = ft_split(bg_line, ' ');
+	if (splits == NULL)
+		malloc_fail_perror();
 	if (count_splits(splits) != 2
 		|| count_comma(splits[1]) != 2
 		|| ft_strncmp(splits[0], floor_or_ceiling, 2))
@@ -114,6 +122,8 @@ static int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 		return (0);
 	}
 	rgb = ft_split(splits[1], ',');
+	if (rgb == NULL)
+		malloc_fail_perror();
 	free_splits(splits);
 	if (count_splits(rgb) != 3
 		|| !color_vld_chk(rgb))
@@ -132,7 +142,11 @@ static t_rgb	get_rgb(char *str, char type)
 	t_rgb	rgb;
 
 	splits = ft_split(str, ' ');
+	if (splits == NULL)
+		malloc_fail_perror();
 	rgb_splits = ft_split(splits[1], ',');
+	if (rgb_splits == NULL)
+		malloc_fail_perror();
 	rgb.red = ft_atoi(rgb_splits[0]);
 	rgb.green = ft_atoi(rgb_splits[1]);
 	rgb.blue = ft_atoi(rgb_splits[2]);
@@ -158,7 +172,7 @@ static int	is_data_filled(void)
 	return (1);
 }
 
-static void	to_the_map(t_dnode *node)
+static void	set_node_ptr_to_map_line(t_dnode *node)
 {
 	while (get_pars()->cub_file_list != node)
 		get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
@@ -186,13 +200,13 @@ static void	pars_tex_bg(t_dnode *node)
 		{
 			if (!is_data_filled())
 			{
-				get_pars()->pars_errno = XPM_TEXTURE_ERR;
+				get_pars()->pars_errno = TYPE_IDENTIFIER_ERR;
 			}
 			break ;
 		}
 		node = node->next_node;
 	}
-	to_the_map(node);
+	set_node_ptr_to_map_line(node);
 }
 
 extern void	gnl_cub_file( void );
@@ -202,10 +216,8 @@ extern void	map_vld_chk(void);
 
 int	pars_file_vld_chk( void )
 {
-	//0. argc check.
 	if (get_pars()->argc != 2)
 		get_pars()->pars_errno = 1;
-	//1. .cub valid check.
 	if (get_pars()->pars_errno)
 		return (1);
 	if (!file_format_chk(".cub", get_pars()->argv[1]))
@@ -216,10 +228,8 @@ int	pars_file_vld_chk( void )
 		get_pars()->pars_errno = 3;
 	if (get_pars()->pars_errno)
 		return (get_pars()->pars_errno);
-	//3. wall texture check.
 	gnl_cub_file();
 	pars_tex_bg(get_pars()->cub_file_list);
-	//4. floor/ceiling RGB check.
 	map_vld_chk();
 	return (get_pars()->pars_errno);
 }

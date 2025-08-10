@@ -18,10 +18,14 @@ t_dnode	*get_gnl_node(int fd)
 	t_dnode	*gnl_node;
 
 	gnl_node = init_dubl();
+	if (gnl_node == NULL)
+		return (NULL);
 	node_head = gnl_node;
 	while (1)
 	{
 		gnl_node = insert_data_dubl(gnl_node, get_next_line(fd));
+		if (gnl_node == NULL)
+			return (NULL);
 		if (gnl_node->data == NULL)
 			break ;
 	}

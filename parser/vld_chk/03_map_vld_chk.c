@@ -16,10 +16,14 @@ static char	**gen_outline_map(size_t max_length, size_t max_height)
 	i = 0;
 	node = get_pars()->cub_file_list;
 	map = malloc(sizeof(char *) * (max_height + 2 + 1));
+	if (map == NULL)
+			malloc_fail_perror();
 	map[max_height + 2] = NULL;
 	while (i < max_height + 2)
 	{
 		map[i] = malloc(sizeof(char) * (max_length + 2 + 1));
+		if (map[i] == NULL)
+			malloc_fail_perror();
 		map[i] = ft_memset(map[i], ' ', max_length + 2);
 		map[i][max_length + 2] = '\0';
 		if (node != NULL && i != 0)
@@ -50,10 +54,9 @@ void	map_vld_chk(void)
 
 	if (get_pars()->pars_errno)
 		return ;
-	//get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 	if (map_newline_check(get_pars()->cub_file_list))
 	{
-		get_pars()->pars_errno = 1;
+		get_pars()->pars_errno = MAP_ERR;
 	}
 	map = gen_outline_map(get_max_length(), get_max_height());
 	print_splits(map);

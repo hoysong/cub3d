@@ -3,30 +3,28 @@
 # include "pars_errno.h"
 # include <stddef.h>
 
-/*pars를 생성하거나 파괴합니다.*/
+/* initialize/destroy pars struct.*/
 void	pars_init(int argc, char **argv);
 void	pars_destroy( void );
 
-/*유효성 검사를 실행합니다.*/
+/*run valid check.*/
 int		pars_file_vld_chk( void );
 
-/*에러가 있는 경우 에러를 출력합니다.*/
+/*pars_perror.*/
 void	pars_perror(void);
 
-/* 파싱합니다.*/
-/* 유효성 검사 이후 사용합니다.*/
-/* get_pars()함수를 통해 파싱 데이터에 접근할 수 있습니다.*/
-/* get_pars()는 pars_priv.h 헤더를 include하면 사용 가능합니다.*/
+/* after validation check ray_pars.*/
+/* with get_pars() function can contact to t_pars struct.*/
+/* to use get_pars() function, you must include pars_priv.h */
 void	pars_cub_file(void);
 
-/*(char **)map을 리턴합니다.*/
+/*it return (char **)map.*/
 char	**get_map(void);
 
-/*맵의 최대 폭을 구합니다.*/
-/* map은 get_pars()의 char ** 타입으로 저장되어 있습니다.*/
+/*get longest length of (char **)map string.*/
 size_t	get_max_length(void);
-/* 맵의 최대 높이를 구합니다.*/
-/* map은 get_pars()의 char ** 타입으로 저장되어 있습니다.*/
+
+/* get height of (char **)map.*/
 size_t	get_max_height(void);
 
 #endif

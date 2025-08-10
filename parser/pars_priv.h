@@ -30,6 +30,7 @@ typedef struct	s_pars
 }	t_pars;
 
 t_pars	*get_pars( void );
-int	is_player(char c);
+int		is_player(char c);
+void	malloc_fail_perror(void);
 
 #endif

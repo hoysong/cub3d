@@ -6,11 +6,12 @@ WE ./texture/cat/02_toungue_cat.xpm
 
 EA ./texture/cat/03_hat_cat.xpm
 
-F 17,170,255999
+F 17,170,255
 C 180,00,00
 
 111111111
 111111111
+
 110000011
 110000011
 110000011

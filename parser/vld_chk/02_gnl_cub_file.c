@@ -52,11 +52,13 @@ void	gnl_cub_file( void )
 		return ;
 	fd = open(get_pars()->argv[1], O_RDONLY);
 	get_pars()->cub_file_list = get_gnl_node(fd);
+	if (get_pars()->cub_file_list == NULL)
+		malloc_fail_perror();
 	del_null_data();
-	if (count_nodes(get_pars()->cub_file_list) <= 6) /*too low infos..*/
+	if (count_nodes(get_pars()->cub_file_list) <= 6)
 		get_pars()->pars_errno = 1;
-	del_lst_newline_nodes(get_pars()->cub_file_list); /**/
-	gnl_node = get_pars()->cub_file_list; /**/
+	del_lst_newline_nodes(get_pars()->cub_file_list);
+	gnl_node = get_pars()->cub_file_list;
 	while (gnl_node)
 	{
 		*ft_strchr((char *)gnl_node->data, '\n') = '\0';

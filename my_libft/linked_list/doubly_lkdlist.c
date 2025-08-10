@@ -55,7 +55,7 @@ t_dnode	*init_dubl(void)
 
 	node = malloc(sizeof(t_dnode));
 	if (node == NULL)
-		return (0);
+		return (NULL);
 	node->next_node = 0;
 	node->prev_node = 0;
 	node->data = 0;

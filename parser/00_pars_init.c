@@ -22,6 +22,8 @@ void	pars_init(int argc, char **argv)
 	t_pars *pars;
 
 	pars = malloc(sizeof(t_pars));
+	if (pars == NULL)
+		malloc_fail_perror();
 	pars->argc = argc;
 	pars->argv = argv;
 	pars->pars_errno = 0;
@@ -66,5 +68,5 @@ void	pars_destroy( void )
 	}
 	if (!pars->pars_errno)
 		free_splits(pars->map);
-	free(pars); // 무조건 실행..
+	free(pars);
 }
