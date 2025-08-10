@@ -26,6 +26,8 @@ static void	del_null_data(void)
 			destroy_doubly_node(node->prev_node);
 	}
 	get_pars()->cub_file_list = find_head_dubly(node);
+	if (count_nodes(get_pars()->cub_file_list) == 1)
+		return ;
 	if (find_tail_dubly(node)->data == NULL)
 		destroy_doubly_node(find_tail_dubly(node));
 }
@@ -56,7 +58,10 @@ void	gnl_cub_file( void )
 		malloc_fail_perror();
 	del_null_data();
 	if (count_nodes(get_pars()->cub_file_list) <= 6)
-		get_pars()->pars_errno = 1;
+	{
+		get_pars()->pars_errno = NEED_MORE_FILE_ARGS;
+		return ;
+	}
 	del_lst_newline_nodes(get_pars()->cub_file_list);
 	gnl_node = get_pars()->cub_file_list;
 	while (gnl_node)

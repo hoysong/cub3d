@@ -13,10 +13,8 @@ int		pars_file_vld_chk( void );
 /*pars_perror.*/
 void	pars_perror(void);
 
-/* after validation check ray_pars.*/
-/* with get_pars() function can contact to t_pars struct.*/
-/* to use get_pars() function, you must include pars_priv.h */
-void	pars_cub_file(void);
+/*It pars map from '.cub' file.*/
+void	pars_map(void);
 
 /*it return (char **)map.*/
 char	**get_map(void);

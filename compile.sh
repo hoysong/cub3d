@@ -1,6 +1,6 @@
 cc ./main.c\
 	./parser/*.c \
-	./parser/pars/*.c \
+	./parser/pars_map/*.c \
 	./parser/vld_chk/*.c \
 	./mlx_stuff/*.c \
 	./mlx_stuff/raycasting/*.c \

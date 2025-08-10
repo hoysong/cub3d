@@ -12,7 +12,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	else
-		pars_cub_file();
+		pars_map();
 	setup_mlx();
 	put_frame();
 	mlx_loop(mlx()->mlx_ptr);

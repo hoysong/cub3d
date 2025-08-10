@@ -1,7 +1,6 @@
 #include "../pars_priv.h"
 #include <stdio.h>
 
-
 inline int	is_player(char c)
 {
 	if (c == 'N'
@@ -68,7 +67,7 @@ static int	is_both_same(char *tex_1, char *tex_2)
 	return (!ft_strncmp(tex_1, tex_2, ft_strlen(tex_1) + 1));
 }
 
-static int	is_same_files(t_pars *pars)
+static int	is_same_texture_files(t_pars *pars)
 {
 	if (
 		is_both_same(pars->north_texture, pars->south_texture)
@@ -108,6 +107,6 @@ void	good_map_chk(char **map)
 	}
 	if (player_count != 1)
 		get_pars()->pars_errno = MULTIPLE_PLAYER;
-	if (is_same_files(get_pars()))
+	if (is_same_texture_files(get_pars()))
 		get_pars()->pars_errno = SAME_TEXTURE;
 }

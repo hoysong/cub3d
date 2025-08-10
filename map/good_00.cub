@@ -1,7 +1,7 @@
 NO ./texture/00_white_dot.xpm
-SO ./texture/00_white_dot.xpm
-WE ./texture/00_white_dot.xpm
-EA ./texture/00_white_dot.xpm
+SO ./texture/01_white_dot.xpm
+WE ./texture/02_white_dot.xpm
+EA ./texture/03_white_dot.xpm
 
 F 0,0,0
 C 0,0,0
