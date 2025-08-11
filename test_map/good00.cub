@@ -1,7 +1,7 @@
-NO ./test_map/texture/cat/00_Ollie.xpm
-SO ./test_map/texture/cat/01_mad_cat.xpm
-WE ./test_map/texture/cat/02_toungue_cat.xpm
-EA ./test_map/texture/cat/03_hat_cat.xpm
+NO ./test_map/texture/new_dot/North.xpm
+SO ./test_map/texture/new_dot/South.xpm
+WE ./test_map/texture/new_dot/West.xpm
+EA ./test_map/texture/new_dot/East.xpm
 
 F 0,0,0
 C 255,255,255
