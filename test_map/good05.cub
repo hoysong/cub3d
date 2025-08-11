@@ -1,0 +1,13 @@
+WE ./test_map/texture/cat/02_toungue_cat.xpm
+SO ./test_map/texture/cat/01_mad_cat.xpm
+EA ./test_map/texture/cat/03_hat_cat.xpm
+NO ./test_map/texture/cat/00_Ollie.xpm
+
+F 255,255,255
+C 0,0,0
+
+11111
+10001
+10N01
+10001
+11111
