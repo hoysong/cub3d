@@ -12,12 +12,20 @@ static int	is_data_filled(void)
 		|| (get_pars()->floor_parsed_flag != 1)
 		|| (get_pars()->ceiil_parsed_flag != 1)
 		)
+	{
 		return (0);
+	}
 	return (1);
 }
 
 static void	set_node_ptr_to_map_line(t_dnode *node)
 {
+	if (node == NULL)
+	{
+		get_pars()->cub_file_list = find_tail_dubly(get_pars()->cub_file_list);
+		get_pars()->pars_errno = MAP_ERR;
+		return ;
+	}
 	while (get_pars()->cub_file_list != node)
 		get_pars()->cub_file_list = get_pars()->cub_file_list->next_node;
 	while (*(char *)(get_pars()->cub_file_list->data) == '\0')

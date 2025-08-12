@@ -4,7 +4,7 @@ WE ./test_map/texture/new_dot/West.xpm
 EA ./test_map/texture/new_dot/East.xpm
 
 F 255,0,0
-C 0,0,255
+C 0,255,0
 
 11111
 10001

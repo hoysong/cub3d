@@ -3,8 +3,8 @@ SO ./test_map/texture/new_dot/South.xpm
 WE ./test_map/texture/new_dot/West.xpm
 EA ./test_map/texture/new_dot/East.xpm
 
-F 255,0,0
-C 0,0,255
+F 0,0,255
+C 255,0,0
 
 11111
 10001

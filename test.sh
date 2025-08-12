@@ -131,14 +131,12 @@ leak_test() {
 	run_valg="$valg_off"
 }
 
-#test_dir="./test_map/good_maps/texture_line_location_swap/"
-#normal_test $test_dir
-#leak_test $test_dir
-#
-#test_dir="./test_map/good_maps/floor_ceiling_swap/"
+#test_dir="./test_map/bad_maps/texture_bg_swap/bad_random/"
 #normal_test $test_dir
 #leak_test $test_dir
 
-test_dir="./test_map/good_maps/texture_line_location_swap/"
-normal_test $test_dir
+test_dir="./test_map/bad_maps/typeidentifier_not_found/"
+leak_test $test_dir
+
+test_dir="./test_map/bad_maps/texture_bg_swap/bad_random/"
 leak_test $test_dir
