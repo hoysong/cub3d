@@ -105,15 +105,15 @@ run_test() {
 		echo $Cyan"`cat $test_dir$current_elmt`" $Color_Off
 
 		#show what command and argument is passed to your prog.
-		echo $run_valg ./$prog_name $test_dir$current_elmt
+#		echo $run_valg ./$prog_name $test_dir$current_elmt
 		prog_output=`$run_valg ./$prog_name $test_dir$current_elmt 2>&1`
 
-		echo "$prog_output"
+#		echo "$prog_output"
 
-		echo $IPurple
+		echo -n $IPurple
 		echo "$prog_output" | grep "ERROR SUMMARY"
 		echo $Color_Off
-		echo
+#		echo
 	done
 }
 
@@ -138,5 +138,5 @@ leak_test() {
 test_dir="./test_map/bad_maps/typeidentifier_not_found/"
 leak_test $test_dir
 
-test_dir="./test_map/bad_maps/texture_bg_swap/bad_random/"
+test_dir="./test_map/bad_maps/bad_random/"
 leak_test $test_dir
