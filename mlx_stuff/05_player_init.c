@@ -25,15 +25,15 @@ static void	get_player_view_point(int x, int y)
 
 	map = get_map();
 	if (map[y][x] == 'N')
-		player()->view_point.y = player()->cord.y - (float)(SIZE_OF_BLOCK) * 3;
+		player()->view_point.y = player()->cord.y - (float)(SIZE_OF_BLOCK * 3);
 	else if (map[y][x] == 'S')
-		player()->view_point.y = player()->cord.y + (float)(SIZE_OF_BLOCK) * 3;
+		player()->view_point.y = player()->cord.y + (float)(SIZE_OF_BLOCK * 3);
 	else
 		player()->view_point.y = player()->cord.y;
 	if (map[y][x] == 'W')
-		player()->view_point.x = player()->cord.x - (float)(SIZE_OF_BLOCK) * 3;
+		player()->view_point.x = player()->cord.x - (float)(SIZE_OF_BLOCK * 3);
 	else if (map[y][x] == 'E')
-		player()->view_point.x = player()->cord.x + (float)(SIZE_OF_BLOCK) * 3;
+		player()->view_point.x = player()->cord.x + (float)(SIZE_OF_BLOCK * 3);
 	else
 		player()->view_point.x = player()->cord.x;
 }
