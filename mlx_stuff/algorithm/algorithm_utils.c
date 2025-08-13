@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algorithm_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:15:50 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:41:19 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./my_algorithm.h"
 #include <math.h>
 
@@ -7,11 +19,11 @@ inline t_point	rotate_point(t_point center, t_point pt, float degree)
 {
 	t_point	new;
 
-	degree = (degree) * (Pie/180);
-	new.x = ((pt.x - center.x)*(float)cos(degree) -
-			(pt.y - center.y)*(float)sin(degree)) + center.x;
-	new.y = ((pt.x - center.x)*(float)sin(degree) +
-			(pt.y - center.y)*(float)cos(degree)) + center.y;
+	degree = (degree) * (PIE / 180);
+	new.x = ((pt.x - center.x) * (float)cos(degree)
+			- (pt.y - center.y) * (float)sin(degree)) + center.x;
+	new.y = ((pt.x - center.x) * (float)sin(degree)
+			+ (pt.y - center.y) * (float)cos(degree)) + center.y;
 	return (new);
 }
 

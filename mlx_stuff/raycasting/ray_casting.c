@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_casting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:42:17 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:43:18 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../algorithm/my_algorithm.h"
 #include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
@@ -8,15 +20,15 @@ static void	put_edge_to_minimap(t_wall_node *node)
 	while (node)
 	{
 		put_pixel_to_img(
-				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_start_cord, node->info->mlx).x,
-				to_minimap_ratio(node->wall_start_cord, node->info->mlx).y,
-				0x00ffff);
+			&(mlx()->minimap),
+			to_minimap_ratio(node->wall_start_cord, node->info->mlx).x,
+			to_minimap_ratio(node->wall_start_cord, node->info->mlx).y,
+			0x00ffff);
 		put_pixel_to_img(
-				&(mlx()->minimap),
-				to_minimap_ratio(node->wall_end_cord, node->info->mlx).x,
-				to_minimap_ratio(node->wall_end_cord, node->info->mlx).y,
-				0x00ffff);
+			&(mlx()->minimap),
+			to_minimap_ratio(node->wall_end_cord, node->info->mlx).x,
+			to_minimap_ratio(node->wall_end_cord, node->info->mlx).y,
+			0x00ffff);
 		node = node->next;
 	}
 }
@@ -24,8 +36,9 @@ static void	put_edge_to_minimap(t_wall_node *node)
 extern void			sort_wall_list(t_wall_node *node);
 extern void			draw_wall_lkd_list(t_wall_node *node);
 extern t_wall_node	*shoot_fov_ray(t_ray_info *info);
-extern void			first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall);
-extern  void		calculate_point_location(t_wall_node *node);
+extern void			first_last_correction(t_wall_node *left_wall,
+				t_wall_node *right_wall);
+extern void			calculate_point_location(t_wall_node *node);
 
 static void	degree_correction(t_wall_node *left, t_wall_node *right)
 {

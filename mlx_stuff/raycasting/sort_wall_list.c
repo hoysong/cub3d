@@ -1,25 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_wall_list.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:43:36 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:44:26 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../algorithm/wall_lkd_list/wall_lkd_list.h"
 #include <stdio.h>
 
-static inline void	init_vars(t_wall_node *a, t_wall_node *b, float	*a_val, float *b_val)
+static inline void	init_vars(t_wall_node *a,
+		t_wall_node *b, float	*a_val, float *b_val)
 {
 	if (a->start_point.y > a->end_point.y)
 		*a_val = a->start_point.y;
 	else
 		*a_val = a->end_point.y;
-
 	if (b->start_point.y > b->end_point.y)
 		*b_val = b->start_point.y;
 	else
 		*b_val = b->end_point.y;
-
 	if (*a_val == *b_val)
 	{
 		if (a->start_point.y > a->end_point.y)
 			*a_val = a->end_point.y;
 		else
 			*a_val = a->start_point.y;
-
 		if (b->start_point.y > b->end_point.y)
 			*b_val = b->end_point.y;
 		else
@@ -46,8 +56,7 @@ static t_wall_node	*go_deeper(t_wall_node *node, int depth)
 			b = a;
 		}
 		b = b->next;
-		if (depth == 0 &&
-			(a->next != NULL && b == NULL))
+		if (depth == 0 && (a->next != NULL && b == NULL))
 		{
 			a = a->next;
 			b = a;
