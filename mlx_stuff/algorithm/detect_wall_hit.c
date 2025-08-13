@@ -14,21 +14,26 @@
 #include "../mlx_hdler.h"
 #include <math.h>
 
+float	to_index(float cord_res)
+{
+	return (cord_res / (float)SIZE_OF_BLOCK);
+}
+
 static inline t_img	*get_player_view_texture(
 		t_point point, t_point d, t_ray_info *info)
 {
 	d.x *= -1;
 	d.y *= -1;
-	if ((int)floor(TO_INDEX(point.x + d.x)) < (int)floor(TO_INDEX(point.x)))
+	if ((int)floor(to_index(point.x + d.x)) < (int)floor(to_index(point.x)))
 		return (&(info->mlx->xpm_west));
-	else if ((int)floor(TO_INDEX(point.x + d.x))
-		> (int)floor(TO_INDEX(point.x)))
+	else if ((int)floor(to_index(point.x + d.x))
+		> (int)floor(to_index(point.x)))
 		return (&(info->mlx->xpm_east));
-	else if ((int)floor(TO_INDEX(point.y + d.y))
-		< (int)floor(TO_INDEX(point.y)))
+	else if ((int)floor(to_index(point.y + d.y))
+		< (int)floor(to_index(point.y)))
 		return (&(info->mlx->xpm_north));
-	else if ((int)floor(TO_INDEX(point.y + d.y))
-		> (int)floor(TO_INDEX(point.y)))
+	else if ((int)floor(to_index(point.y + d.y))
+		> (int)floor(to_index(point.y)))
 		return (&(info->mlx->xpm_south));
 	else
 		return (&(info->mlx->xpm_west));
@@ -49,14 +54,14 @@ inline int	detect_wall_hit(t_point point, t_point d, void *ray_info)
 		to_minimap_ratio(point, ((t_ray_info *)ray_info)->mlx).y,
 		FOV_COLOR);
 	if (((t_ray_info *)ray_info)->map
-		[(int)TO_INDEX(floor_pt.y)]
-		[(int)TO_INDEX(floor_pt.x)] == '1')
+		[(int)to_index(floor_pt.y)]
+		[(int)to_index(floor_pt.x)] == '1')
 	{
 		((t_ray_info *)ray_info)->wall_addr = &(((t_ray_info *)ray_info)->map
-			[(int)TO_INDEX(floor_pt.y)]
-			[(int)TO_INDEX(floor_pt.x)]);
-		(((t_ray_info *)ray_info)->wall_x) = (int)TO_INDEX(floor_pt.x);
-		(((t_ray_info *)ray_info)->wall_y) = (int)TO_INDEX(floor_pt.y);
+			[(int)to_index(floor_pt.y)]
+			[(int)to_index(floor_pt.x)]);
+		(((t_ray_info *)ray_info)->wall_x) = (int)to_index(floor_pt.x);
+		(((t_ray_info *)ray_info)->wall_y) = (int)to_index(floor_pt.y);
 		((t_ray_info *)ray_info)->texture = get_player_view_texture(
 				point, d, ((t_ray_info *)ray_info));
 		((t_ray_info *)ray_info)->ray_hit = point;

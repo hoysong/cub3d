@@ -6,7 +6,7 @@
 /*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 04:30:50 by jinyjeon          #+#    #+#             */
-/*   Updated: 2025/08/14 04:49:00 by jinyjeon         ###   ########.fr       */
+/*   Updated: 2025/08/14 07:48:14 by hoysong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@
 /*Virtual coordinate based player size.*/
 # define PLAYER_SIZE	6
 
-/*Player's view distance.*/
-# define VIEW_DIST	(SIZE_OF_BLOCK * 3)
-
 /*Player FOV.*/
 # define PLAYER_FOV		65
 
@@ -64,7 +61,7 @@
 /******************/
 
 /*Convert Player cordinate to minimap_res.*/
-# define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
-# define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
+//# define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
+//# define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
 
 #endif

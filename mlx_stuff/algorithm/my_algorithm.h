@@ -89,9 +89,6 @@ int		detect_wall_hit(t_point point, t_point d, void *ray_info);
 /*This will rotate point 'pt' with respect to the param 'center'.*/
 t_point	rotate_point(t_point center, t_point pt, float degree);
 
-/*플레이어의 FOV 각도만큼 부채꼴로 ray를 방사합니다.*/
-//void	shoot_fov_ray(void);
-
 t_point	to_minimap_ratio(t_point point, t_mlx *mlx_strc);
 
 float	my_abs(float num);
@@ -99,7 +96,5 @@ float	my_abs(float num);
 /*this will returns length of between p1 and p2.*/
 float	get_length(t_point p1, t_point p2);
 
-/*실험적.*/
-// 벽 linked list를 만듭니다.
-//void	make_wall_linked_list(void);
+float	to_index(float cord_res);
 #endif

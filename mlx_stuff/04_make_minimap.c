@@ -92,10 +92,10 @@ static void	draw_player(float sq_len, t_mlx *mlx_strc, t_player *player)
 	int		y_end;
 
 	ratio = player->ratio;
-	x = (MINI_RES(player->cord.x) * sq_len) - ratio;
-	y = (MINI_RES(player->cord.y) * sq_len) - ratio;
-	x_end = (MINI_RES(player->cord.x) * sq_len) + ratio;
-	y_end = (MINI_RES(player->cord.y) * sq_len) + ratio;
+	x = (to_index(player->cord.x) * sq_len) - ratio;
+	y = (to_index(player->cord.y) * sq_len) - ratio;
+	x_end = (to_index(player->cord.x) * sq_len) + ratio;
+	y_end = (to_index(player->cord.y) * sq_len) + ratio;
 	while (y <= y_end)
 	{
 		while (x <= x_end)

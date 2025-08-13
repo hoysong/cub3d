@@ -43,7 +43,7 @@ inline float	get_length(t_point p1, t_point p2)
 /*convert point's coorinate to minimap ratio.*/
 inline t_point	to_minimap_ratio(t_point point, t_mlx *mlx_strc)
 {
-	point.x = MINI_RES(point.x) * mlx_strc->minimap_square;
-	point.y = MINI_RES(point.y) * mlx_strc->minimap_square;
+	point.x = to_index(point.x) * mlx_strc->minimap_square;
+	point.y = to_index(point.y) * mlx_strc->minimap_square;
 	return (point);
 }
