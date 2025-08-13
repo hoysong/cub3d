@@ -11,7 +11,6 @@ void	get_img_data(t_img *img)
 			&(img->bits_per_pixel),
 			&(img->size_line),
 			&(img->endian));
-	printf("%p\n", img->data_addr);
 }
 
 size_t	get_minimap_ratio(void)

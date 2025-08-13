@@ -3,3 +3,4 @@
 *.a
 a.out
 gmon.out
+test_trace.txt

@@ -1,3 +1,5 @@
+rm -rf  test_trace.txt
+
 # Reset
 Color_Off='\033[0m'       # Text Reset
 
@@ -111,7 +113,9 @@ run_test() {
 #		echo "$prog_output"
 
 		echo -n $IPurple
+#		echo "$prog_output"
 		echo "$prog_output" | grep "ERROR SUMMARY"
+		echo "$prog_output" | grep "ERROR SUMMARY" >> test_trace.txt
 		echo $Color_Off
 #		echo
 	done
@@ -131,18 +135,9 @@ leak_test() {
 	run_valg="$valg_off"
 }
 
-#test_dir="./test_map/bad_maps/texture_bg_swap/bad_random/"
-#normal_test $test_dir
-#leak_test $test_dir
+test_dir="./test_map/bad_maps/bad_random/"
+leak_test $test_dir
 
-#test_dir="./test_map/bad_maps/typeidentifier_not_found/"
-#leak_test $test_dir
-#
-#test_dir="./test_map/bad_maps/bad_random/"
-#leak_test $test_dir
-
-#test_dir="./test_map/bad_maps/fake_xpm/"
-#leak_test $test_dir
-#
 test_dir="./test_map/bad_maps/fake_xpm/"
 leak_test $test_dir
+
