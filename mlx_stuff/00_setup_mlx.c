@@ -3,14 +3,25 @@
 #include "../parser/pars_priv.h"
 #include "../minilibx-linux/mlx.h"
 #include <stdlib.h>
+#include <stdio.h>
+
+/*this function free xpm textures.*/
+static void	destroy_xpm(t_mlx *mlx)
+{
+	if (mlx->xpm_north.img_ptr)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_north.img_ptr);
+	if (mlx->xpm_south.img_ptr)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_south.img_ptr);
+	if (mlx->xpm_west.img_ptr)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_west.img_ptr);
+	if (mlx->xpm_east.img_ptr)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_east.img_ptr);
+}
 
 void	mlx_destroy(void)
 {
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->minimap.img_ptr);
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_north.img_ptr);
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_south.img_ptr);
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_west.img_ptr);
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->xpm_east.img_ptr);
+	destroy_xpm(mlx());
 	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
 	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
 	mlx_destroy_display(mlx()->mlx_ptr);
@@ -26,6 +37,9 @@ static void	get_xpm_data(t_img *xpm, char *filename)
 			filename,
 			&(xpm->xpm_width),
 			&(xpm->xpm_height));
+	/*wrong xpm file is here..*/
+	if (xpm->img_ptr == NULL)
+		return ;
 	get_img_data(xpm);
 }
 
@@ -68,6 +82,15 @@ int	setup_mlx(void)
 			mlx->mlx_ptr,
 			WIN_WIDTH, WIN_HEIGHT,
 			get_pars()->argv[1]);
+	if (
+			mlx->xpm_north.img_ptr == NULL
+			|| mlx->xpm_south.img_ptr == NULL
+			|| mlx->xpm_west.img_ptr == NULL
+			|| mlx->xpm_east.img_ptr == NULL
+			)
+	{
+		return (1);
+	}
 	setup_hooks(mlx);
-	return (1);
+	return (0);
 }

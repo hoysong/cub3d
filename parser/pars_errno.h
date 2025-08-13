@@ -111,6 +111,9 @@
 	"          111\n"\
 	"          1N1\n"\
 	"          111\n"
+# define GET_XPM_IMGDATA_FAIL 10
+# define GET_XPM_IMGDATA_FAIL_MSG \
+	"Seems you passed wrong xpm image.\n"
 # define MALLOC_FAIL 42
 
 #endif

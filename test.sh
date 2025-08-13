@@ -135,8 +135,14 @@ leak_test() {
 #normal_test $test_dir
 #leak_test $test_dir
 
-test_dir="./test_map/bad_maps/typeidentifier_not_found/"
-leak_test $test_dir
+#test_dir="./test_map/bad_maps/typeidentifier_not_found/"
+#leak_test $test_dir
+#
+#test_dir="./test_map/bad_maps/bad_random/"
+#leak_test $test_dir
 
-test_dir="./test_map/bad_maps/bad_random/"
+#test_dir="./test_map/bad_maps/fake_xpm/"
+#leak_test $test_dir
+#
+test_dir="./test_map/bad_maps/fake_xpm/"
 leak_test $test_dir
