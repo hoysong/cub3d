@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   05_pars_perror.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:31:50 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 03:32:02 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../pars_errno.h"
 #include "../pars_priv.h"
 #include <stdio.h>
@@ -31,7 +43,7 @@ void	malloc_fail_perror(void)
 	exit(MALLOC_FAIL);
 }
 
-void pars_perror(void)
+void	pars_perror(void)
 {
 	put_errmsg(get_pars()->pars_errno);
 }

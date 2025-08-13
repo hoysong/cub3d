@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color_and_texture_vld_chk.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:32:11 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 03:33:00 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../pars_priv.h"
 #include "../../my_libft/libft.h"
 
@@ -5,7 +17,7 @@ extern int	try_open(char *file_name);
 extern int	file_format_chk(char *format, char *file_name);
 extern int	count_splits(char **splits);
 
-int texture_vld_chk(char *direction, char *texture_line)
+int	texture_vld_chk(char *direction, char *texture_line)
 {
 	char	**buf;
 
@@ -30,7 +42,9 @@ int texture_vld_chk(char *direction, char *texture_line)
  */
 static int	count_comma(char *str)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (*str)
 	{
 		if (*str == ',')
@@ -56,7 +70,6 @@ static int	color_vld_chk(char **rgb)
 	}
 	return (1);
 }
-
 
 int	bg_color_vld_chk(char *floor_or_ceiling, char *bg_line)
 {

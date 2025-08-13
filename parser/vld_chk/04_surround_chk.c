@@ -1,53 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   04_surround_chk.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:23:41 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 05:12:28 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../pars_priv.h"
 #include <stdio.h>
 
-inline int	is_player(char c)
-{
-	if (c == 'N'
-		|| c == 'S'
-		|| c == 'E'
-		|| c == 'W')
-		return (1);
-	return (0);
-}
-
-static inline int	is_wall_floor(char c)
-{
-	if (c == '1' || c == '0')
-		return (1);
-	return (0);
-}
-
-/*check diagonal spaces.*/
-/*map must be rectangle.*/
-static int	diagonal_vld_check(char **map, int i, int j)
-{
-	if (
-		(is_player(map[i - 1][j - 1]) || is_wall_floor(map[i - 1][j - 1])) &&
-		(is_player(map[i + 1][j - 1]) || is_wall_floor(map[i + 1][j - 1])) &&
-		(is_player(map[i - 1][j + 1]) || is_wall_floor(map[i - 1][j + 1])) &&
-		(is_player(map[i + 1][j + 1]) || is_wall_floor(map[i + 1][j + 1]))
-		)
-	{
-		return (1);
-	}
-	return (0);
-}
-
-static int	is_surrounded_by_wall_floor(char **map, int i, int j)
-{
-	if (
-		(is_player(map[i - 1][j]) || is_wall_floor(map[i - 1][j])) &&
-		(is_player(map[i + 1][j]) || is_wall_floor(map[i + 1][j])) &&
-		(is_player(map[i][j - 1]) || is_wall_floor(map[i][j - 1])) &&
-		(is_player(map[i][j + 1]) || is_wall_floor(map[i][j + 1])) &&
-		diagonal_vld_check(map, i, j)
-		)
-	{
-		return (1);
-	}
-	return (0);
-}
+extern int	is_player(char c);
+extern int	is_wall_floor(char c);
+extern int	diagonal_vld_check(char **map, int i, int j);
+extern int	is_surrounded_by_wall_floor(char **map, int i, int j);
 
 static int	surround_chk(char **map, int i, int j)
 {
@@ -76,7 +45,7 @@ static int	is_same_texture_files(t_pars *pars)
 		|| is_both_same(pars->south_texture, pars->west_texture)
 		|| is_both_same(pars->south_texture, pars->east_texture)
 		|| is_both_same(pars->west_texture, pars->east_texture)
-		)
+	)
 	{
 		return (1);
 	}

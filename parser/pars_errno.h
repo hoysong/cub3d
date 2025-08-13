@@ -1,20 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pars_errno.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 00:52:32 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 00:58:48 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARS_ERRNO_H
 # define PARS_ERRNO_H
 
 # define ARGC_NOT_TWO 1
-# define ARGC_NOT_TWO_MSG \
-	"Argument error.\n"\
-	" ├─run program with one argument\n"\
-	" └─add file name ends with '.cub'\n"\
-	"   └─example: ./cub3D ./path_to_map/map_name.cub\n"
-
+# define ARGC_NOT_TWO_MSG "Argument error.\n ├─run program with one argument\n"\
+"└─add file name ends with '.cub'\n   └─example: ./cub3D ./path_to_map/map_name.cub\n"
 # define NOT_CUB_FMT 2
-# define NOT_CUB_FMT_MSG \
-	"Not '.cub' format\n"
+# define NOT_CUB_FMT_MSG "Not '.cub' format\n"
 
 # define CUB_OPEN_ERR 3
-# define CUB_OPEN_ERR_MSG \
-	"'.cub' file open fail.\n"
+# define CUB_OPEN_ERR_MSG "'.cub' file open fail.\n"
 
 # define TYPE_IDENTIFIER_ERR 4
 # define TYPE_IDENTIFIER_ERR_MSG \
@@ -75,9 +81,7 @@
 	"         1111 \n"
 
 # define MULTIPLE_PLAYER 7
-# define MULTIPLE_PLAYER_MSG\
-	"Multiple player's detected."\
-	" └─player must be only one."
+# define MULTIPLE_PLAYER_MSG "Multiple player's detected.\n └─player must be only one."
 
 # define SAME_TEXTURE 8
 # define SAME_TEXTURE_MSG \
@@ -112,8 +116,7 @@
 	"          1N1\n"\
 	"          111\n"
 # define GET_XPM_IMGDATA_FAIL 10
-# define GET_XPM_IMGDATA_FAIL_MSG \
-	"Seems you passed wrong xpm image.\n"
+# define GET_XPM_IMGDATA_FAIL_MSG "Seems you passed wrong xpm image.\n"
 # define MALLOC_FAIL 42
 
 #endif

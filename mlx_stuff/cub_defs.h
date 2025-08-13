@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub_defs.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 04:30:50 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:49:00 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB_DEFS_H
 # define CUB_DEFS_H
 
@@ -7,7 +19,6 @@
 # define HALF_WIN_WIDTH		300
 # define HALF_WIN_HEIGHT	245
 
-
 /********************/
 /* Minimap handler. */
 /********************/
@@ -15,11 +26,11 @@
 /*Minimap size.*/
 # define MINISIZE	160
 /*Minimap BG_color.*/
-# define BG_Color	0x666666
+# define BG_COLOR	0x666666
 /*Minimap GridColor.*/
-# define GridColor	0x666666
+# define GRIDCOLOR	0x666666
 /*Minimap WallColor.*/
-# define WallColor	0x222222
+# define WALLCOLOR	0x222222
 /*FOV_COLOR*/
 # define FOV_COLOR	0x990000
 
@@ -34,10 +45,10 @@
 # define PLAYER_SIZE	6
 
 /*Player's view distance.*/
-# define VIEW_DIST		(SIZE_OF_BLOCK * 3)
+# define VIEW_DIST	(SIZE_OF_BLOCK * 3)
 
 /*Player FOV.*/
-# define Player_FOV		65
+# define PLAYER_FOV		65
 
 /*Player Angle per tick.*/
 # define CAM_ROTATE_ANGLE	2
