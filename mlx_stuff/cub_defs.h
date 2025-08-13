@@ -31,7 +31,7 @@
 # define SIZE_OF_BLOCK	50
 
 /*Virtual coordinate based player size.*/
-# define PLAYER_SIZE	10
+# define PLAYER_SIZE	6
 
 /*Player's view distance.*/
 # define VIEW_DIST		(SIZE_OF_BLOCK * 3)

@@ -49,6 +49,7 @@ t_wall_node	*wall_init_node(void)
 
 	node->start_degree = 0;
 	node->end_degree = 0;
+	node->correction_flag = 0;
 	return (node);
 }
 

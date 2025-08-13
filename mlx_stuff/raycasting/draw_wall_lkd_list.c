@@ -17,6 +17,17 @@ static inline float	get_other_walls_pixel_x(t_wall_node *node, t_point *ray)
 
 static inline float	get_pixel_x(t_wall_node *node, t_point *ray)
 {
+	if (node->prev == NULL
+			&&node->next == NULL)
+	{
+		//if (node->start_point.y > node->end_point.y)
+		//	return (get_other_walls_pixel_x(node, ray));
+		//return (get_left_walls_pixel_x(node, ray));
+		if (node->correction_flag)
+			return (get_other_walls_pixel_x(node, ray));
+		return (get_left_walls_pixel_x(node, ray));
+	}
+
 	if (node->start_degree <= 0)
 		return (get_left_walls_pixel_x(node, ray));
 	return (get_other_walls_pixel_x(node, ray));

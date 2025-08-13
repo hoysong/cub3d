@@ -47,6 +47,7 @@ typedef struct s_wall_node
 	float		end_x;
 
 	float		wall_width;
+	float		correction_flag;
 }t_wall_node;
 
 /****************/
