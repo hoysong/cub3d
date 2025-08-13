@@ -14,27 +14,34 @@
 #include "../pars_priv.h"
 #include <stdio.h>
 
+extern void	argc_err_msg(void);
+extern void	type_indent_msg(void);
+extern void	map_err_msg(void);
+extern void	same_texture_msg(void);
+extern void	few_file_content_msg(void);
+
 static void	put_errmsg(int pars_errno)
 {
 	printf("Error\n");
 	if (pars_errno == ARGC_NOT_TWO)
-		printf(ARGC_NOT_TWO_MSG);
+		argc_err_msg();
 	else if (pars_errno == NOT_CUB_FMT)
-		printf(NOT_CUB_FMT_MSG);
+		printf("Not '.cub' format\n");
 	else if (pars_errno == CUB_OPEN_ERR)
-		printf(CUB_OPEN_ERR_MSG);
+		printf("'.cub' file open fail.\n");
 	else if (pars_errno == TYPE_IDENTIFIER_ERR)
-		printf(TYPE_IDENTIFIER_ERR_MSG);
+		type_indent_msg();
 	else if (pars_errno == MAP_ERR)
-		printf(MAP_ERR_MSG);
+		map_err_msg();
 	else if (pars_errno == MULTIPLE_PLAYER)
-		printf(MULTIPLE_PLAYER_MSG);
+		printf("Multiple player's detected.\n"
+			" └─player must be only one.\n");
 	else if (pars_errno == SAME_TEXTURE)
-		printf(SAME_TEXTURE_MSG);
+		same_texture_msg();
 	else if (pars_errno == NEED_MORE_FILE_ARGS)
-		printf(NEED_MORE_FILE_ARGS_MSG);
+		few_file_content_msg();
 	else if (pars_errno == GET_XPM_IMGDATA_FAIL)
-		printf(GET_XPM_IMGDATA_FAIL_MSG);
+		printf("Seems you passed wrong xpm image.\n");
 }
 
 void	malloc_fail_perror(void)
