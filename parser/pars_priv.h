@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pars_priv.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 02:32:33 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 02:34:08 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARS_PRIV_H
 # define PARS_PRIV_H
 # include "../my_libft/libft.h"
@@ -8,9 +20,9 @@ typedef struct s_rgb
 	int	red;
 	int	green;
 	int	blue;
-} t_rgb;
+}	t_rgb;
 
-typedef struct	s_pars
+typedef struct s_pars
 {
 	int		argc;
 	char	**argv;

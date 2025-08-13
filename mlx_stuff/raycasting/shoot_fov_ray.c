@@ -82,7 +82,7 @@ static void	init_info(t_ray_info *info)
 	info->end_point = rotate_point(
 			info->ray_start,
 			info->end_point,
-			((float)Player_FOV / 2)*-1
+			((float)PLAYER_FOV / 2)*-1
 			);
 	info->ray_dest = info->end_point;
 }
@@ -127,7 +127,7 @@ t_wall_node	*shoot_fov_ray(t_ray_info *info)
 	node = wall_init_node();
 	init_info(info);
 	prev_info = *info;
-	while (info->degree <= Player_FOV)
+	while (info->degree <= PLAYER_FOV)
 	{
 		info->ray_dest = next_ray_point(info);
 		if (shoot_ray_until_hit(info))

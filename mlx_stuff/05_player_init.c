@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   05_player_init.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 04:21:59 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:24:38 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./player.h"
 #include "./mlx_hdler.h"
 #include "../parser/pars_pub.h"
@@ -9,8 +21,9 @@
  */
 static void	get_player_view_point(int x, int y)
 {
-	char **map = get_map();
+	char	**map;
 
+	map = get_map();
 	if (map[y][x] == 'N')
 		player()->view_point.y = player()->cord.y - (float)VIEW_DIST;
 	else if (map[y][x] == 'S')
@@ -30,13 +43,16 @@ static void	get_player_view_point(int x, int y)
  */
 static void	get_start_location(float *fx, float *fy)
 {
-	char	**map = get_map();
-	int		x = 0;
-	int		y = 0;
+	char	**map;
+	int		x;
+	int		y;
 
-	while(map[y])
+	map = get_map();
+	x = 0;
+	y = 0;
+	while (map[y])
 	{
-		while(!is_player(map[y][x]) && map[y][x])
+		while (!is_player(map[y][x]) && map[y][x])
 			x++;
 		if (is_player(map[y][x]))
 			break ;
@@ -64,8 +80,10 @@ void	player_init(void)
 	player_get_step_point(player);
 	printf("player info\n");
 	printf("├─Location   : x=%f, y=%f\n", player->cord.x, player->cord.y);
-	printf("├─view_point : x=%f, y=%f\n", player->view_point.x, player->view_point.y);
-	printf("├─step_point : x=%f, y=%f\n", player->step_point.x, player->step_point.y);
+	printf("├─view_point : x=%f, y=%f\n",
+		player->view_point.x, player->view_point.y);
+	printf("├─step_point : x=%f, y=%f\n",
+		player->step_point.x, player->step_point.y);
 	printf("├─Ratio      : %f\n", player->ratio);
 	printf("└─(empty)\n");
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   00_setup_mlx.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:35:46 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:19:38 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./player.h"
 #include "./mlx_hdler.h"
 #include "../parser/pars_priv.h"
@@ -6,29 +18,6 @@
 #include <stdio.h>
 
 /*this function free xpm textures.*/
-static void	destroy_xpm(t_mlx *mlx)
-{
-	if (mlx->xpm_north.img_ptr)
-		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_north.img_ptr);
-	if (mlx->xpm_south.img_ptr)
-		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_south.img_ptr);
-	if (mlx->xpm_west.img_ptr)
-		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_west.img_ptr);
-	if (mlx->xpm_east.img_ptr)
-		mlx_destroy_image(mlx->mlx_ptr, mlx->xpm_east.img_ptr);
-}
-
-void	mlx_destroy(void)
-{
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->minimap.img_ptr);
-	destroy_xpm(mlx());
-	mlx_destroy_image(mlx()->mlx_ptr, mlx()->background.img_ptr);
-	mlx_destroy_window(mlx()->mlx_ptr, mlx()->mlx_window);
-	mlx_destroy_display(mlx()->mlx_ptr);
-	free(mlx()->mlx_ptr);
-	free(mlx());
-	free(player());
-}
 
 static void	get_xpm_data(t_img *xpm, char *filename)
 {
@@ -37,7 +26,6 @@ static void	get_xpm_data(t_img *xpm, char *filename)
 			filename,
 			&(xpm->xpm_width),
 			&(xpm->xpm_height));
-	/*wrong xpm file is here..*/
 	if (xpm->img_ptr == NULL)
 		return ;
 	get_img_data(xpm);
@@ -57,8 +45,21 @@ extern void		setup_hooks(t_mlx *mlx);
 
 void	make_minimap_image(void)
 {
-	mlx()->minimap.img_ptr = mlx_new_image(mlx()->mlx_ptr, MINISIZE, MINISIZE);
+	t_mlx	*mlx_struct;
+
+	mlx_struct = mlx();
+	mlx_struct->minimap.img_ptr = mlx_new_image
+		(mlx()->mlx_ptr, MINISIZE, MINISIZE);
 	get_img_data(&(mlx()->minimap));
+}
+
+void	init_mlx(t_mlx *mlx)
+{
+	mlx->floor_color = 0;
+	mlx->ceiling_color = 0;
+	mlx->toggle_minimap = 0;
+	mlx->toggle_mouse = 0;
+	mlx->mlx_ptr = mlx_init();
 }
 
 int	setup_mlx(void)
@@ -67,11 +68,7 @@ int	setup_mlx(void)
 
 	mlx = malloc(sizeof(t_mlx));
 	set_mlx(mlx);
-	mlx->floor_color = 0;
-	mlx->ceiling_color = 0;
-	mlx->toggle_minimap = 0;
-	mlx->toggle_mouse = 0;
-	mlx->mlx_ptr = mlx_init();
+	init_mlx(mlx);
 	mlx->pars = get_pars();
 	mlx->minimap_square = get_minimap_ratio();
 	player_init();
@@ -83,14 +80,12 @@ int	setup_mlx(void)
 			WIN_WIDTH, WIN_HEIGHT,
 			get_pars()->argv[1]);
 	if (
-			mlx->xpm_north.img_ptr == NULL
-			|| mlx->xpm_south.img_ptr == NULL
-			|| mlx->xpm_west.img_ptr == NULL
-			|| mlx->xpm_east.img_ptr == NULL
-			)
-	{
+		mlx->xpm_north.img_ptr == NULL
+		|| mlx->xpm_south.img_ptr == NULL
+		|| mlx->xpm_west.img_ptr == NULL
+		|| mlx->xpm_east.img_ptr == NULL
+	)
 		return (1);
-	}
 	setup_hooks(mlx);
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_hdler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 04:40:32 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:44:56 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./player.h"
 #include <math.h>
 
@@ -20,10 +32,10 @@ static int	get_step_routine(t_point point, t_point d, void *step_point)
 void	player_get_step_point(t_player *player)
 {
 	shoot_ray(
-			player->cord,
-			player->view_point,
-			&(player->step_point),
-			get_step_routine);
+		player->cord,
+		player->view_point,
+		&(player->step_point),
+		get_step_routine);
 }
 
 /*Rotate player's view_point.*/
@@ -46,19 +58,19 @@ static int	collision_check(t_point *dest, char **map)
 {
 	if (
 		map [(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1' ||
-		map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
-		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1' ||
-		map [(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
-		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1' ||
-		map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1'
+		|| map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x - PLAYER_SIZE))] == '1'
+		|| map [(int)TO_INDEX(floor(dest->y - PLAYER_SIZE))]
 		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1'
-		) 
+		|| map [(int)TO_INDEX(floor(dest->y + PLAYER_SIZE))]
+		[(int)TO_INDEX(floor(dest->x + PLAYER_SIZE))] == '1')
 		return (1);
 	return (0);
 }
 
-/*rotate step_point variable and shoot ray to step_point's location for STEP_PER_PIXEL define.
+/*rotate step_point variable and shoot ray 
+   to step_point's location for STEP_PER_PIXEL define.
  * The arrival point of ray will be player's location.
  */
 void	player_move(t_player *player, float degree)

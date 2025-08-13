@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_texture_color.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:33:21 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 03:33:35 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../pars_priv.h"
 #include "../../my_libft/libft.h"
 
@@ -18,7 +30,7 @@ char	*get_textrue_name(char *texture_line)
 
 static t_rgb	get_color(char **rgb_splits)
 {
-	t_rgb rgb;
+	t_rgb	rgb;
 
 	rgb.red = ft_atoi(rgb_splits[0]);
 	rgb.green = ft_atoi(rgb_splits[1]);

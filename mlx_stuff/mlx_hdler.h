@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_hdler.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 04:46:21 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:47:47 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MLX_HDLER_H
 # define MLX_HDLER_H
 # include "./cub_defs.h"
@@ -6,7 +18,7 @@
 # include <X11/keysym.h>
 # include <stddef.h>
 
-typedef struct s_point t_point;
+typedef struct s_point	t_point;
 
 /*
  * data_addr: img's actual start address.
@@ -19,7 +31,6 @@ typedef struct s_img
 	int		bits_per_pixel;
 	int		size_line;
 	int		endian;
-	/*xpm datas.*/
 	int		xpm_width;
 	int		xpm_height;
 }t_img;
@@ -42,7 +53,7 @@ typedef struct s_mlx
 	size_t	minimap_square;
 }t_mlx;
 /*setup t_mlx struct*/
-int	setup_mlx(void);
+int		setup_mlx(void);
 /*It returns t_mlx struct*/
 t_mlx	*mlx(void);
 /*This Function destroys t_mlx struct.*/
@@ -62,6 +73,6 @@ void	put_player(void);
 /*Put frame..*/
 void	put_frame(void);
 /*Get xpm img's pixel color..*/
-int	get_xpm_pixel_color(t_img xpm, t_point pixel);
+int		get_xpm_pixel_color(t_img xpm, t_point pixel);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   03_map_vld_chk.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 03:23:14 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 03:23:29 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../my_libft/libft.h"
 #include "../pars_priv.h"
 #include <stdio.h>
@@ -17,7 +29,7 @@ static char	**gen_outline_map(size_t max_length, size_t max_height)
 	node = get_pars()->cub_file_list;
 	map = malloc(sizeof(char *) * (max_height + 2 + 1));
 	if (map == NULL)
-			malloc_fail_perror();
+		malloc_fail_perror();
 	map[max_height + 2] = NULL;
 	while (i < max_height + 2)
 	{

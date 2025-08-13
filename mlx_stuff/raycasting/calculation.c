@@ -38,7 +38,7 @@ static inline float	get_line_y(t_point point)
 /*convert texture point.x coordinate to screen coordinate.*/
 static inline int	get_line_x(float degree)
 {
-	float	degree_to_percent = degree / Player_FOV * 100;
+	float	degree_to_percent = degree / PLAYER_FOV * 100;
 	float	line_location = WIN_WIDTH * (degree_to_percent / 100);
 	if (line_location == WIN_WIDTH)
 		line_location = WIN_WIDTH - 1;
@@ -82,7 +82,7 @@ static void	correction_left(t_wall_node *left_wall)
 
 static void	correction_right(t_wall_node *right_wall)
 {
-	right_wall->info->degree = (float)Player_FOV - RAY_RES;
+	right_wall->info->degree = (float)PLAYER_FOV - RAY_RES;
 	right_wall->info->ray_dest = rotate_point(
 			right_wall->info->ray_start, right_wall->info->end_point,
 			right_wall->info->degree
@@ -95,7 +95,7 @@ static void	correction_right(t_wall_node *right_wall)
 				))
 	{
 		right_wall->end_point.y = get_line_y(right_wall->info->ray_hit);
-		right_wall->end_point.x = get_line_x(Player_FOV);
+		right_wall->end_point.x = get_line_x(PLAYER_FOV);
 	}
 }
 

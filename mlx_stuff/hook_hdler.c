@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook_hdler.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 04:35:28 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 04:39:37 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minilibx-linux/mlx.h"
 #include "./player.h"
 
-static int destroy_notify_hook(void *hi)
-{
-	mlx_loop_end(mlx()->mlx_ptr);
-	return (0);
-}
+extern int	destroy_notify_hook(void *hi);
 
 /*To toggle mouse mode or minimap.*/
 static void	map_mouse_hdler(int key_input)
@@ -59,7 +67,8 @@ static int	my_loop_hook(void *mlx)
 
 	if (!((t_mlx *)mlx)->toggle_mouse)
 		return (0);
-	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window, &x, &y);
+	mlx_mouse_get_pos(((t_mlx *)mlx)->mlx_ptr,
+		((t_mlx *)mlx)->mlx_window, &x, &y);
 	if (x != HALF_WIN_WIDTH)
 	{
 		if (x < HALF_WIN_WIDTH)
@@ -67,8 +76,8 @@ static int	my_loop_hook(void *mlx)
 		else if (x > HALF_WIN_WIDTH)
 			player_rotate(player(), CAM_ROTATE_ANGLE);
 		mlx_mouse_move(
-				((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
-				HALF_WIN_WIDTH, HALF_WIN_HEIGHT);
+			((t_mlx *)mlx)->mlx_ptr, ((t_mlx *)mlx)->mlx_window,
+			HALF_WIN_WIDTH, HALF_WIN_HEIGHT);
 		put_frame();
 	}
 	return (0);
@@ -77,6 +86,7 @@ static int	my_loop_hook(void *mlx)
 void	setup_hooks(t_mlx *mlx)
 {
 	mlx_hook(mlx->mlx_window, KeyPress, KeyPressMask, hook_func, mlx);
-	mlx_hook(mlx->mlx_window, DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
+	mlx_hook(mlx->mlx_window,
+		DestroyNotify, NoEventMask, destroy_notify_hook, mlx);
 	mlx_loop_hook(mlx->mlx_ptr, my_loop_hook, mlx);
 }

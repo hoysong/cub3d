@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   00_pars_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 00:52:00 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 02:50:02 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pars_priv.h"
 #include <stdlib.h>
 
@@ -12,14 +24,14 @@ static t_pars	*set_pars( t_pars *pars )
 
 t_pars	*get_pars( void )
 {
-	t_pars *(*func_ptr)(t_pars *);
+	t_pars (*(*func_ptr)(t_pars *));
 	func_ptr = set_pars;
 	return (set_pars(NULL));
 }
 
 void	pars_init(int argc, char **argv)
 {
-	t_pars *pars;
+	t_pars	*pars;
 
 	pars = malloc(sizeof(t_pars));
 	if (pars == NULL)
