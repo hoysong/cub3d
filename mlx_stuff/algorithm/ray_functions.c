@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_functions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:20:49 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:22:24 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./my_algorithm.h"
 
 int	shoot_ray(
 		t_point start,
 		t_point end,
 		void *call_by_ref,
-		int(*func_ptr)(t_point, t_point, void *)
-		)
+		int (*func_ptr)(t_point, t_point, void *))
 {
 	t_point	ray;
 	t_point	d;
@@ -15,9 +26,9 @@ int	shoot_ray(
 	d.x = (end.x - start.x);
 	d.y = (end.y - start.y);
 	if (my_abs(d.x) >= my_abs(d.y))
-	  step = my_abs(d.x);
+		step = my_abs(d.x);
 	else
-	  step = my_abs(d.y);
+		step = my_abs(d.y);
 	d.x = d.x / step;
 	d.y = d.y / step;
 	ray = start;
@@ -37,8 +48,7 @@ int	shoot_inf_ray(
 		t_point start,
 		t_point end,
 		void *call_by_ref,
-		int(*func_ptr)(t_point, t_point, void *)
-		)
+		int (*func_ptr)(t_point, t_point, void *))
 {
 	t_point	ray;
 	t_point	d;
@@ -47,9 +57,9 @@ int	shoot_inf_ray(
 	d.x = (end.x - start.x);
 	d.y = (end.y - start.y);
 	if (my_abs(d.x) >= my_abs(d.y))
-	  step = my_abs(d.x);
+		step = my_abs(d.x);
 	else
-	  step = my_abs(d.y);
+		step = my_abs(d.y);
 	d.x = d.x / step;
 	d.y = d.y / step;
 	ray = start;

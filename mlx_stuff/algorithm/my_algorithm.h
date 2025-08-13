@@ -1,14 +1,26 @@
-#ifndef MY_ALGORITHM
-# define MY_ALGORITHM
-# define Pie 3.141592653589793
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   my_algorithm.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:22:43 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:26:36 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MY_ALGORITHM_H
+# define MY_ALGORITHM_H
+# define PIE 3.141592653589793
 # include "../cub_defs.h"
 # include "../mlx_hdler.h"
 
 /*simple point struct.*/
 typedef struct s_point
 {
-	float x;
-	float y;
+	float	x;
+	float	y;
 }t_point;
 
 typedef struct s_ray_info
@@ -16,17 +28,18 @@ typedef struct s_ray_info
 	char	**map;
 	t_mlx	*mlx;
 	float	degree;
-	int	wall_x;
-	int	wall_y;
+	int		wall_x;
+	int		wall_y;
 	char	*wall_addr;
 	t_img	*texture;
-	t_point		ray_start;
-	t_point		ray_dest;
-	t_point		ray_hit;
-	t_point		end_point;
+	t_point	ray_start;
+	t_point	ray_dest;
+	t_point	ray_hit;
+	t_point	end_point;
 }t_ray_info;
 
-typedef struct s_wall_node t_wall_node;
+typedef struct s_wall_node	t_wall_node;
+
 typedef struct s_wall_node
 {
 	t_wall_node	*next;
@@ -34,9 +47,7 @@ typedef struct s_wall_node
 	t_ray_info	*info;
 	t_img		*texture;
 
-	/*가상 좌표상의 코너 위치좌표.*/
 	t_point		wall_start_cord;
-	/*실제 표시되는 시작점의 위치.*/
 	t_point		start_point;
 	float		start_degree;
 	float		start_x;
@@ -58,24 +69,22 @@ typedef struct s_wall_node
 /*ray_functions will send call_by_ref param to func_ptr's third parameter.*/
 
 /*shoot_limited_ray.*/
-int	shoot_ray(
-		t_point start,
-		t_point end,
-		void *call_by_ref,
-		int(*func_ptr)(t_point, t_point, void *)
-		);
+int		shoot_ray(
+			t_point start,
+			t_point end,
+			void *call_by_ref,
+			int (*func_ptr)(t_point, t_point, void *));
 /*shoot infinite ray.*/
-int	shoot_inf_ray(
-		t_point start,
-		t_point end,
-		void *call_by_ref,
-		int(*func_ptr)(t_point, t_point, void *)
-		);
+int		shoot_inf_ray(
+			t_point start,
+			t_point end,
+			void *call_by_ref,
+			int (*func_ptr)(t_point, t_point, void *));
 
 /*ray_routines.*/
 
 /*shoot_ray(or shoot_inf_ray)'s routine.*/
-int	detect_wall_hit(t_point point, t_point d, void *ray_info);
+int		detect_wall_hit(t_point point, t_point d, void *ray_info);
 
 /*This will rotate point 'pt' with respect to the param 'center'.*/
 t_point	rotate_point(t_point center, t_point pt, float degree);

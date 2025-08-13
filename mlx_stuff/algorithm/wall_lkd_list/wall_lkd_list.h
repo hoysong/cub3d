@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wall_lkd_list.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 06:28:52 by jinyjeon          #+#    #+#             */
+/*   Updated: 2025/08/14 06:29:22 by jinyjeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef WALL_LKD_LIST_H
 # define WALL_LKD_LIST_H
-#include "../my_algorithm.h"
+# include "../my_algorithm.h"
 
 /*This function init wall node.*/
 t_wall_node	*wall_init_node(void);
