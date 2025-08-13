@@ -103,8 +103,20 @@ static void	correction_right(t_wall_node *right_wall)
 /*From player's view, left_wall can be first node and right wall can be last node.*/
 void	first_last_correction(t_wall_node *left_wall, t_wall_node *right_wall)
 {
+	if (left_wall == right_wall)
+	{
+		if (left_wall->start_point.y > left_wall->end_point.y)
+		{
+			left_wall->correction_flag++;
+			correction_right(right_wall);
+		}
+		else
+			correction_left(left_wall);
+		return ;
+	}
 	correction_left(left_wall);
 	if (left_wall == right_wall)
 		return ;
 	correction_right(right_wall);
+
 }
