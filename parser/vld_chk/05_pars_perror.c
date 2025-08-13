@@ -21,6 +21,8 @@ static void	put_errmsg(int pars_errno)
 		printf(SAME_TEXTURE_MSG);
 	else if (pars_errno == NEED_MORE_FILE_ARGS)
 		printf(NEED_MORE_FILE_ARGS_MSG);
+	else if (pars_errno == GET_XPM_IMGDATA_FAIL)
+		printf(GET_XPM_IMGDATA_FAIL_MSG);
 }
 
 void	malloc_fail_perror(void)

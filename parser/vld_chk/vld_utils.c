@@ -30,7 +30,7 @@ int	file_format_chk(char *format, char *file_name)
 		file_name++;
 	while (file_name != name_start && *file_name != '.')
 		file_name--;
-	if (ft_strncmp(file_name, file_name, ft_strlen(format) + 1)
+	if (ft_strncmp(file_name, format, ft_strlen(format) + 1)
 		|| file_name == name_start)
 	{
 		return (0);

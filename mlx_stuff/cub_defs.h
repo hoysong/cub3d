@@ -1,12 +1,19 @@
 #ifndef CUB_DEFS_H
 # define CUB_DEFS_H
 
+/*Window size.*/
+# define WIN_WIDTH	600
+# define WIN_HEIGHT	490
+# define HALF_WIN_WIDTH		300
+# define HALF_WIN_HEIGHT	245
+
+
 /********************/
 /* Minimap handler. */
 /********************/
 
 /*Minimap size.*/
-# define MINISIZE	200
+# define MINISIZE	160
 /*Minimap BG_color.*/
 # define BG_Color	0x666666
 /*Minimap GridColor.*/
@@ -48,11 +55,5 @@
 /*Convert Player cordinate to minimap_res.*/
 # define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
 # define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
-
-/*Window size.*/
-# define WIN_WIDTH	750
-# define WIN_HEIGHT	600
-# define HALF_WIN_WIDTH		375
-# define HALF_WIN_HEIGHT	300
 
 #endif

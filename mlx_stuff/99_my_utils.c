@@ -2,6 +2,7 @@
 #include "./algorithm/my_algorithm.h"
 #include "../parser/pars_priv.h"
 #include "../minilibx-linux/mlx.h"
+#include <stdio.h>
 
 void	get_img_data(t_img *img)
 {

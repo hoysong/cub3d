@@ -13,7 +13,13 @@ int	main(int argc, char **argv)
 	}
 	else
 		pars_map();
-	setup_mlx();
+	if (setup_mlx())
+	{
+		pars_perror();
+		mlx_destroy();
+		pars_destroy();
+		return (1);
+	}
 	put_frame();
 	mlx_loop(mlx()->mlx_ptr);
 	mlx_destroy();

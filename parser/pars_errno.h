@@ -40,6 +40,7 @@
 	" │ ├─floor   : F\n"\
 	" │ └─ceiling : C\n"\
 	" ├─Each color range must be 0 to 255.\n"\
+	" ├─Each color elements length must be 1 to 3.\n"\
 	" └─Colors must be seperated by ','.\n"
 # define FLOOR_CEILING_ERR 5
 
@@ -110,6 +111,9 @@
 	"          111\n"\
 	"          1N1\n"\
 	"          111\n"
+# define GET_XPM_IMGDATA_FAIL 10
+# define GET_XPM_IMGDATA_FAIL_MSG \
+	"Seems you passed wrong xpm image.\n"
 # define MALLOC_FAIL 42
 
 #endif
