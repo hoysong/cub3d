@@ -71,9 +71,6 @@ static inline int	put_texture(t_point ray, t_point y, void *param)
  */
 void	draw_wall_lkd_list(t_wall_node *node)
 {
-	t_mlx	*mlx_ptr;
-
-	mlx_ptr = mlx();
 	while (node)
 	{
 		shoot_ray(node->start_point, node->end_point, node, put_texture);
