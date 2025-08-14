@@ -6,7 +6,7 @@
 /*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 06:42:17 by jinyjeon          #+#    #+#             */
-/*   Updated: 2025/08/14 06:43:18 by jinyjeon         ###   ########.fr       */
+/*   Updated: 2025/08/15 06:17:51 by jinyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ extern void			first_last_correction(t_wall_node *left_wall,
 				t_wall_node *right_wall);
 extern void			calculate_point_location(t_wall_node *node);
 
-static void	degree_correction(t_wall_node *left, t_wall_node *right)
+static void	degree_correction(t_wall_node *right)
 {
 	if (right->end_degree < 0)
 		right->end_degree += 360;
@@ -67,7 +67,7 @@ void	ray_casting(void)
 	start_node = wall_find_first_node(node);
 	end_node = wall_find_lst_node(node);
 	put_edge_to_minimap(node);
-	degree_correction(start_node, end_node);
+	degree_correction(end_node);
 	calculate_point_location(node);
 	sort_wall_list(node);
 	first_last_correction(start_node, end_node);

@@ -6,7 +6,7 @@
 /*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 04:40:32 by jinyjeon          #+#    #+#             */
-/*   Updated: 2025/08/14 04:44:56 by jinyjeon         ###   ########.fr       */
+/*   Updated: 2025/08/15 06:14:07 by jinyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	get_step_routine(t_point point, t_point d, void *step_point)
 {
 	static int	player_step_def;
 
+	(void)d;
 	if (player_step_def == 0)
 		player_step_def = STEP_PER_PIXEL;
 	if (--player_step_def == 0)

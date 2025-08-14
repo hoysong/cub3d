@@ -6,7 +6,7 @@
 /*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 07:02:00 by jinyjeon          #+#    #+#             */
-/*   Updated: 2025/08/14 07:21:51 by jinyjeon         ###   ########.fr       */
+/*   Updated: 2025/08/15 06:34:02 by jinyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,21 @@
 #include "../algorithm/my_algorithm.h"
 
 extern float	get_left_walls_pixel_x(t_wall_node *node, t_point *ray);
-
-static inline float	get_other_walls_pixel_x(t_wall_node *node, t_point *ray)
-{
-	return (node->texture->xpm_width
-		* ((ray->x - node->start_point.x) / node->wall_width));
-}
-
-static inline float	get_pixel_x(t_wall_node *node, t_point *ray)
-{
-	if (node->prev == NULL
-		&& node->next == NULL)
-	{
-		if (node->correction_flag)
-			return (get_other_walls_pixel_x(node, ray));
-		return (get_left_walls_pixel_x(node, ray));
-	}
-	if (node->start_degree <= 0)
-		return (get_left_walls_pixel_x(node, ray));
-	return (get_other_walls_pixel_x(node, ray));
-}
+extern float	get_other_walls_pixel_x(t_wall_node *node, t_point *ray);
+extern float	get_pixel_x(t_wall_node *node, t_point *ray);
 
 static inline float	get_pixel_y(t_wall_node *node,
 		t_point *ray, t_point *start_ray, float lower_point)
 {
 	return (node->texture->xpm_height
 		* ((ray->y - start_ray->y) / (lower_point - start_ray->y)));
+}
+
+static inline void	put_xpm_pixel(
+		t_wall_node *node, t_point *ray, t_point *pixel)
+{
+	put_pixel_to_img(&(node->info->mlx->background), ray->x, ray->y,
+		get_xpm_pixel_color(*(node->texture), *pixel));
 }
 
 /*
@@ -53,6 +42,7 @@ static inline int	put_texture(t_point ray, t_point y, void *param)
 	t_point		start_ray;
 	t_point		pixel;
 
+	(void)y;
 	node = param;
 	ray.y = (int)ray.y;
 	start_ray = ray;
@@ -68,8 +58,7 @@ static inline int	put_texture(t_point ray, t_point y, void *param)
 	while ((ray.y < lower_point) && ray.y < WIN_HEIGHT)
 	{
 		pixel.y = get_pixel_y(node, &ray, &start_ray, lower_point);
-		put_pixel_to_img(&(node->info->mlx->background), ray.x, ray.y,
-			get_xpm_pixel_color(*(node->texture), pixel));
+		put_xpm_pixel(node, &ray, &pixel);
 		ray.y += 1;
 	}
 	return (0);

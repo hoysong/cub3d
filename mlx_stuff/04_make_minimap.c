@@ -6,7 +6,7 @@
 /*   By: jinyjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 04:03:07 by jinyjeon          #+#    #+#             */
-/*   Updated: 2025/08/14 04:50:12 by jinyjeon         ###   ########.fr       */
+/*   Updated: 2025/08/15 06:12:07 by jinyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ extern void	minimap_draw_grid_line(size_t sq_len, \
 static void	fill_wall_color(size_t start_height,
 		size_t start_width, size_t sq_len, t_mlx *mlx_strc)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
