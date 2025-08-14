@@ -24,8 +24,6 @@ static t_pars	*set_pars( t_pars *pars )
 
 t_pars	*get_pars( void )
 {
-	t_pars (*(*func_ptr)(t_pars *));
-	func_ptr = set_pars;
 	return (set_pars(NULL));
 }
 

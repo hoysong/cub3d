@@ -79,11 +79,9 @@ static int	run_pars_with_vld_chk(t_dnode *node)
 
 static void	pars_with_vld_chk(t_dnode *node)
 {
-	t_pars	*pars_struct;
 	int		flag;
 
 	flag = 0;
-	pars_struct = get_pars();
 	while (node)
 	{
 		flag = run_pars_with_vld_chk(node);

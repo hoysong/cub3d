@@ -1,6 +1,7 @@
 *.swp
 *.o
 *.a
+cub3D
 a.out
 gmon.out
 test_trace.txt
