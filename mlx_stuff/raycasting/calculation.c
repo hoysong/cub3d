@@ -22,7 +22,7 @@
 extern float	get_line_y(t_point point);
 extern int		get_line_x(float degree);
 
-/*가상 맵에서의 벽 좌표를 화면상 좌표로 계산합니다.*/
+/*convert wall's virtual coordinate to screen coordinate.*/
 void	calculate_point_location(t_wall_node *node)
 {
 	while (node)

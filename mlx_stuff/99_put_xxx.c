@@ -43,31 +43,6 @@ inline void	put_minimap(t_mlx *mlx_strc)
 		mlx_strc->minimap.img_ptr, 0, 0);
 }
 
-/*xpm 이미지 올리기 테스트 함수.*/
-/*나중에 참고하여 코드 사용하기...*/
-void	try_put_xpm(void)
-{
-	t_img	img;
-	t_point	point;
-
-	img = mlx()->xpm_north;
-	point.x = 0;
-	point.y = 0;
-	while (point.y < img.xpm_height)
-	{
-		while (point.x < img.xpm_width)
-		{
-			put_pixel_to_img(
-				&(mlx()->background),
-				point.x, point.y,
-				get_xpm_pixel_color(img, point));
-			point.x++;
-		}
-		point.x = 0;
-		point.y++;
-	}
-}
-
 extern void	fill_background_color(t_mlx *mlx);
 extern void	draw_minimap(t_mlx *mlx_strc);
 extern void	ray_casting(void);

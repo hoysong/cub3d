@@ -56,12 +56,4 @@
 /*Set interval of ray.*/
 # define RAY_RES		0.5
 
-/******************/
-/* Do not adjust. */
-/******************/
-
-/*Convert Player cordinate to minimap_res.*/
-//# define MINI_RES(X) ((X)/(float)SIZE_OF_BLOCK)
-//# define TO_INDEX(X) ((X)/(float)SIZE_OF_BLOCK)
-
 #endif
