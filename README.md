@@ -1,6 +1,6 @@
 # cub3D
 
-![cub3D 실행 화면](./video.gif)
+![cub3D 실행 화면](./video.gif)  
 
 `cub3D`는 42 과제 중 하나로, 고전 FPS 게임 **Wolfenstein 3D**에서 영감을 받은
 간단한 3D 그래픽 프로젝트입니다.
