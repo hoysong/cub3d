@@ -10,7 +10,7 @@ three-dimensional view with ray casting, using C and MiniLibX.
 
 ## 1. Features
 
-- Ray casting with perspective wall rendering
+- DDA-based ray casting with perspective wall rendering
 - Far-to-near wall rendering based on the [Painter's algorithm](https://en.wikipedia.org/wiki/Painter%27s_algorithm)
 - Direction-specific XPM wall textures for north, south, east, and west faces
 - Configurable RGB colors for the floor and ceiling
